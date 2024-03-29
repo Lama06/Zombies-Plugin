@@ -20,7 +20,12 @@ public final class DetectShotAtZombieSystem extends System {
             return;
         }
         for (final WeaponShootEvent.Bullet bullet : event.getBullets()) {
-            final RayTraceResult ray = event.getPlayer().getBukkit().rayTraceEntities(100);
+            final RayTraceResult ray = game.getWorld().rayTraceEntities(
+                    event.getPlayer().getBukkit().getLocation(),
+                    bullet.direction(),
+                    100,
+                    entity -> !entity.equals(event.getPlayer().getBukkit())
+            );
             if (ray == null || ray.getHitEntity() == null) {
                 return;
             }
@@ -30,7 +35,6 @@ public final class DetectShotAtZombieSystem extends System {
             final Zombie zombie = game.getZombies().get(ray.getHitEntity());
             if (zombie.getHealth() != null) {
                 zombie.getHealth().damage((int) event.getWeapon().getShoot().getDamage());
-                Bukkit.broadcastMessage(zombie.getHealth().getHealth() + "");
             }
             Bukkit.getPluginManager().callEvent(new PlayerAttacksZombieEvent(zombie, event.getPlayer(), event.getWeapon()));
         }

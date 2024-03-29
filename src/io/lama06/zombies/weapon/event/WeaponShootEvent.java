@@ -19,17 +19,11 @@ public final class WeaponShootEvent extends WeaponEvent {
         return HANDLERS;
     }
 
-    private final Vector direction;
     private final List<Bullet> bullets;
 
-    public WeaponShootEvent(final Weapon weapon, final Vector direction, final List<Bullet> bullets) {
+    public WeaponShootEvent(final Weapon weapon, final List<Bullet> bullets) {
         super(weapon);
-        this.direction = direction;
         this.bullets = bullets;
-    }
-
-    public Vector getDirection() {
-        return direction;
     }
 
     public List<Bullet> getBullets() {

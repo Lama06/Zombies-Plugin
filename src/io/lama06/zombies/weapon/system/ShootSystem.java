@@ -15,6 +15,8 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 public final class ShootSystem extends System {
     public ShootSystem(final ZombiesGame game) {
@@ -55,16 +57,19 @@ public final class ShootSystem extends System {
             return;
         }
 
+        final RandomGenerator rnd = ThreadLocalRandom.current();
         final List<WeaponShootEvent.Bullet> bullets = new ArrayList<>(shoot.getBullets());
-        final Vector playerDirection = VectorUtil.fromPlayerLookingDirection(event.getPlayer());
         for (int i = 0; i < shoot.getBullets(); i++) {
-            final Vector bulletDirection = playerDirection.clone();
-            //VectorUtil.applyInaccuracy(bulletDirection,  (1 - shoot.getPrecision()));
+            final float yaw = (float) (player.getBukkit().getYaw() +
+                    (1 - shoot.getPrecision()) * rnd.nextDouble() * 10 * (rnd.nextBoolean() ? 1 : -1));
+            final float pitch = (float) (player.getBukkit().getPitch() +
+                    (1 - shoot.getPrecision()) * rnd.nextDouble() * 5 * (rnd.nextBoolean() ? 1 : -1));
+            final Vector bulletDirection = VectorUtil.fromJawAndPitch(yaw, pitch);
             bullets.add(new WeaponShootEvent.Bullet(bulletDirection));
         }
         if (heldWeapon.getDelay() != null) {
             heldWeapon.getDelay().startDelay();
         }
-        Bukkit.getPluginManager().callEvent(new WeaponShootEvent(heldWeapon, playerDirection, bullets));
+        Bukkit.getPluginManager().callEvent(new WeaponShootEvent(heldWeapon, bullets));
     }
 }
