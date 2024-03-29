@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.System;
 import io.lama06.zombies.Window;
 import io.lama06.zombies.ZombiesGame;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieType;
 import io.lama06.zombies.zombie.event.ZombieSpawnEvent;
@@ -12,7 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class ZombieSpawnSystem extends System {
@@ -29,12 +30,38 @@ public final class ZombieSpawnSystem extends System {
             return;
         }
         game.setNextZombieTicks(10*20);
-        final ZombieType type = ZombieType.NORMAL;
-        final Location spawnPoint = getSpawnPoint();
-        final Entity entity = world.spawnEntity(spawnPoint, type.data.entity());
+
+        final ZombieType type = getNextZombie();
+        if (type == null) {
+            return;
+        }
+
+        final Location spawnPoint = getNextSpawnPoint();
+        final Entity entity = world.spawnEntity(spawnPoint, type.data.entity(), false);
         final Zombie zombie = new Zombie(game, entity, type.data);
         game.getZombies().put(entity, zombie);
         Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie));
+    }
+
+    private ZombieType getNextZombie() {
+        if (game.getRemainingZombies().isEmpty()) {
+            return null;
+        }
+        final List<ZombieType> zombieTypes = new ArrayList<>();
+        game.getRemainingZombies().forEach((zombie, number) -> {
+            for (int i = 0; i < number; i++) {
+                zombieTypes.add(zombie);
+            }
+        });
+        final ThreadLocalRandom rnd = ThreadLocalRandom.current();
+        final ZombieType nextZombieType = zombieTypes.get(rnd.nextInt(zombieTypes.size()));
+        final int number = game.getRemainingZombies().get(nextZombieType);
+        if (number == 1) {
+            game.getRemainingZombies().remove(nextZombieType);
+        } else {
+            game.getRemainingZombies().put(nextZombieType, number-1);
+        }
+        return nextZombieType;
     }
 
     private List<Window> getAvailableWindows() {
@@ -43,9 +70,18 @@ public final class ZombieSpawnSystem extends System {
                 .toList();
     }
 
-    private Location getSpawnPoint() {
+    private Window getNearestWindowToPlayer(final ZombiesPlayer player) {
         final List<Window> windows = getAvailableWindows();
-        final Window window = windows.get(ThreadLocalRandom.current().nextInt(windows.size()));
+        return windows.stream().min(Comparator.comparingDouble(window -> window.spawnLocation.coordinates().toVector()
+                    .distance(player.getBukkit().getLocation().toVector()))).orElseThrow();
+
+    }
+
+    private Location getNextSpawnPoint() {
+        final ThreadLocalRandom rnd = ThreadLocalRandom.current();
+        final List<ZombiesPlayer> players = new ArrayList<>(game.getPlayers().values());
+        final ZombiesPlayer player = players.get(rnd.nextInt(players.size()));
+        final Window window = getNearestWindowToPlayer(player);
         return window.spawnLocation.toBukkit(game.getWorld());
     }
 }

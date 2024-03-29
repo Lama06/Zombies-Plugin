@@ -1,15 +1,15 @@
 package io.lama06.zombies.weapon;
 
-import io.lama06.zombies.ZombiesGame;
 import io.lama06.zombies.ZombiesPlayer;
-import org.bukkit.event.Event;
+import io.lama06.zombies.event.ZombiesEvent;
 
 import java.util.Objects;
 
-public abstract class WeaponEvent extends Event {
+public abstract class WeaponEvent extends ZombiesEvent {
     private final Weapon weapon;
 
     protected WeaponEvent(final Weapon weapon) {
+        super(weapon.getPlayer().getGame());
         this.weapon = Objects.requireNonNull(weapon);
     }
 
@@ -19,9 +19,5 @@ public abstract class WeaponEvent extends Event {
 
     public ZombiesPlayer getPlayer() {
         return weapon.getPlayer();
-    }
-
-    public ZombiesGame getGame() {
-        return getPlayer().getGame();
     }
 }

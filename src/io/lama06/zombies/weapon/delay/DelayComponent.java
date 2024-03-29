@@ -18,7 +18,7 @@ public final class DelayComponent extends WeaponComponent {
     }
 
     public void startDelay() {
-        setRemainingDelay(delay - 1);
+        setRemainingDelay(delay);
     }
 
     public int getDelay() {

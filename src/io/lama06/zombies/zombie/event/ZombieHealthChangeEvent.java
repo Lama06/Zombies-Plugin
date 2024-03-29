@@ -13,20 +13,20 @@ public final class ZombieHealthChangeEvent extends ZombieEvent {
         return HANDLERS;
     }
 
-    private final int oldHealth;
-    private final int newHealth;
+    private final double oldHealth;
+    private final double newHealth;
 
-    public ZombieHealthChangeEvent(final Zombie zombie, final int oldHealth, final int newHealth) {
+    public ZombieHealthChangeEvent(final Zombie zombie, final double oldHealth, final double newHealth) {
         super(zombie);
         this.oldHealth = oldHealth;
         this.newHealth = newHealth;
     }
 
-    public int getOldHealth() {
+    public double getOldHealth() {
         return oldHealth;
     }
 
-    public int getNewHealth() {
+    public double getNewHealth() {
         return newHealth;
     }
 

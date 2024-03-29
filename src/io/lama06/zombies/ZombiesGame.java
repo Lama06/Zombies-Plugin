@@ -2,6 +2,7 @@ package io.lama06.zombies;
 
 import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.zombie.Zombie;
+import io.lama06.zombies.zombie.ZombieType;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;
@@ -27,9 +28,9 @@ public final class ZombiesGame implements ForwardingAudience {
     private boolean powerSwitchEnabled;
 
     private int round = 1;
-    private int remainingZombiesRound = 10;
-    private final Map<Entity, Zombie> zombies = new HashMap<>();
+    private Map<ZombieType, Integer> remainingZombies = new HashMap<>(SpawnRate.SPAWN_RATES.getFirst().zombies());
     private int nextZombieTicks;
+    private final Map<Entity, Zombie> zombies = new HashMap<>();
 
     public ZombiesGame(final World world, final WorldConfig config) {
         this.world = world;
@@ -40,12 +41,17 @@ public final class ZombiesGame implements ForwardingAudience {
             if (player.getGameMode() == GameMode.SPECTATOR) {
                 continue;
             }
+            player.getInventory().clear();
+            player.setFoodLevel(20);
             players.put(player, new ZombiesPlayer(this, player));
         }
         for (final Function<ZombiesGame, System> constructor : Systems.SYSTEMS) {
             final System system = constructor.apply(this);
             systems.add(system);
             Bukkit.getPluginManager().registerEvents(system, ZombiesPlugin.INSTANCE);
+        }
+        for (final Window window : config.windows) {
+            window.close(world);
         }
         Bukkit.getPluginManager().callEvent(new GameStartEvent(this));
     }
@@ -97,12 +103,12 @@ public final class ZombiesGame implements ForwardingAudience {
         this.round = round;
     }
 
-    public int getRemainingZombiesRound() {
-        return remainingZombiesRound;
+    public void setRemainingZombies(final Map<ZombieType, Integer> remainingZombies) {
+        this.remainingZombies = remainingZombies;
     }
 
-    public void setRemainingZombiesRound(final int remainingZombiesRound) {
-        this.remainingZombiesRound = remainingZombiesRound;
+    public Map<ZombieType, Integer> getRemainingZombies() {
+        return remainingZombies;
     }
 
     public Map<Entity, Zombie> getZombies() {

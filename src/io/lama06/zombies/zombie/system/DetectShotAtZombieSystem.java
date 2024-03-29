@@ -2,9 +2,9 @@ package io.lama06.zombies.zombie.system;
 
 import io.lama06.zombies.System;
 import io.lama06.zombies.ZombiesGame;
+import io.lama06.zombies.event.PlayerAttacksZombieEvent;
 import io.lama06.zombies.weapon.shoot.WeaponShootEvent;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.event.PlayerAttacksZombieEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.util.RayTraceResult;
@@ -33,10 +33,12 @@ public final class DetectShotAtZombieSystem extends System {
                 return;
             }
             final Zombie zombie = game.getZombies().get(ray.getHitEntity());
-            if (zombie.getHealth() != null) {
-                zombie.getHealth().damage((int) event.getWeapon().getShoot().getDamage());
-            }
-            Bukkit.getPluginManager().callEvent(new PlayerAttacksZombieEvent(zombie, event.getPlayer(), event.getWeapon()));
+            Bukkit.getPluginManager().callEvent(new PlayerAttacksZombieEvent(
+                    event.getPlayer(),
+                    zombie,
+                    event.getWeapon(),
+                    event.getWeapon().getShoot().getDamage()
+            ));
         }
     }
 }

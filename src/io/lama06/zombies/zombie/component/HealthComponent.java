@@ -5,8 +5,8 @@ import io.lama06.zombies.zombie.event.ZombieHealthChangeEvent;
 import org.bukkit.Bukkit;
 
 public final class HealthComponent extends ZombieComponent {
-    private final int maxHealth;
-    private int health;
+    private final double maxHealth;
+    private double health;
 
     public HealthComponent(final Zombie zombie, final int maxHealth) {
         super(zombie);
@@ -14,21 +14,21 @@ public final class HealthComponent extends ZombieComponent {
         health = maxHealth;
     }
 
-    public int getMaxHealth() {
+    public double getMaxHealth() {
         return maxHealth;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public void setHealth(final int health) {
-        final int oldHealth = this.health;
+    public void setHealth(final double health) {
+        final double oldHealth = this.health;
         this.health = health;
         Bukkit.getPluginManager().callEvent(new ZombieHealthChangeEvent(zombie, oldHealth, health));
     }
 
-    public void damage(final int damage) {
-        setHealth(Math.min(health - damage, 0));
+    public void damage(final double damage) {
+        setHealth(Math.max(health - damage, 0));
     }
 }

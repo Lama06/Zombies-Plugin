@@ -1,4 +1,4 @@
-package io.lama06.zombies.zombie.event;
+package io.lama06.zombies.event;
 
 import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.util.EventHandlerAccess;
@@ -8,7 +8,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public final class PlayerAttacksZombieEvent extends ZombieEvent implements Cancellable {
+public final class PlayerAttacksZombieEvent extends ZombiesEvent implements Cancellable {
     public static final HandlerList HANDLERS = new HandlerList();
 
     @EventHandlerAccess
@@ -16,23 +16,43 @@ public final class PlayerAttacksZombieEvent extends ZombieEvent implements Cance
         return HANDLERS;
     }
 
-    private boolean cancel;
     private final ZombiesPlayer player;
+    private final Zombie zombie;
     private final Weapon weapon;
+    private boolean cancel;
+    private double damage;
 
     public PlayerAttacksZombieEvent(
-            final Zombie zombie,
             final ZombiesPlayer player,
-            final Weapon weapon
+            final Zombie zombie,
+            final Weapon weapon,
+            final double damage
     ) {
-        super(zombie);
+        super(player.getGame());
         this.player = player;
+        this.zombie = zombie;
         this.weapon = weapon;
+        this.damage = damage;
     }
 
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
+    public ZombiesPlayer getPlayer() {
+        return player;
+    }
+
+    public Zombie getZombie() {
+        return zombie;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(final double damage) {
+        this.damage = damage;
     }
 
     @Override
@@ -45,11 +65,8 @@ public final class PlayerAttacksZombieEvent extends ZombieEvent implements Cance
         this.cancel = cancel;
     }
 
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    public ZombiesPlayer getPlayer() {
-        return player;
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return HANDLERS;
     }
 }

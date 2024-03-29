@@ -18,6 +18,7 @@ public final class ZombiesPlayer implements Listener {
     public ZombiesPlayer(final ZombiesGame game, final Player player) {
         this.game = game;
         this.player = player;
+        weapons.add(new Weapon(this, WeaponType.KNIFE.data));
         weapons.add(new Weapon(this, WeaponType.PISTOL.data));
     }
 

@@ -1,9 +1,6 @@
 package io.lama06.zombies;
 
-import io.lama06.zombies.system.EnablePowerSwitchSystem;
-import io.lama06.zombies.system.OpenDoorSystem;
-import io.lama06.zombies.system.PreventEventsSystem;
-import io.lama06.zombies.system.ZombieSpawnSystem;
+import io.lama06.zombies.system.*;
 import io.lama06.zombies.weapon.ammo.*;
 import io.lama06.zombies.weapon.delay.DelayRenderSystem;
 import io.lama06.zombies.weapon.delay.DelayTickSystem;
@@ -15,6 +12,7 @@ import io.lama06.zombies.weapon.render.WeaponsRenderSystem;
 import io.lama06.zombies.weapon.shoot_particle.ShootParticleSystem;
 import io.lama06.zombies.weapon.shoot.ShootSystem;
 import io.lama06.zombies.zombie.break_window.system.*;
+import io.lama06.zombies.zombie.system.ApplyAttackDamageSystem;
 import io.lama06.zombies.zombie.system.ApplyEquipmentSystem;
 import io.lama06.zombies.zombie.system.DetectShotAtZombieSystem;
 import io.lama06.zombies.zombie.system.RemoveDeadZombiesSystem;
@@ -29,6 +27,7 @@ public final class Systems {
             OpenDoorSystem::new,
             ZombieSpawnSystem::new,
             PreventEventsSystem::new,
+            StartNextRoundSystem::new,
 
             // Related to Weapons
 
@@ -64,6 +63,7 @@ public final class Systems {
 
             // Related to Zombies
 
+            ApplyAttackDamageSystem::new,
             ApplyEquipmentSystem::new,
             DetectShotAtZombieSystem::new,
             RemoveDeadZombiesSystem::new,

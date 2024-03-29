@@ -2,6 +2,7 @@ package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.menu.MenuDisplayableEnum;
 import io.lama06.zombies.weapon.ammo.AmmoData;
+import io.lama06.zombies.weapon.melee.MeleeData;
 import io.lama06.zombies.weapon.shoot.ShootData;
 import io.lama06.zombies.weapon.shoot_particle.ShootParticleData;
 import net.kyori.adventure.text.Component;
@@ -9,6 +10,13 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 
 public enum WeaponType implements MenuDisplayableEnum {
+    KNIFE(
+            WeaponData.builder()
+                    .setDisplayName(Component.text("Knife"))
+                    .setMaterial(Material.IRON_SWORD)
+                    .setDelay(30)
+                    .setMelee(new MeleeData(5, 5))
+    ),
     PISTOL(
             WeaponData.builder()
                     .setDisplayName(Component.text("Pistol"))
