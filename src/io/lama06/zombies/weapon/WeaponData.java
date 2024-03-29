@@ -1,8 +1,9 @@
 package io.lama06.zombies.weapon;
 
-import io.lama06.zombies.weapon.component.AmmoData;
-import io.lama06.zombies.weapon.component.MeleeData;
-import io.lama06.zombies.weapon.component.ShootData;
+import io.lama06.zombies.weapon.ammo.AmmoData;
+import io.lama06.zombies.weapon.melee.MeleeData;
+import io.lama06.zombies.weapon.shoot.ShootData;
+import io.lama06.zombies.weapon.shoot_particle.ShootParticleData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +15,7 @@ public record WeaponData(
         @Nullable Integer delay,
         @Nullable Integer reload,
         ShootData shoot,
+        ShootParticleData shootParticle,
         MeleeData melee
 ) {
     public static Builder builder() {
@@ -27,6 +29,7 @@ public record WeaponData(
         private @Nullable Integer delay;
         private @Nullable Integer reload;
         private ShootData shoot;
+        private ShootParticleData shootParticle;
         private MeleeData melee;
 
         private Builder() { }
@@ -39,6 +42,7 @@ public record WeaponData(
                     delay,
                     reload,
                     shoot,
+                    shootParticle,
                     melee
             );
         }
@@ -70,6 +74,11 @@ public record WeaponData(
 
         public Builder setShoot(final ShootData shoot) {
             this.shoot = shoot;
+            return this;
+        }
+
+        public Builder setShootParticle(final ShootParticleData shootParticle) {
+            this.shootParticle = shootParticle;
             return this;
         }
 

@@ -80,7 +80,7 @@ public final class WorldConfig {
                                 Component.text("Windows"),
                                 windows,
                                 Material.ACACIA_DOOR,
-                                window -> Component.text("Window in:" + (window.area.isEmpty() ? "_" : window.area)),
+                                window -> Component.text("Window in: " + (window.area.isEmpty() ? "_" : window.area)),
                                 Window::new,
                                 window -> window.openMenu(player, reopen),
                                 reopen

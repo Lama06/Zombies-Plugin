@@ -4,7 +4,17 @@ import io.lama06.zombies.system.EnablePowerSwitchSystem;
 import io.lama06.zombies.system.OpenDoorSystem;
 import io.lama06.zombies.system.PreventEventsSystem;
 import io.lama06.zombies.system.ZombieSpawnSystem;
-import io.lama06.zombies.weapon.system.*;
+import io.lama06.zombies.weapon.ammo.*;
+import io.lama06.zombies.weapon.delay.DelayRenderSystem;
+import io.lama06.zombies.weapon.delay.DelayTickSystem;
+import io.lama06.zombies.weapon.delay.PreventWeaponUseDuringDelaySystem;
+import io.lama06.zombies.weapon.delay.StartDelayAfterWeaponUseSystem;
+import io.lama06.zombies.weapon.melee.MeleeSystem;
+import io.lama06.zombies.weapon.reload.*;
+import io.lama06.zombies.weapon.render.WeaponsRenderSystem;
+import io.lama06.zombies.weapon.shoot_particle.ShootParticleSystem;
+import io.lama06.zombies.weapon.shoot.ShootSystem;
+import io.lama06.zombies.zombie.break_window.system.*;
 import io.lama06.zombies.zombie.system.ApplyEquipmentSystem;
 import io.lama06.zombies.zombie.system.DetectShotAtZombieSystem;
 import io.lama06.zombies.zombie.system.RemoveDeadZombiesSystem;
@@ -21,22 +31,50 @@ public final class Systems {
             PreventEventsSystem::new,
 
             // Related to Weapons
+
+            // Ammo
             AmmoClipRenderSystem::new,
             AmmoReloadSystem::new,
             AmmoTotalRenderSystem::new,
+            DecrementClipOnShootSystem::new,
+            PreventShootWithEmptyClipSystem::new,
+
+            // Delay
             DelayRenderSystem::new,
             DelayTickSystem::new,
+            PreventWeaponUseDuringDelaySystem::new,
+            StartDelayAfterWeaponUseSystem::new,
+
+            // Melee
+            MeleeSystem::new,
+
+            // Reload
+            PreventShootDuringReloadSystem::new,
             ReloadRenderSystem::new,
             ReloadTickSystem::new,
             ReloadTriggerAutoSystem::new,
             ReloadTriggerManualSystem::new,
-            ShootSystem::new,
+
+            // Render
             WeaponsRenderSystem::new,
 
+            // Shoot
+            ShootParticleSystem::new,
+            ShootSystem::new,
+
             // Related to Zombies
+
             ApplyEquipmentSystem::new,
             DetectShotAtZombieSystem::new,
-            RemoveDeadZombiesSystem::new
+            RemoveDeadZombiesSystem::new,
+
+            // Break Window
+            BreakWindowCancelSystem::new,
+            BreakWindowCompleteSystem::new,
+            BreakWindowFreezeSystem::new,
+            BreakWindowSoundSystem::new,
+            BreakWindowStartSystem::new,
+            BreakWindowTickSystem::new
     );
 
     private Systems() { }

@@ -1,5 +1,6 @@
 package io.lama06.zombies.zombie;
 
+import io.lama06.zombies.zombie.break_window.BreakWindowData;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +11,8 @@ import java.util.Map;
 public record ZombieData(
         EntityType entity,
         int health,
-        Map<EquipmentSlot, ItemStack> equipment
+        Map<EquipmentSlot, ItemStack> equipment,
+        BreakWindowData breakWindow
 ) {
     public static Builder builder() {
         return new Builder();
@@ -20,6 +22,7 @@ public record ZombieData(
         private EntityType entity;
         private int health;
         private final Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
+        private BreakWindowData breakWindow;
 
         private Builder() { }
 
@@ -27,7 +30,8 @@ public record ZombieData(
             return new ZombieData(
                     entity,
                     health,
-                    equipment
+                    equipment,
+                    breakWindow
             );
         }
 
@@ -43,6 +47,11 @@ public record ZombieData(
 
         public Builder addEquipment(final EquipmentSlot slot, final ItemStack item) {
             equipment.put(slot, item);
+            return this;
+        }
+
+        public Builder setBreakWindow(final BreakWindowData breakWindow) {
+            this.breakWindow = breakWindow;
             return this;
         }
     }

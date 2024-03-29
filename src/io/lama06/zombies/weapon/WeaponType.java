@@ -1,10 +1,12 @@
 package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.menu.MenuDisplayableEnum;
-import io.lama06.zombies.weapon.component.AmmoData;
-import io.lama06.zombies.weapon.component.ShootData;
+import io.lama06.zombies.weapon.ammo.AmmoData;
+import io.lama06.zombies.weapon.shoot.ShootData;
+import io.lama06.zombies.weapon.shoot_particle.ShootParticleData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 
 public enum WeaponType implements MenuDisplayableEnum {
     PISTOL(
@@ -15,6 +17,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setReload(50)
                     .setDelay(30)
                     .setShoot(new ShootData(1, 5, 5, 1))
+                    .setShootParticle(new ShootParticleData(Particle.FLAME))
     );
 
     public final WeaponData data;

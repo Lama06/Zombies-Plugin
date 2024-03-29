@@ -22,7 +22,9 @@ public final class EnablePowerSwitchSystem extends System {
         if (powerSwitch == null) {
             return;
         }
-        if (event.getClickedBlock() == null || !event.getClickedBlock().getLocation().toBlock().equals(powerSwitch.position) || !event.getAction().isRightClick()) {
+        if (event.getClickedBlock() == null
+                || !event.getClickedBlock().getLocation().toBlock().equals(powerSwitch.position)
+                || !event.getAction().isRightClick()) {
             return;
         }
         if (!game.getPlayers().containsKey(event.getPlayer())) {

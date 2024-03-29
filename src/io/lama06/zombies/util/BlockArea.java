@@ -58,7 +58,7 @@ public record BlockArea(BlockPosition position1, BlockPosition position2) {
         final BlockPosition upperCorner = getUpperCorner();
 
         for (int x = lowerCorner.blockX(); x <= upperCorner.blockX(); x++) {
-            for (int y = lowerCorner.blockY(); y <= upperCorner.blockX(); y++) {
+            for (int y = lowerCorner.blockY(); y <= upperCorner.blockY(); y++) {
                 for (int z = lowerCorner.blockZ(); z <= upperCorner.blockZ(); z++) {
                     blocks.add(Position.block(x, y, z));
                 }

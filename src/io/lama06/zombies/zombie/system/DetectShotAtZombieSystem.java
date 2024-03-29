@@ -2,7 +2,7 @@ package io.lama06.zombies.zombie.system;
 
 import io.lama06.zombies.System;
 import io.lama06.zombies.ZombiesGame;
-import io.lama06.zombies.weapon.event.WeaponShootEvent;
+import io.lama06.zombies.weapon.shoot.WeaponShootEvent;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.event.PlayerAttacksZombieEvent;
 import org.bukkit.Bukkit;
