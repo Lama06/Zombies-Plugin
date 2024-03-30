@@ -1,9 +1,9 @@
 package io.lama06.zombies.event;
 
-import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.util.EventHandlerAccess;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.zombie.Zombie;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -16,30 +16,24 @@ public final class PlayerAttacksZombieEvent extends ZombiesEvent implements Canc
         return HANDLERS;
     }
 
-    private final ZombiesPlayer player;
-    private final Zombie zombie;
     private final Weapon weapon;
+    private final Entity zombie;
     private boolean cancel;
-    private double damage;
+    private boolean fire;
+    private double baseDamage;
+    private double damageModifier = 1;
 
-    public PlayerAttacksZombieEvent(
-            final ZombiesPlayer player,
-            final Zombie zombie,
-            final Weapon weapon,
-            final double damage
-    ) {
-        super(player.getGame());
-        this.player = player;
+    public PlayerAttacksZombieEvent(final Weapon weapon, final Entity zombie) {
+        super(zombie.getWorld());
         this.zombie = zombie;
         this.weapon = weapon;
-        this.damage = damage;
     }
 
-    public ZombiesPlayer getPlayer() {
-        return player;
+    public Player getPlayer() {
+        return weapon.owner();
     }
 
-    public Zombie getZombie() {
+    public Entity getZombie() {
         return zombie;
     }
 
@@ -47,12 +41,24 @@ public final class PlayerAttacksZombieEvent extends ZombiesEvent implements Canc
         return weapon;
     }
 
-    public double getDamage() {
-        return damage;
+    public void setBaseDamage(final double baseDamage) {
+        this.baseDamage = baseDamage;
     }
 
-    public void setDamage(final double damage) {
-        this.damage = damage;
+    public void applyDamageModifier(final double damageModifier) {
+        this.damageModifier *= damageModifier;
+    }
+
+    public double getDamage() {
+        return baseDamage * damageModifier;
+    }
+
+    public boolean getFire() {
+        return fire;
+    }
+
+    public void setFire(final boolean fire) {
+        this.fire = fire;
     }
 
     @Override

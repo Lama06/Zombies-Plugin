@@ -2,11 +2,11 @@ package io.lama06.zombies.weapon.ammo;
 
 import io.lama06.zombies.util.EventHandlerAccess;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponEvent;
+import io.lama06.zombies.weapon.event.WeaponEvent;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public final class WeaponAmmoChangeEvent extends WeaponEvent {
+public class WeaponAmmoChangeEvent extends WeaponEvent {
     public static final HandlerList HANDLERS = new HandlerList();
 
     @EventHandlerAccess
@@ -16,21 +16,15 @@ public final class WeaponAmmoChangeEvent extends WeaponEvent {
 
     private final int oldAmmo;
     private final int newAmmo;
-    private final int oldClip;
-    private final int newClip;
 
     public WeaponAmmoChangeEvent(
             final Weapon weapon,
             final int oldAmmo,
-            final int newAmmo,
-            final int oldClip,
-            final int newClip
+            final int newAmmo
     ) {
         super(weapon);
         this.oldAmmo = oldAmmo;
         this.newAmmo = newAmmo;
-        this.oldClip = oldClip;
-        this.newClip = newClip;
     }
 
     public int getOldAmmo() {
@@ -39,14 +33,6 @@ public final class WeaponAmmoChangeEvent extends WeaponEvent {
 
     public int getNewAmmo() {
         return newAmmo;
-    }
-
-    public int getOldClip() {
-        return oldClip;
-    }
-
-    public int getNewClip() {
-        return newClip;
     }
 
     @Override

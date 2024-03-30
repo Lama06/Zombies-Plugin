@@ -1,9 +1,14 @@
 package io.lama06.zombies.zombie;
 
 import io.lama06.zombies.zombie.break_window.BreakWindowData;
+import io.lama06.zombies.zombie.event.ZombieSpawnEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +21,13 @@ public record ZombieData(
 ) {
     public static Builder builder() {
         return new Builder();
+    }
+
+    public Entity spawn(final Location location) {
+        final Entity zombie = location.getWorld().spawnEntity(location, entity, false);
+        zombie.getPersistentDataContainer().set(ZombieAttributes.IS_ZOMBIE.getKey(), PersistentDataType.BOOLEAN, true);
+        Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie, this));
+        return zombie;
     }
 
     public static final class Builder {

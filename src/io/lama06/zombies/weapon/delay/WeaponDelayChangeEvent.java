@@ -2,7 +2,7 @@ package io.lama06.zombies.weapon.delay;
 
 import io.lama06.zombies.util.EventHandlerAccess;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponEvent;
+import io.lama06.zombies.weapon.event.WeaponEvent;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 

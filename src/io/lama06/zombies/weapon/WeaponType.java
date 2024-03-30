@@ -2,6 +2,7 @@ package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.menu.MenuDisplayableEnum;
 import io.lama06.zombies.weapon.ammo.AmmoData;
+import io.lama06.zombies.weapon.attack.AttackData;
 import io.lama06.zombies.weapon.melee.MeleeData;
 import io.lama06.zombies.weapon.shoot.ShootData;
 import io.lama06.zombies.weapon.shoot_particle.ShootParticleData;
@@ -15,7 +16,8 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setDisplayName(Component.text("Knife"))
                     .setMaterial(Material.IRON_SWORD)
                     .setDelay(30)
-                    .setMelee(new MeleeData(5, 5))
+                    .setMelee(new MeleeData(5))
+                    .setAttack(new AttackData(5, false))
     ),
     PISTOL(
             WeaponData.builder()
@@ -24,8 +26,9 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setAmmo(new AmmoData(100, 10))
                     .setReload(50)
                     .setDelay(30)
-                    .setShoot(new ShootData(1, 5, 5, 1))
+                    .setShoot(new ShootData(1, 1))
                     .setShootParticle(new ShootParticleData(Particle.FLAME))
+                    .setAttack(new AttackData(5, false))
     );
 
     public final WeaponData data;

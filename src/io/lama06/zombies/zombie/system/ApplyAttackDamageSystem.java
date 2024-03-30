@@ -1,24 +1,22 @@
 package io.lama06.zombies.zombie.system;
 
-import io.lama06.zombies.System;
-import io.lama06.zombies.ZombiesGame;
 import io.lama06.zombies.event.PlayerAttacksZombieEvent;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
-public final class ApplyAttackDamageSystem extends System {
-    public ApplyAttackDamageSystem(final ZombiesGame game) {
-        super(game);
-    }
-
-    @EventHandler(ignoreCancelled = true)
+public final class ApplyAttackDamageSystem implements Listener {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     private void onAttack(final PlayerAttacksZombieEvent event) {
-        if (!event.getGame().equals(game)) {
+        final Entity zombie = event.getZombie();
+        if (!(zombie instanceof final LivingEntity living)) {
             return;
         }
-        if (event.getZombie().getHealth() == null) {
-            return;
+        living.damage(event.getDamage(), event.getPlayer());
+        if (event.getFire()) {
+            zombie.setFireTicks(5 * 20);
         }
-
-        event.getZombie().getHealth().damage(event.getDamage());
     }
 }

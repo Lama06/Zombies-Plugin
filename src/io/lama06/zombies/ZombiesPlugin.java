@@ -2,14 +2,20 @@ package io.lama06.zombies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
 import io.papermc.paper.math.BlockPosition;
 import io.papermc.paper.math.FinePosition;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,8 +26,11 @@ import java.nio.file.Path;
 public final class ZombiesPlugin extends JavaPlugin {
     public static ZombiesPlugin INSTANCE;
 
+    public static WorldConfig getConfig(final World world) {
+        return INSTANCE.config;
+    }
+
     private WorldConfig config = new WorldConfig();
-    private ZombiesGame game;
 
     private Gson createGson() {
         return new GsonBuilder()
@@ -34,8 +43,8 @@ public final class ZombiesPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
-        final Path data = getDataFolder().toPath();
 
+        final Path data = getDataFolder().toPath();
         try {
             if (!Files.exists(data)) Files.createDirectory(data);
             if (!Files.exists(data.resolve("data.json"))) {
@@ -47,6 +56,10 @@ public final class ZombiesPlugin extends JavaPlugin {
             config = gson.fromJson(configText, WorldConfig.class);
         } catch (final IOException e) {
             e.printStackTrace();
+        }
+
+        for (final Listener system : Systems.SYSTEMS) {
+            Bukkit.getPluginManager().registerEvents(system, this);
         }
     }
 
@@ -82,7 +95,22 @@ public final class ZombiesPlugin extends JavaPlugin {
                     player.sendMessage(Component.text(e.getLocalizedMessage()));
                     return true;
                 }
-                game = new ZombiesGame(player.getWorld(), config);
+                new GameStartEvent(player.getWorld()).callEvent();
+            }
+            case "clear" -> {
+                for (final World world : Bukkit.getWorlds()) {
+                    for (final NamespacedKey key : world.getPersistentDataContainer().getKeys()) {
+                        world.getPersistentDataContainer().remove(key);
+                    }
+                    for (final Player worldPlayer : world.getPlayers()) {
+                        worldPlayer.getInventory().clear();
+                    }
+                    for (final Entity entity : world.getEntities()) {
+                        for (final NamespacedKey key : entity.getPersistentDataContainer().getKeys()) {
+                            entity.getPersistentDataContainer().remove(key);
+                        }
+                    }
+                }
             }
         }
         return true;

@@ -2,7 +2,6 @@ package io.lama06.zombies.weapon.event;
 
 import io.lama06.zombies.util.EventHandlerAccess;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponEvent;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

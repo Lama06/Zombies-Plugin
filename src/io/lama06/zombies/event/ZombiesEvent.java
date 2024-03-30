@@ -1,16 +1,16 @@
 package io.lama06.zombies.event;
 
-import io.lama06.zombies.ZombiesGame;
+import org.bukkit.World;
 import org.bukkit.event.Event;
 
 public abstract class ZombiesEvent extends Event {
-    private final ZombiesGame game;
+    private final World world;
 
-    protected ZombiesEvent(final ZombiesGame game) {
-        this.game = game;
+    protected ZombiesEvent(final World world) {
+        this.world = world;
     }
 
-    public ZombiesGame getGame() {
-        return game;
+    public World getWorld() {
+        return world;
     }
 }

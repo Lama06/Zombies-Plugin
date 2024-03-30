@@ -1,4 +1,4 @@
-package io.lama06.zombies.weapon.reload;
+package io.lama06.zombies.weapon.ammo;
 
 import io.lama06.zombies.util.EventHandlerAccess;
 import io.lama06.zombies.weapon.Weapon;
@@ -6,7 +6,7 @@ import io.lama06.zombies.weapon.event.WeaponEvent;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public final class WeaponReloadChangeEvent extends WeaponEvent {
+public final class WeaponClipChangeEvent extends WeaponEvent {
     public static final HandlerList HANDLERS = new HandlerList();
 
     @EventHandlerAccess
@@ -14,25 +14,25 @@ public final class WeaponReloadChangeEvent extends WeaponEvent {
         return HANDLERS;
     }
 
-    private final int oldReload;
-    private final int newReload;
+    private final int oldClip;
+    private final int newClip;
 
-    public WeaponReloadChangeEvent(final Weapon weapon, final int oldReload, final int newReload) {
+    public WeaponClipChangeEvent(
+            final Weapon weapon,
+            final int oldClip,
+            final int newClip
+    ) {
         super(weapon);
-        this.oldReload = oldReload;
-        this.newReload = newReload;
+        this.oldClip = oldClip;
+        this.newClip = newClip;
     }
 
-    public int getOldReload() {
-        return oldReload;
+    public int getOldClip() {
+        return oldClip;
     }
 
-    public int getNewReload() {
-        return newReload;
-    }
-
-    public boolean isComplete() {
-        return newReload == 0;
+    public int getNewClip() {
+        return newClip;
     }
 
     @Override

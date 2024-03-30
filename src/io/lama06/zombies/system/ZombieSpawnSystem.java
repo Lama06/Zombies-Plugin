@@ -1,87 +1,104 @@
 package io.lama06.zombies.system;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
-import io.lama06.zombies.System;
-import io.lama06.zombies.Window;
-import io.lama06.zombies.ZombiesGame;
-import io.lama06.zombies.ZombiesPlayer;
-import io.lama06.zombies.zombie.Zombie;
+import io.lama06.zombies.*;
 import io.lama06.zombies.zombie.ZombieType;
-import io.lama06.zombies.zombie.event.ZombieSpawnEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
-public final class ZombieSpawnSystem extends System {
-    public ZombieSpawnSystem(final ZombiesGame game) {
-        super(game);
-    }
-
+public final class ZombieSpawnSystem implements Listener {
     @EventHandler
     private void onTick(final ServerTickEndEvent event) {
-        if (game.getNextZombieTicks() > 0) {
-            game.setNextZombieTicks(game.getNextZombieTicks() - 1);
-        }
-        if (game.getNextZombieTicks() != 0) {
-            return;
-        }
-        game.setNextZombieTicks(10*20);
+        for (final World world : ZombiesWorld.getGameWorlds()) {
+            final PersistentDataContainer pdc = world.getPersistentDataContainer();
+            final Integer round = pdc.get(WorldAttributes.ROUND.getKey(), PersistentDataType.INTEGER);
+            final Integer nextZombieTime = pdc.get(WorldAttributes.NEXT_ZOMBIE_TIME.getKey(), PersistentDataType.INTEGER);
+            if (round == null || nextZombieTime == null) {
+                continue;
+            }
+            if (nextZombieTime > 0) {
+                pdc.set(WorldAttributes.NEXT_ZOMBIE_TIME.getKey(), PersistentDataType.INTEGER, nextZombieTime - 1);
+                continue;
+            }
+            final SpawnRate spawnRate = SpawnRate.SPAWN_RATES.get(round - 1);
+            final Location spawnPoint = getNextSpawnPoint(world);
+            if (spawnPoint == null) {
+                return;
+            }
+            final ZombieType type = getNextZombie(world);
+            if (type == null) {
+                return;
+            }
+            type.data.spawn(spawnPoint);
+            pdc.set(WorldAttributes.NEXT_ZOMBIE_TIME.getKey(), PersistentDataType.INTEGER, spawnRate.spawnDelay());
 
-        final ZombieType type = getNextZombie();
-        if (type == null) {
-            return;
         }
-
-        final Location spawnPoint = getNextSpawnPoint();
-        final Entity entity = world.spawnEntity(spawnPoint, type.data.entity(), false);
-        final Zombie zombie = new Zombie(game, entity, type.data);
-        game.getZombies().put(entity, zombie);
-        Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie));
     }
 
-    private ZombieType getNextZombie() {
-        if (game.getRemainingZombies().isEmpty()) {
+    private ZombieType getNextZombie(final World world) {
+        final PersistentDataContainer pdc = world.getPersistentDataContainer();
+        final Integer remainingZombies = pdc.get(WorldAttributes.REMAINING_ZOMBIES.getKey(), PersistentDataType.INTEGER);
+        final Integer round = pdc.get(WorldAttributes.ROUND.getKey(), PersistentDataType.INTEGER);
+        if (remainingZombies == null || round == null || remainingZombies == 0) {
             return null;
         }
-        final List<ZombieType> zombieTypes = new ArrayList<>();
-        game.getRemainingZombies().forEach((zombie, number) -> {
-            for (int i = 0; i < number; i++) {
-                zombieTypes.add(zombie);
+        final List<ZombieType> types = new ArrayList<>();
+        SpawnRate.SPAWN_RATES.get(round - 1).zombies().forEach((type, count) -> {
+            for (int i = 0; i < count; i++) {
+                types.add(type);
             }
         });
-        final ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        final ZombieType nextZombieType = zombieTypes.get(rnd.nextInt(zombieTypes.size()));
-        final int number = game.getRemainingZombies().get(nextZombieType);
-        if (number == 1) {
-            game.getRemainingZombies().remove(nextZombieType);
-        } else {
-            game.getRemainingZombies().put(nextZombieType, number-1);
-        }
+        final RandomGenerator rnd = ThreadLocalRandom.current();
+        final ZombieType nextZombieType = types.get(rnd.nextInt(types.size()));
+        pdc.set(WorldAttributes.REMAINING_ZOMBIES.getKey(), PersistentDataType.INTEGER, remainingZombies - 1);
         return nextZombieType;
     }
 
-    private List<Window> getAvailableWindows() {
-        return game.getConfig().windows.stream()
-                .filter(window -> game.getReachableAreas().contains(window.area))
-                .toList();
+    private List<Window> getAvailableWindows(final World world) {
+        final WorldConfig config = ZombiesPlugin.getConfig(world);
+        if (config == null) {
+            return null;
+        }
+        final PersistentDataContainer pdc = world.getPersistentDataContainer();
+        final List<String> areas = pdc.get(WorldAttributes.REACHABLE_AREAS.getKey(), PersistentDataType.LIST.strings());
+        if (areas == null) {
+            return null;
+        }
+        return config.windows.stream().filter(window -> areas.contains(window.area)).toList();
     }
 
-    private Window getNearestWindowToPlayer(final ZombiesPlayer player) {
-        final List<Window> windows = getAvailableWindows();
-        return windows.stream().min(Comparator.comparingDouble(window -> window.spawnLocation.coordinates().toVector()
-                    .distance(player.getBukkit().getLocation().toVector()))).orElseThrow();
-
+    private Window getNearestWindowToPlayer(final World world, final Player player) {
+        final List<Window> windows = getAvailableWindows(world);
+        if (windows == null || windows.isEmpty()) {
+            return null;
+        }
+        return windows.stream().min(Comparator.comparingDouble(window -> {
+            final Vector windowVector = window.spawnLocation.coordinates().toVector();
+            final Vector playerVector = player.getLocation().toVector();
+            return windowVector.distance(playerVector);
+        })).orElseThrow();
     }
 
-    private Location getNextSpawnPoint() {
-        final ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        final List<ZombiesPlayer> players = new ArrayList<>(game.getPlayers().values());
-        final ZombiesPlayer player = players.get(rnd.nextInt(players.size()));
-        final Window window = getNearestWindowToPlayer(player);
-        return window.spawnLocation.toBukkit(game.getWorld());
+    private Location getNextSpawnPoint(final World world) {
+        final RandomGenerator rnd = ThreadLocalRandom.current();
+        final List<Player> players = world.getPlayers();
+        final Player player = players.get(rnd.nextInt(players.size()));
+        final Window window = getNearestWindowToPlayer(world, player);
+        if (window == null) {
+            return null;
+        }
+        return window.spawnLocation.toBukkit(world);
     }
 }

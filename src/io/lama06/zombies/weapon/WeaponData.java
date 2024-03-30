@@ -1,11 +1,17 @@
 package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.weapon.ammo.AmmoData;
+import io.lama06.zombies.weapon.attack.AttackData;
+import io.lama06.zombies.weapon.event.WeaponCreateEvent;
 import io.lama06.zombies.weapon.melee.MeleeData;
 import io.lama06.zombies.weapon.shoot.ShootData;
 import io.lama06.zombies.weapon.shoot_particle.ShootParticleData;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 public record WeaponData(
@@ -16,10 +22,22 @@ public record WeaponData(
         @Nullable Integer reload,
         ShootData shoot,
         ShootParticleData shootParticle,
-        MeleeData melee
+        MeleeData melee,
+        AttackData attack
 ) {
     public static Builder builder() {
         return new Builder();
+    }
+
+    public ItemStack createWeapon() {
+        final ItemStack item = new ItemStack(material);
+        final ItemMeta meta = item.getItemMeta();
+        meta.displayName(displayName);
+        final WeaponCreateEvent event = new WeaponCreateEvent(this, item, meta);
+        Bukkit.getPluginManager().callEvent(event);
+        meta.getPersistentDataContainer().set(WeaponAttributes.IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, true);
+        item.setItemMeta(meta);
+        return item;
     }
 
     public static final class Builder {
@@ -31,6 +49,7 @@ public record WeaponData(
         private ShootData shoot;
         private ShootParticleData shootParticle;
         private MeleeData melee;
+        private AttackData attack;
 
         private Builder() { }
 
@@ -43,7 +62,8 @@ public record WeaponData(
                     reload,
                     shoot,
                     shootParticle,
-                    melee
+                    melee,
+                    attack
             );
         }
 
@@ -84,6 +104,11 @@ public record WeaponData(
 
         public Builder setMelee(final MeleeData melee) {
             this.melee = melee;
+            return this;
+        }
+
+        public Builder setAttack(final AttackData attack) {
+            this.attack = attack;
             return this;
         }
     }

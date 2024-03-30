@@ -1,42 +1,47 @@
 package io.lama06.zombies.system;
 
 import io.lama06.zombies.*;
-import io.lama06.zombies.System;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
-public final class EnablePowerSwitchSystem extends System {
-    public EnablePowerSwitchSystem(final ZombiesGame game) {
-        super(game);
-    }
-
+public final class EnablePowerSwitchSystem implements Listener {
     @EventHandler
     private void handlePlayerInteract(final PlayerInteractEvent event) {
-        if (game.isPowerSwitchEnabled()) {
-            return;
-        }
-        final PowerSwitch powerSwitch = game.getConfig().powerSwitch;
-        if (powerSwitch == null) {
+        final Player player = event.getPlayer();
+        final World world = player.getWorld();
+        final WorldConfig config = ZombiesPlugin.getConfig(world);
+        if (config == null || config.powerSwitch == null) {
             return;
         }
         if (event.getClickedBlock() == null
-                || !event.getClickedBlock().getLocation().toBlock().equals(powerSwitch.position)
+                || !event.getClickedBlock().getLocation().toBlock().equals(config.powerSwitch.position)
                 || !event.getAction().isRightClick()) {
             return;
         }
-        if (!game.getPlayers().containsKey(event.getPlayer())) {
+        final PersistentDataContainer playerPdc = player.getPersistentDataContainer();
+        final PersistentDataContainer worldPdc = world.getPersistentDataContainer();
+        final Boolean powerSwitchOn = worldPdc.get(WorldAttributes.POWER_SWITCH.getKey(), PersistentDataType.BOOLEAN);
+        final Integer gold = playerPdc.get(PlayerAttributes.GOLD.getKey(), PersistentDataType.INTEGER);
+        if (powerSwitchOn == null || gold == null) {
             return;
         }
-        final ZombiesPlayer player = game.getPlayers().get(event.getPlayer());
-        if (player.getGold() < powerSwitch.gold) {
-            event.getPlayer().sendMessage(Component.text("You don't have enough gold to open this door").color(NamedTextColor.RED));
+        if (powerSwitchOn) {
             return;
         }
-        player.setGold(player.getGold() - powerSwitch.gold);
-        game.showTitle(Title.title(Component.text(event.getPlayer().getName() + " activated the power switch"), Component.empty()));
-        game.setPowerSwitchEnabled(true);
+        if (gold < config.powerSwitch.gold) {
+            player.sendMessage(Component.text("You don't have enough gold to open this door").color(NamedTextColor.RED));
+            return;
+        }
+        playerPdc.set(PlayerAttributes.GOLD.getKey(), PersistentDataType.INTEGER, gold - config.powerSwitch.gold);
+        world.showTitle(Title.title(Component.text(player.getName() + " activated the power switch"), Component.empty()));
+        worldPdc.set(WorldAttributes.POWER_SWITCH.getKey(), PersistentDataType.BOOLEAN, true);
     }
 }

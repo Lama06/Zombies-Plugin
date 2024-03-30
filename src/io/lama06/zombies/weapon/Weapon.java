@@ -1,73 +1,55 @@
 package io.lama06.zombies.weapon;
 
-import io.lama06.zombies.ZombiesPlayer;
-import io.lama06.zombies.weapon.ammo.AmmoComponent;
-import io.lama06.zombies.weapon.delay.DelayComponent;
-import io.lama06.zombies.weapon.melee.MeleeComponent;
-import io.lama06.zombies.weapon.reload.ReloadComponent;
-import io.lama06.zombies.weapon.shoot.ShootComponent;
-import io.lama06.zombies.weapon.shoot_particle.ShootParticleComponent;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
-import org.bukkit.event.Listener;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
-public final class Weapon implements Listener {
-    private final ZombiesPlayer player;
+import java.util.ArrayList;
+import java.util.List;
 
-    private final Component displayName;
-    private final Material material;
-    private final AmmoComponent ammo;
-    private final ReloadComponent reload;
-    private final DelayComponent delay;
-    private final MeleeComponent melee;
-    private final ShootComponent shoot;
-    private final ShootParticleComponent shootParticle;
-
-    public Weapon(final ZombiesPlayer player, final WeaponData data) {
-        this.player = player;
-        displayName = data.displayName();
-        material = data.material();
-        ammo = data.ammo() != null ? new AmmoComponent(this, data.ammo()) : null;
-        reload = data.reload() != null ? new ReloadComponent(this, data.reload()) : null;
-        delay = data.delay() != null ? new DelayComponent(this, data.delay()) : null;
-        melee = data.melee() != null ? new MeleeComponent(this, data.melee()) : null;
-        shoot = data.shoot() != null ? new ShootComponent(this, data.shoot()) : null;
-        shootParticle = data.shootParticle() != null ? new ShootParticleComponent(data.shootParticle()) : null;
+public record Weapon(Player owner, int slot) {
+    public static boolean isWeapon(final ItemStack weapon) {
+        final ItemMeta meta = weapon.getItemMeta();
+        if (meta == null) {
+            return false;
+        }
+        return meta.getPersistentDataContainer().getOrDefault(WeaponAttributes.IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, false);
     }
 
-    public ZombiesPlayer getPlayer() {
-        return player;
+    public static Weapon getHeldWeapon(final Player player) {
+        final PlayerInventory inventory = player.getInventory();
+        final ItemStack item = inventory.getItemInMainHand();
+        if (!isWeapon(item)) {
+            return null;
+        }
+        return new Weapon(player, inventory.getHeldItemSlot());
     }
 
-    public Component getDisplayName() {
-        return displayName;
+    public static List<Weapon> getPlayerWeapons(final Player player) {
+        final PlayerInventory inventory = player.getInventory();
+        final List<Weapon> weapons = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            final ItemStack item = inventory.getItem(i);
+            if (item == null || !isWeapon(item)) {
+                continue;
+            }
+            weapons.add(new Weapon(player, i));
+        }
+        return weapons;
     }
 
-    public Material getMaterial() {
-        return material;
+    public static List<Weapon> getAllWeapons() {
+        final List<Weapon> weapons = new ArrayList<>();
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            weapons.addAll(getPlayerWeapons(player));
+        }
+        return weapons;
     }
 
-    public AmmoComponent getAmmo() {
-        return ammo;
-    }
-
-    public ReloadComponent getReload() {
-        return reload;
-    }
-
-    public DelayComponent getDelay() {
-        return delay;
-    }
-
-    public MeleeComponent getMelee() {
-        return melee;
-    }
-
-    public ShootComponent getShoot() {
-        return shoot;
-    }
-
-    public ShootParticleComponent getShootParticle() {
-        return shootParticle;
+    public ItemStack getItem() {
+        return owner.getInventory().getItem(slot);
     }
 }
