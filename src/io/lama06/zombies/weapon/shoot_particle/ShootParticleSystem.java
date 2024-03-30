@@ -4,6 +4,7 @@ import io.lama06.zombies.util.pdc.RegistryPersistentDataType;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponAttributes;
 import io.lama06.zombies.weapon.event.WeaponCreateEvent;
+import io.lama06.zombies.weapon.shoot.Bullet;
 import io.lama06.zombies.weapon.shoot.WeaponShootEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,7 +55,7 @@ public final class ShootParticleSystem implements Listener {
         if (particle == null || particleCount == null || particleSpacing == null) {
             return;
         }
-        for (final WeaponShootEvent.Bullet bullet : event.getBullets()) {
+        for (final Bullet bullet : event.getBullets()) {
             final Vector direction = bullet.direction().clone();
             final Vector directionWithDistance = direction.multiply(particleSpacing);
             final Location particleLocation = player.getEyeLocation().add(directionWithDistance);

@@ -5,6 +5,9 @@ import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponAttributes;
 import io.lama06.zombies.weapon.event.WeaponCreateEvent;
 import io.lama06.zombies.weapon.event.WeaponUseEvent;
+import io.lama06.zombies.weapon.render.LoreEntry;
+import io.lama06.zombies.weapon.render.LorePart;
+import io.lama06.zombies.weapon.render.WeaponLoreRenderEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
 
 public final class DelaySystem implements Listener {
     @EventHandler
@@ -28,6 +33,22 @@ public final class DelaySystem implements Listener {
         delayContainer.set(DelayAttributes.DELAY.getKey(), PersistentDataType.INTEGER, delay);
         delayContainer.set(DelayAttributes.REMAINING_DELAY.getKey(), PersistentDataType.INTEGER, 0);
         pdc.set(WeaponAttributes.DELAY.getKey(), PersistentDataType.TAG_CONTAINER, delayContainer);
+    }
+
+    @EventHandler
+    private void renderLore(final WeaponLoreRenderEvent event) {
+        final PersistentDataContainer pdc = event.getWeapon().getItem().getItemMeta().getPersistentDataContainer();
+        final PersistentDataContainer container = pdc.get(WeaponAttributes.DELAY.getKey(), PersistentDataType.TAG_CONTAINER);
+        if (container == null) {
+            return;
+        }
+        final Integer delay = container.get(DelayAttributes.DELAY.getKey(), PersistentDataType.INTEGER);
+        if (delay == null) {
+            return;
+        }
+        event.addLore(LorePart.ATTACK, List.of(
+                new LoreEntry("Delay", "%.1f".formatted(delay / 20.0))
+        ));
     }
 
     @EventHandler

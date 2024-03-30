@@ -16,11 +16,11 @@ import org.bukkit.event.Listener;
 
 public final class Systems {
     public static Listener[] SYSTEMS = new Listener[] {
-            new EnablePowerSwitchSystem(),
-            new StartGameSystem(),
-            new OpenDoorSystem(),
+            new PowerSwitchSystem(),
+            new DoorSystem(),
             new PreventEventsSystem(),
-            new StartNextRoundSystem(),
+            new RoundsSystem(),
+            new WindowSystem(),
             new ZombieSpawnSystem(),
 
             new AmmoSystem(),

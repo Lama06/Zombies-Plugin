@@ -2,6 +2,7 @@ package io.lama06.zombies.system;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.*;
+import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.zombie.ZombieType;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -20,7 +21,15 @@ import java.util.random.RandomGenerator;
 
 public final class ZombieSpawnSystem implements Listener {
     @EventHandler
-    private void onTick(final ServerTickEndEvent event) {
+    private void initZombieSpawning(final GameStartEvent event) {
+        final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.getFirst();
+        final PersistentDataContainer pdc = event.getWorld().getPersistentDataContainer();
+        pdc.set(WorldAttributes.NEXT_ZOMBIE_TIME.getKey(), PersistentDataType.INTEGER, firstRoundSpawnRate.spawnDelay());
+        pdc.set(WorldAttributes.REMAINING_ZOMBIES.getKey(), PersistentDataType.INTEGER, firstRoundSpawnRate.getNumberOfZombies());
+    }
+
+    @EventHandler
+    private void spawnZombies(final ServerTickEndEvent event) {
         for (final World world : ZombiesWorld.getGameWorlds()) {
             final PersistentDataContainer pdc = world.getPersistentDataContainer();
             final Integer round = pdc.get(WorldAttributes.ROUND.getKey(), PersistentDataType.INTEGER);
@@ -94,6 +103,9 @@ public final class ZombieSpawnSystem implements Listener {
     private Location getNextSpawnPoint(final World world) {
         final RandomGenerator rnd = ThreadLocalRandom.current();
         final List<Player> players = world.getPlayers();
+        if (players.isEmpty()) {
+            return null;
+        }
         final Player player = players.get(rnd.nextInt(players.size()));
         final Window window = getNearestWindowToPlayer(world, player);
         if (window == null) {

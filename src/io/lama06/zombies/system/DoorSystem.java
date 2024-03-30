@@ -1,6 +1,7 @@
 package io.lama06.zombies.system;
 
 import io.lama06.zombies.*;
+import io.lama06.zombies.event.GameStartEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -13,11 +14,24 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public final class OpenDoorSystem implements Listener {
+public final class DoorSystem implements Listener {
     @EventHandler
-    private void handlePlayerInteract(final PlayerInteractEvent event) {
+    private void closeDoorsOnStart(final GameStartEvent event) {
+        final World world = event.getWorld();
+        final WorldConfig config = ZombiesPlugin.getConfig(world);
+        for (final Door door : config.doors) {
+            door.setOpen(world, false);
+        }
+        final PersistentDataContainer pdc = world.getPersistentDataContainer();
+        pdc.set(WorldAttributes.OPEN_DOORS.getKey(), PersistentDataType.LIST.integers(), Collections.emptyList());
+        pdc.set(WorldAttributes.REACHABLE_AREAS.getKey(), PersistentDataType.LIST.strings(), List.of(config.startArea));
+    }
+
+    @EventHandler
+    private void openDoor(final PlayerInteractEvent event) {
         if (event.getClickedBlock() == null || !event.getAction().isRightClick()) {
             return;
         }

@@ -3,9 +3,12 @@ package io.lama06.zombies.weapon.reload;
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponAttributes;
-import io.lama06.zombies.weapon.event.WeaponCreateEvent;
 import io.lama06.zombies.weapon.ammo.AmmoAttributes;
 import io.lama06.zombies.weapon.ammo.WeaponClipChangeEvent;
+import io.lama06.zombies.weapon.event.WeaponCreateEvent;
+import io.lama06.zombies.weapon.render.LoreEntry;
+import io.lama06.zombies.weapon.render.LorePart;
+import io.lama06.zombies.weapon.render.WeaponLoreRenderEvent;
 import io.lama06.zombies.weapon.shoot.WeaponShootEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -16,6 +19,8 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
 
 public final class ReloadSystem implements Listener {
     @EventHandler
@@ -79,6 +84,22 @@ public final class ReloadSystem implements Listener {
         final int durability = (int) (reloadProgress * maxDurability);
         damageable.setDamage(maxDurability - durability);
         item.setItemMeta(damageable);
+    }
+
+    @EventHandler
+    private void renderLore(final WeaponLoreRenderEvent event) {
+        final PersistentDataContainer pdc = event.getWeapon().getItem().getItemMeta().getPersistentDataContainer();
+        final PersistentDataContainer container = pdc.get(WeaponAttributes.RELOAD.getKey(), PersistentDataType.TAG_CONTAINER);
+        if (container == null) {
+            return;
+        }
+        final Integer reload = container.get(ReloadAttributes.RELOAD.getKey(), PersistentDataType.INTEGER);
+        if (reload == null) {
+            return;
+        }
+        event.addLore(LorePart.RELOAD, List.of(
+                new LoreEntry("Reload", "%.1f".formatted(reload / 20.0))
+        ));
     }
 
     @EventHandler

@@ -2,7 +2,6 @@ package io.lama06.zombies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
 import io.papermc.paper.math.BlockPosition;
@@ -34,6 +33,7 @@ public final class ZombiesPlugin extends JavaPlugin {
 
     private Gson createGson() {
         return new GsonBuilder()
+                .serializeNulls()
                 .setPrettyPrinting()
                 .registerTypeAdapter(BlockPosition.class, new BlockPositionTypeAdapter())
                 .registerTypeAdapter(FinePosition.class, new FinePositionTypeAdapter())
@@ -95,7 +95,7 @@ public final class ZombiesPlugin extends JavaPlugin {
                     player.sendMessage(Component.text(e.getLocalizedMessage()));
                     return true;
                 }
-                new GameStartEvent(player.getWorld()).callEvent();
+                ZombiesWorld.startGame(player.getWorld());
             }
             case "clear" -> {
                 for (final World world : Bukkit.getWorlds()) {
@@ -111,6 +111,13 @@ public final class ZombiesPlugin extends JavaPlugin {
                         }
                     }
                 }
+            }
+            case "info" -> {
+                final String string = player.getWorld().getPersistentDataContainer().toString();
+                for (final NamespacedKey key : player.getWorld().getPersistentDataContainer().getKeys()) {
+                    player.sendMessage(key.toString());
+                }
+                player.sendMessage(string);
             }
         }
         return true;

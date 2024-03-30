@@ -7,7 +7,7 @@ import java.util.Map;
 
 public record SpawnRate(int spawnDelay, Map<ZombieType, Integer> zombies) {
     public static final List<SpawnRate> SPAWN_RATES = List.of(
-            new SpawnRate(10 * 20, Map.ofEntries(
+            new SpawnRate(2 * 20, Map.ofEntries(
                     Map.entry(ZombieType.NORMAL_EASY, 3)
             )),
             new SpawnRate(5 * 20, Map.ofEntries(

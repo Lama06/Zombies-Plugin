@@ -35,10 +35,6 @@ public final class WeaponCreateEvent extends Event {
         return item;
     }
 
-    public ItemMeta getMeta() {
-        return meta;
-    }
-
     public PersistentDataContainer getPdc() {
         return meta.getPersistentDataContainer();
     }

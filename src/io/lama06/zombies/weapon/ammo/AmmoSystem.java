@@ -4,6 +4,10 @@ import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponAttributes;
 import io.lama06.zombies.weapon.event.WeaponCreateEvent;
 import io.lama06.zombies.weapon.reload.WeaponReloadChangeEvent;
+import io.lama06.zombies.weapon.render.LoreEntry;
+import io.lama06.zombies.weapon.render.LorePart;
+import io.lama06.zombies.weapon.render.LoreRenderSystem;
+import io.lama06.zombies.weapon.render.WeaponLoreRenderEvent;
 import io.lama06.zombies.weapon.shoot.WeaponShootEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,6 +19,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
 
 public final class AmmoSystem implements Listener {
     @EventHandler
@@ -38,6 +44,36 @@ public final class AmmoSystem implements Listener {
     private void renderAmmoClip(final WeaponClipChangeEvent event) {
         final ItemStack item = event.getWeapon().getItem();
         item.setAmount(Math.max(1, event.getNewClip()));
+    }
+
+    @EventHandler
+    private void triggerLoreRender(final WeaponAmmoChangeEvent event) {
+        LoreRenderSystem.renderLore(event.getWeapon());
+    }
+
+    @EventHandler
+    private void triggerLoreRender(final WeaponClipChangeEvent event) {
+        LoreRenderSystem.renderLore(event.getWeapon());
+    }
+
+    @EventHandler
+    private void renderLore(final WeaponLoreRenderEvent event) {
+        final PersistentDataContainer pdc = event.getWeapon().getItem().getItemMeta().getPersistentDataContainer();
+        final PersistentDataContainer container = pdc.get(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER);
+        if (container == null) {
+            return;
+        }
+        final Integer maxAmmo = container.get(AmmoAttributes.MAX_AMMO.getKey(), PersistentDataType.INTEGER);
+        final Integer ammo = container.get(AmmoAttributes.AMMO.getKey(), PersistentDataType.INTEGER);
+        final Integer maxClip = container.get(AmmoAttributes.MAX_CLIP.getKey(), PersistentDataType.INTEGER);
+        final Integer clip = container.get(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER);
+        if (maxAmmo == null || ammo == null || maxClip == null || clip == null) {
+            return;
+        }
+        event.addLore(LorePart.AMMO, List.of(
+                new LoreEntry("Ammo", ammo + " / " + maxAmmo),
+                new LoreEntry("Clip", clip + " / " + maxClip)
+        ));
     }
 
     @EventHandler

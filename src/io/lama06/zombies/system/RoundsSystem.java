@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.SpawnRate;
 import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.event.StartRoundEvent;
 import io.lama06.zombies.zombie.Zombie;
 import net.kyori.adventure.text.Component;
@@ -17,9 +18,15 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
-public final class StartNextRoundSystem implements Listener {
+public final class RoundsSystem implements Listener {
     @EventHandler
-    private void onTick(final ServerTickEndEvent event) {
+    private void initRounds(final GameStartEvent event) {
+        final PersistentDataContainer pdc = event.getWorld().getPersistentDataContainer();
+        pdc.set(WorldAttributes.ROUND.getKey(), PersistentDataType.INTEGER, 1);
+    }
+
+    @EventHandler
+    private void startNextRound(final ServerTickEndEvent event) {
         for (final World world : ZombiesWorld.getGameWorlds()) {
             final List<Entity> zombies = Zombie.getZombiesInWorld(world);
             if (!zombies.isEmpty()) {
