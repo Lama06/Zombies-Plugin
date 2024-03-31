@@ -23,6 +23,8 @@ public final class Systems {
             new RoundsSystem(),
             new WindowSystem(),
             new ZombieSpawnSystem(),
+            new ScoreboardSystem(),
+            new InitPlayerDataSystem(),
 
             new AmmoSystem(),
             new AttackSystem(),
