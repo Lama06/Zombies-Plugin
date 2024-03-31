@@ -13,6 +13,7 @@ public final class Window {
     public String area = "";
     public EntityPosition spawnLocation;
     public BlockArea blocks;
+    public BlockArea repairArea;
 
     public void open(final World world) {
         blocks.fill(world, Bukkit.createBlockData(Material.AIR));
@@ -26,6 +27,7 @@ public final class Window {
         InvalidConfigException.mustBeSet(area, "area");
         InvalidConfigException.mustBeSet(spawnLocation, "spawn location");
         InvalidConfigException.mustBeSet(blocks, "blocks");
+        InvalidConfigException.mustBeSet(repairArea, "repair area");
     }
 
     public void openMenu(final Player player, final Runnable callback) {
@@ -72,6 +74,19 @@ public final class Window {
                                 reopen,
                                 blocks -> {
                                     this.blocks = blocks;
+                                    reopen.run();
+                                }
+                        )
+                ),
+                new SelectionEntry(
+                        Component.text("Repair Area: " + repairArea),
+                        Material.BROWN_CARPET,
+                        () -> BlockAreaSelection.open(
+                                player,
+                                Component.text("Repair Area"),
+                                reopen,
+                                repairArea -> {
+                                    this.repairArea = repairArea;
                                     reopen.run();
                                 }
                         )

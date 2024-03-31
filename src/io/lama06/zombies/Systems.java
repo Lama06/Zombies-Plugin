@@ -26,6 +26,7 @@ public final class Systems {
             new OpenDoorSystem(),
             new PreventEventsSystem(),
             new RenderScoreboardSystem(),
+            new RepairWindowSystem(),
             new StartNextRoundSystem(),
 
             // Weapon
