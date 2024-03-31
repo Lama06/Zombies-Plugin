@@ -115,8 +115,9 @@ public final class AmmoSystem implements Listener {
     }
 
     private void renderTotalAmmo(final ZombiesPlayer player, final int slot) {
-        final Weapon weapon = player.getHeldWeapon();
+        final Weapon weapon = player.getWeapon(slot);
         if (weapon == null) {
+            player.getBukkit().setLevel(0);
             return;
         }
         final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
