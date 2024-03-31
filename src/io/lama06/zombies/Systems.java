@@ -25,7 +25,7 @@ public final class Systems {
             new InitRoundsSystem(),
             new OpenDoorSystem(),
             new PreventEventsSystem(),
-            new RenderShootLoreSystem(),
+            new RenderScoreboardSystem(),
             new StartNextRoundSystem(),
 
             // Weapon
