@@ -8,7 +8,7 @@ import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.WeaponType;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieData;
-import io.lama06.zombies.zombie.event.ZombieSpawnEvent;
+import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;

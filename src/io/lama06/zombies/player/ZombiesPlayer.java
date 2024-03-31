@@ -5,7 +5,7 @@ import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponData;
-import io.lama06.zombies.weapon.event.WeaponCreateEvent;
+import io.lama06.zombies.event.weapon.WeaponCreateEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;

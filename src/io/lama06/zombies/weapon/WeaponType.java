@@ -1,11 +1,6 @@
 package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.menu.MenuDisplayableEnum;
-import io.lama06.zombies.weapon.ammo.AmmoData;
-import io.lama06.zombies.weapon.attack.AttackData;
-import io.lama06.zombies.weapon.melee.MeleeData;
-import io.lama06.zombies.weapon.shoot.ShootData;
-import io.lama06.zombies.weapon.shoot_particle.ShootParticleData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Particle;

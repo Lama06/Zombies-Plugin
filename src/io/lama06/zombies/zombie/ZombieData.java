@@ -1,6 +1,5 @@
 package io.lama06.zombies.zombie;
 
-import io.lama06.zombies.zombie.break_window.BreakWindowData;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
