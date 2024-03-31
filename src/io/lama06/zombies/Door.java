@@ -7,7 +7,6 @@ import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public final class Door {
@@ -19,12 +18,12 @@ public final class Door {
     public BlockArea templateOpen;
     public BlockArea templateClosed;
 
-    public void setOpen(final World world, final boolean open) {
+    public void setOpen(final ZombiesWorld world, final boolean open) {
         if (!open && templateClosed == null) {
-            position.fill(world, Material.AIR.createBlockData());
+            position.fill(world.getBukkit(), Material.AIR.createBlockData());
             return;
         }
-        (open ? templateOpen : templateClosed).clone(world, position);
+        (open ? templateOpen : templateClosed).clone(world.getBukkit(), position);
     }
 
     public void check() throws InvalidConfigException {

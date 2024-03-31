@@ -2,7 +2,7 @@
 <project version="4">
   <component name="EntryPointsManager">
     <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="io.lama06.zombies.util.EventHandlerAccess" />
+      <item index="0" class="java.lang.String" itemvalue="io.lama06.zombies.util.HandlerListGetter" />
       <item index="1" class="java.lang.String" itemvalue="org.bukkit.event.EventHandler" />
     </list>
   </component>

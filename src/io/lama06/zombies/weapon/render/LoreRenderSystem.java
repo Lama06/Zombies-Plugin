@@ -1,8 +1,11 @@
 package io.lama06.zombies.weapon.render;
 
 import io.lama06.zombies.weapon.Weapon;
+import io.lama06.zombies.weapon.event.WeaponCreateEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -27,5 +30,13 @@ public final class LoreRenderSystem implements Listener {
         final ItemMeta meta = item.getItemMeta();
         meta.lore(lore);
         item.setItemMeta(meta);
+    }
+
+    @EventHandler(
+            priority = EventPriority.HIGH // call event after the weapon's components are initialised
+    )
+    private void renderLoreOnWeaponCreation(final WeaponCreateEvent event) {
+        final Weapon weapon = event.getWeapon();
+        renderLore(weapon);
     }
 }

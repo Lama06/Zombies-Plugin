@@ -1,14 +1,17 @@
 package io.lama06.zombies;
 
+import io.lama06.zombies.data.AttributeId;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
+
 public final class WorldAttributes {
-    public static final Attribute IS_GAME = new Attribute("is_game");
+    public static final AttributeId<Integer> ROUND = new AttributeId<>("round", PersistentDataType.INTEGER);
 
-    public static final Attribute ROUND = new Attribute("round");
+    public static final AttributeId<Integer> REMAINING_ZOMBIES = new AttributeId<>("remaining_zombies", PersistentDataType.INTEGER);
+    public static final AttributeId<Integer> NEXT_ZOMBIE_TIME = new AttributeId<>("next_zombie", PersistentDataType.INTEGER);
 
-    public static final Attribute REMAINING_ZOMBIES = new Attribute("remaining_zombies");
-    public static final Attribute NEXT_ZOMBIE_TIME = new Attribute("next_zombie");
-
-    public static Attribute POWER_SWITCH = new Attribute("power_switch");
-    public static final Attribute REACHABLE_AREAS = new Attribute("reachable_areas");
-    public static final Attribute OPEN_DOORS = new Attribute("open_doors");
+    public static final AttributeId<Boolean> POWER_SWITCH = new AttributeId<>("power_switch", PersistentDataType.BOOLEAN);
+    public static final AttributeId<List<String>> REACHABLE_AREAS = new AttributeId<>("reachable_areas", PersistentDataType.LIST.strings());
+    public static final AttributeId<List<Integer>> OPEN_DOORS = new AttributeId<>("open_doors", PersistentDataType.LIST.integers());
 }

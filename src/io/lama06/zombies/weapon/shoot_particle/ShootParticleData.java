@@ -4,7 +4,7 @@ import org.bukkit.Particle;
 
 public record ShootParticleData(
     Particle particle,
-    int numberOfParticles,
+    int count,
     double spacing
 ) {
     public ShootParticleData(final Particle particle) {

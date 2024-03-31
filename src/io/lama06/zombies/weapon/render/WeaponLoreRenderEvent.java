@@ -1,10 +1,9 @@
 package io.lama06.zombies.weapon.render;
 
+import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.event.WeaponEvent;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -22,14 +21,13 @@ public final class WeaponLoreRenderEvent extends WeaponEvent {
 
     public void addLore(final LorePart part, final List<LoreEntry> lore) {
         this.lore.put(part, lore);
-        ItemStack item;
     }
 
     public Map<LorePart, List<LoreEntry>> getLore() {
         return lore;
     }
 
-    @EventHandler
+    @HandlerListGetter
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

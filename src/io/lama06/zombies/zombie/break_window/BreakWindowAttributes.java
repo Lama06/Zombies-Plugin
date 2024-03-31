@@ -1,10 +1,13 @@
 package io.lama06.zombies.zombie.break_window;
 
-import io.lama06.zombies.Attribute;
+import io.lama06.zombies.data.AttributeId;
+import io.lama06.zombies.util.pdc.BlockPositionPersistentDataType;
+import io.papermc.paper.math.BlockPosition;
+import org.bukkit.persistence.PersistentDataType;
 
 public final class BreakWindowAttributes {
-    public static final Attribute TIME = new Attribute("time");
-    public static final Attribute REMAINING_TIME = new Attribute("remaining_time");
-    public static final Attribute MAX_DISTANCE = new Attribute("max_distance");
-    public static final Attribute BLOCK = new Attribute("block");
+    public static final AttributeId<Integer> TIME = new AttributeId<>("time", PersistentDataType.INTEGER);
+    public static final AttributeId<Integer> REMAINING_TIME = new AttributeId<>("remaining_time", PersistentDataType.INTEGER);
+    public static final AttributeId<Double> MAX_DISTANCE = new AttributeId<>("max_distance", PersistentDataType.DOUBLE);
+    public static final AttributeId<BlockPosition> BLOCK = new AttributeId<>("block", BlockPositionPersistentDataType.INSTANCE);
 }

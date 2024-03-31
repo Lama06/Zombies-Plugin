@@ -1,34 +1,40 @@
 package io.lama06.zombies.zombie;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.data.AttributeId;
+import io.lama06.zombies.data.Storage;
+import io.lama06.zombies.data.StorageSession;
 import org.bukkit.entity.Entity;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class Zombie extends Storage {
+    public static final AttributeId<Boolean> IS_ZOMBIE = new AttributeId<>("is_zombie", PersistentDataType.BOOLEAN);
 
-public final class Zombie {
     public static boolean isZombie(final Entity entity) {
-        return entity.getPersistentDataContainer().getOrDefault(ZombieAttributes.IS_ZOMBIE.getKey(), PersistentDataType.BOOLEAN, false);
+        if (entity == null) {
+            return false;
+        }
+        final PersistentDataContainer pdc = entity.getPersistentDataContainer();
+        return pdc.getOrDefault(IS_ZOMBIE.getKey(), PersistentDataType.BOOLEAN, false);
     }
 
-    public static List<Entity> getZombiesInWorld(final World world) {
-        final List<Entity> zombies = new ArrayList<>();
-        for (final Entity entity : world.getEntities()) {
-            if (!Zombie.isZombie(entity)) {
-                continue;
-            }
-            zombies.add(entity);
-        }
-        return zombies;
+    private final Entity entity;
+
+    public Zombie(final Entity entity) {
+        this.entity = entity;
     }
 
-    public static List<Entity> getAllZombies() {
-        final List<Entity> zombies = new ArrayList<>();
-        for (final World world : Bukkit.getWorlds()) {
-            zombies.addAll(getZombiesInWorld(world));
-        }
-        return zombies;
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public ZombiesWorld getWorld() {
+        return new ZombiesWorld(entity.getWorld());
+    }
+
+    @Override
+    protected StorageSession startSession() {
+        return entity::getPersistentDataContainer;
     }
 }

@@ -12,7 +12,7 @@ public final class WindowSystem implements Listener {
     private void closeWindowsOnStart(final GameStartEvent event) {
         final WorldConfig config = ZombiesPlugin.getConfig(event.getWorld());
         for (final Window window : config.windows) {
-            window.close(event.getWorld());
+            window.close(event.getWorld().getBukkit());
         }
     }
 }

@@ -6,6 +6,7 @@ import io.lama06.zombies.weapon.attack.AttackSystem;
 import io.lama06.zombies.weapon.delay.DelaySystem;
 import io.lama06.zombies.weapon.melee.MeleeSystem;
 import io.lama06.zombies.weapon.reload.ReloadSystem;
+import io.lama06.zombies.weapon.render.LoreRenderSystem;
 import io.lama06.zombies.weapon.shoot.ShootSystem;
 import io.lama06.zombies.weapon.shoot_particle.ShootParticleSystem;
 import io.lama06.zombies.zombie.system.ApplyAttackDamageSystem;
@@ -30,6 +31,7 @@ public final class Systems {
             new ReloadSystem(),
             new ShootSystem(),
             new ShootParticleSystem(),
+            new LoreRenderSystem(),
 
             new BreakWindowSystem(),
             new ApplyAttackDamageSystem(),

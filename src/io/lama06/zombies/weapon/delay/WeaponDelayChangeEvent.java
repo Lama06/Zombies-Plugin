@@ -1,6 +1,6 @@
 package io.lama06.zombies.weapon.delay;
 
-import io.lama06.zombies.util.EventHandlerAccess;
+import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.event.WeaponEvent;
 import org.bukkit.event.HandlerList;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public final class WeaponDelayChangeEvent extends WeaponEvent {
     public static final HandlerList HANDLERS = new HandlerList();
 
-    @EventHandlerAccess
+    @HandlerListGetter
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

@@ -1,22 +1,17 @@
 package io.lama06.zombies.zombie.event;
 
 import io.lama06.zombies.event.ZombiesEvent;
-import org.bukkit.entity.Entity;
-import org.bukkit.persistence.PersistentDataContainer;
+import io.lama06.zombies.zombie.Zombie;
 
 public abstract class ZombieEvent extends ZombiesEvent {
-    private final Entity zombie;
+    private final Zombie zombie;
 
-    protected ZombieEvent(final Entity zombie) {
+    protected ZombieEvent(final Zombie zombie) {
         super(zombie.getWorld());
         this.zombie = zombie;
     }
 
-    public Entity getZombie() {
+    public Zombie getZombie() {
         return zombie;
-    }
-
-    public PersistentDataContainer getPdc() {
-        return zombie.getPersistentDataContainer();
     }
 }

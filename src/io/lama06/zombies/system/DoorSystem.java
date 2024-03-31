@@ -2,32 +2,29 @@ package io.lama06.zombies.system;
 
 import io.lama06.zombies.*;
 import io.lama06.zombies.event.GameStartEvent;
+import io.lama06.zombies.player.PlayerAttributes;
+import io.lama06.zombies.player.ZombiesPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class DoorSystem implements Listener {
     @EventHandler
     private void closeDoorsOnStart(final GameStartEvent event) {
-        final World world = event.getWorld();
+        final ZombiesWorld world = event.getWorld();
         final WorldConfig config = ZombiesPlugin.getConfig(world);
         for (final Door door : config.doors) {
             door.setOpen(world, false);
         }
-        final PersistentDataContainer pdc = world.getPersistentDataContainer();
-        pdc.set(WorldAttributes.OPEN_DOORS.getKey(), PersistentDataType.LIST.integers(), Collections.emptyList());
-        pdc.set(WorldAttributes.REACHABLE_AREAS.getKey(), PersistentDataType.LIST.strings(), List.of(config.startArea));
+        world.set(WorldAttributes.OPEN_DOORS, List.of());
+        world.set(WorldAttributes.REACHABLE_AREAS, List.of(config.startArea));
     }
 
     @EventHandler
@@ -35,20 +32,19 @@ public final class DoorSystem implements Listener {
         if (event.getClickedBlock() == null || !event.getAction().isRightClick()) {
             return;
         }
-        final Player player = event.getPlayer();
-        final World world = player.getWorld();
+        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
+        final World bukkitWorld = event.getPlayer().getWorld();
+        if (!ZombiesWorld.isGameWorld(bukkitWorld)) {
+            return;
+        }
+        final ZombiesWorld world = new ZombiesWorld(bukkitWorld);
         final WorldConfig config = ZombiesPlugin.getConfig(world);
         if (config == null) {
             return;
         }
-        final PersistentDataContainer playerPdc = player.getPersistentDataContainer();
-        final PersistentDataContainer worldPdc = world.getPersistentDataContainer();
-        final Integer gold = playerPdc.get(PlayerAttributes.GOLD.getKey(), PersistentDataType.INTEGER);
-        final List<String> areas = worldPdc.get(WorldAttributes.REACHABLE_AREAS.getKey(), PersistentDataType.LIST.strings());
-        final List<Integer> doorIndizes = worldPdc.get(WorldAttributes.OPEN_DOORS.getKey(), PersistentDataType.LIST.integers());
-        if (gold == null || areas == null || doorIndizes == null) {
-            return;
-        }
+        final int gold = player.get(PlayerAttributes.GOLD);
+        final List<String> reachableAreas = world.get(WorldAttributes.REACHABLE_AREAS);
+        final List<Integer> doorIndizes = world.get(WorldAttributes.OPEN_DOORS);
         for (int i = 0; i < config.doors.size(); i++) {
             final Door door = config.doors.get(i);
             if (doorIndizes.contains(i)) {
@@ -61,19 +57,17 @@ public final class DoorSystem implements Listener {
                 player.sendMessage(Component.text("You don't have enough gold to open this door").color(NamedTextColor.RED));
                 return;
             }
-            world.showTitle(Title.title(Component.text(player.getName() + " opened a door"), Component.empty()));
+            world.showTitle(Title.title(Component.text(player.getBukkit().getName() + " opened a door"), Component.empty()));
             door.setOpen(world, true);
-
-            playerPdc.set(PlayerAttributes.GOLD.getKey(), PersistentDataType.INTEGER, gold - door.gold);
-
-            final String newArea = areas.contains(door.area1) ? door.area2 : door.area1;
-            final ArrayList<String> newAreas = new ArrayList<>(areas);
+            player.set(PlayerAttributes.GOLD, gold - door.gold);
+            final String newArea = reachableAreas.contains(door.area1) ? door.area2 : door.area1;
+            final ArrayList<String> newAreas = new ArrayList<>(reachableAreas);
             newAreas.add(newArea);
-            worldPdc.set(WorldAttributes.REACHABLE_AREAS.getKey(), PersistentDataType.LIST.strings(), newAreas);
+            world.set(WorldAttributes.REACHABLE_AREAS, newAreas);
 
             final List<Integer> newDoorIndizes = new ArrayList<>(doorIndizes);
             newDoorIndizes.add(i);
-            worldPdc.set(WorldAttributes.OPEN_DOORS.getKey(), PersistentDataType.LIST.integers(), newDoorIndizes);
+            world.set(WorldAttributes.OPEN_DOORS, newDoorIndizes);
         }
     }
 }

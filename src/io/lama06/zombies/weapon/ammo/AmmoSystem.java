@@ -1,7 +1,9 @@
 package io.lama06.zombies.weapon.ammo;
 
+import io.lama06.zombies.data.Component;
+import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponAttributes;
+import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.weapon.event.WeaponCreateEvent;
 import io.lama06.zombies.weapon.reload.WeaponReloadChangeEvent;
 import io.lama06.zombies.weapon.render.LoreEntry;
@@ -10,15 +12,11 @@ import io.lama06.zombies.weapon.render.LoreRenderSystem;
 import io.lama06.zombies.weapon.render.WeaponLoreRenderEvent;
 import io.lama06.zombies.weapon.shoot.WeaponShootEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
@@ -29,15 +27,13 @@ public final class AmmoSystem implements Listener {
         if (data == null) {
             return;
         }
-        final ItemStack item = event.getItem();
-        item.setAmount(data.clip());
-        final PersistentDataContainer pdc = event.getPdc();
-        final PersistentDataContainer ammoContainer = pdc.getAdapterContext().newPersistentDataContainer();
-        ammoContainer.set(AmmoAttributes.MAX_AMMO.getKey(), PersistentDataType.INTEGER, data.ammo());
-        ammoContainer.set(AmmoAttributes.AMMO.getKey(), PersistentDataType.INTEGER, data.ammo());
-        ammoContainer.set(AmmoAttributes.MAX_CLIP.getKey(), PersistentDataType.INTEGER, data.clip());
-        ammoContainer.set(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER, data.clip());
-        pdc.set(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER, ammoContainer);
+        final Weapon weapon = event.getWeapon();
+        weapon.getItem().setAmount(data.clip());
+        final Component ammoComponent = weapon.addComponent(WeaponComponents.AMMO);
+        ammoComponent.set(AmmoAttributes.MAX_AMMO, data.ammo());
+        ammoComponent.set(AmmoAttributes.AMMO, data.ammo());
+        ammoComponent.set(AmmoAttributes.MAX_CLIP, data.clip());
+        ammoComponent.set(AmmoAttributes.CLIP, data.clip());
     }
 
     @EventHandler
@@ -58,18 +54,15 @@ public final class AmmoSystem implements Listener {
 
     @EventHandler
     private void renderLore(final WeaponLoreRenderEvent event) {
-        final PersistentDataContainer pdc = event.getWeapon().getItem().getItemMeta().getPersistentDataContainer();
-        final PersistentDataContainer container = pdc.get(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (container == null) {
+        final Weapon weapon = event.getWeapon();
+        final Component component = weapon.getComponent(WeaponComponents.AMMO);
+        if (component == null) {
             return;
         }
-        final Integer maxAmmo = container.get(AmmoAttributes.MAX_AMMO.getKey(), PersistentDataType.INTEGER);
-        final Integer ammo = container.get(AmmoAttributes.AMMO.getKey(), PersistentDataType.INTEGER);
-        final Integer maxClip = container.get(AmmoAttributes.MAX_CLIP.getKey(), PersistentDataType.INTEGER);
-        final Integer clip = container.get(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER);
-        if (maxAmmo == null || ammo == null || maxClip == null || clip == null) {
-            return;
-        }
+        final int maxAmmo = component.get(AmmoAttributes.MAX_AMMO);
+        final int ammo = component.get(AmmoAttributes.AMMO);
+        final int maxClip = component.get(AmmoAttributes.MAX_CLIP);
+        final int clip = component.get(AmmoAttributes.CLIP);
         event.addLore(LorePart.AMMO, List.of(
                 new LoreEntry("Ammo", ammo + " / " + maxAmmo),
                 new LoreEntry("Clip", clip + " / " + maxClip)
@@ -82,84 +75,69 @@ public final class AmmoSystem implements Listener {
             return;
         }
         final Weapon weapon = event.getWeapon();
-        final ItemStack item = weapon.getItem();
-        final ItemMeta meta = item.getItemMeta();
-        final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        final PersistentDataContainer ammoContainer = pdc.get(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (ammoContainer == null) {
+        final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+        if (ammoComponent == null) {
             return;
         }
-        final Integer maxClip = ammoContainer.get(AmmoAttributes.MAX_CLIP.getKey(), PersistentDataType.INTEGER);
-        final Integer clip = ammoContainer.get(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER);
-        final Integer ammo = ammoContainer.get(AmmoAttributes.AMMO.getKey(), PersistentDataType.INTEGER);
-        if (maxClip == null || clip == null || ammo == null) {
-            return;
-        }
+        final int ammo = ammoComponent.get(AmmoAttributes.AMMO);
+        final int maxClip = ammoComponent.get(AmmoAttributes.MAX_CLIP);
+        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
         final int missingFromClip = maxClip - clip;
         final int addToClip = Math.min(missingFromClip, maxClip);
         final int newClip = clip + addToClip;
         final int newAmmo = ammo - addToClip;
-        ammoContainer.set(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER, newClip);
-        ammoContainer.set(AmmoAttributes.AMMO.getKey(), PersistentDataType.INTEGER, newAmmo);
-        pdc.set(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER, ammoContainer);
-        item.setItemMeta(meta);
+        ammoComponent.set(AmmoAttributes.CLIP, newClip);
+        ammoComponent.set(AmmoAttributes.AMMO, newAmmo);
         Bukkit.getPluginManager().callEvent(new WeaponClipChangeEvent(weapon, clip, newClip));
         Bukkit.getPluginManager().callEvent(new WeaponAmmoChangeEvent(weapon, ammo, newAmmo));
     }
 
     @EventHandler
     private void renderTotalAmmo(final PlayerItemHeldEvent event) {
-        renderTotalAmmo(new Weapon(event.getPlayer(), event.getNewSlot()));
+        if (!ZombiesPlayer.isZombiesPlayer(event.getPlayer())) {
+            return;
+        }
+        renderTotalAmmo(new ZombiesPlayer(event.getPlayer()), event.getNewSlot());
     }
 
     @EventHandler
     private void renderTotalAmmo(final WeaponClipChangeEvent event) {
-        renderTotalAmmo(new Weapon(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot()));
+        renderTotalAmmo(event.getPlayer());
     }
 
     @EventHandler
     private void renderTotalAmmo(final WeaponAmmoChangeEvent event) {
-        renderTotalAmmo(new Weapon(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot()));
+        renderTotalAmmo(event.getPlayer());
     }
 
-    private void renderTotalAmmo(final Weapon weapon) {
-        final ItemStack item = weapon.getItem();
-        final Player player = weapon.owner();
-        if (item == null) {
-            player.setLevel(0);
+    private void renderTotalAmmo(final ZombiesPlayer player) {
+        renderTotalAmmo(player, player.getBukkit().getInventory().getHeldItemSlot());
+    }
+
+    private void renderTotalAmmo(final ZombiesPlayer player, final int slot) {
+        final Weapon weapon = player.getHeldWeapon();
+        if (weapon == null) {
             return;
         }
-        final PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        final PersistentDataContainer ammoContainer = pdc.get(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (ammoContainer == null) {
-            player.setLevel(0);
+        final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+        if (ammoComponent == null) {
+            player.getBukkit().setLevel(0);
             return;
         }
-        final Integer ammo = ammoContainer.get(AmmoAttributes.AMMO.getKey(), PersistentDataType.INTEGER);
-        final Integer clip = ammoContainer.get(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER);
-        if (ammo == null || clip == null) {
-            player.setLevel(0);
-            return;
-        }
+        final int ammo = ammoComponent.get(AmmoAttributes.AMMO);
+        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
         final int totalAmmo = ammo + clip;
-        player.setLevel(totalAmmo);
+        player.getBukkit().setLevel(totalAmmo);
     }
 
     @EventHandler(ignoreCancelled = true)
     private void preventShotWithoutAmmo(final WeaponShootEvent event) {
-        final ItemStack item = event.getWeapon().getItem();
-        if (item == null) {
+        final Weapon weapon = event.getWeapon();
+        final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+        if (ammoComponent == null) {
             return;
         }
-        final PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        final PersistentDataContainer ammoContainer = pdc.get(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (ammoContainer == null) {
-            return;
-        }
-        final Integer clip = ammoContainer.get(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER);
-        if (clip == null) {
-            return;
-        }
+        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
         if (clip == 0) {
             event.setCancelled(true);
         }
@@ -168,23 +146,15 @@ public final class AmmoSystem implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void decrementAmmoAfterShot(final WeaponShootEvent event) {
         final Weapon weapon = event.getWeapon();
-        final ItemStack item = weapon.getItem();
-        if (item == null) {
+        final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+        if (ammoComponent == null) {
             return;
         }
-        final ItemMeta meta = item.getItemMeta();
-        final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        final PersistentDataContainer ammoContainer = pdc.get(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (ammoContainer == null) {
+        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
+        if (clip == 0) {
             return;
         }
-        final Integer clip = ammoContainer.get(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER);
-        if (clip == null || clip == 0) {
-            return;
-        }
-        ammoContainer.set(AmmoAttributes.CLIP.getKey(), PersistentDataType.INTEGER, clip - 1);
-        pdc.set(WeaponAttributes.AMMO.getKey(), PersistentDataType.TAG_CONTAINER, ammoContainer);
-        item.setItemMeta(meta);
+        ammoComponent.set(AmmoAttributes.CLIP, clip - 1);
         Bukkit.getPluginManager().callEvent(new WeaponClipChangeEvent(weapon, clip, clip - 1));
     }
 }

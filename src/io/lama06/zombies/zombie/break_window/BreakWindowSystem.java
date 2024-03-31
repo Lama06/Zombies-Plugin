@@ -3,9 +3,10 @@ package io.lama06.zombies.zombie.break_window;
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.Window;
 import io.lama06.zombies.ZombiesPlugin;
-import io.lama06.zombies.util.pdc.BlockPositionPersistentDataType;
+import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieAttributes;
+import io.lama06.zombies.zombie.ZombieComponents;
 import io.lama06.zombies.zombie.event.ZombieSpawnEvent;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import io.papermc.paper.math.BlockPosition;
@@ -16,9 +17,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public final class BreakWindowSystem implements Listener {
     @EventHandler
@@ -27,54 +28,53 @@ public final class BreakWindowSystem implements Listener {
         if (data == null) {
             return;
         }
-        final PersistentDataContainer pdc = event.getZombie().getPersistentDataContainer();
-        final PersistentDataContainer container = pdc.getAdapterContext().newPersistentDataContainer();
-        container.set(BreakWindowAttributes.TIME.getKey(), PersistentDataType.INTEGER, data.time());
-        container.set(BreakWindowAttributes.MAX_DISTANCE.getKey(), PersistentDataType.DOUBLE, data.maxDistance());
-        pdc.set(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER, container);
+        final Zombie zombie = event.getZombie();
+        final Component breakWindowComponent = zombie.addComponent(ZombieComponents.BREAK_WINDOW);
+        breakWindowComponent.set(BreakWindowAttributes.TIME, data.time());
+        breakWindowComponent.set(BreakWindowAttributes.MAX_DISTANCE, data.maxDistance());
     }
 
     @EventHandler
     private void start(final ServerTickEndEvent event) {
-        for (final Entity zombie : Zombie.getAllZombies()) {
+        for (final Zombie zombie : ZombiesPlugin.INSTANCE.getZombies()) {
             startZombie(zombie);
         }
     }
 
-    private void startZombie(final Entity zombie) {
-        final PersistentDataContainer pdc = zombie.getPersistentDataContainer();
-        final PersistentDataContainer breakWindowContainer = pdc.get(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (breakWindowContainer == null) {
+    private void startZombie(final Zombie zombie) {
+        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        if (breakWindowComponent == null) {
             return;
         }
-        final Integer time = breakWindowContainer.get(BreakWindowAttributes.TIME.getKey(), PersistentDataType.INTEGER);
-        final Integer remainingTime = breakWindowContainer.get(BreakWindowAttributes.REMAINING_TIME.getKey(), PersistentDataType.INTEGER);
-        final Double maxDistance = breakWindowContainer.get(BreakWindowAttributes.MAX_DISTANCE.getKey(), PersistentDataType.DOUBLE);
-        if (time == null || remainingTime != null || maxDistance == null) {
+        final int time = breakWindowComponent.get(BreakWindowAttributes.TIME);
+        final double maxDistance = breakWindowComponent.get(BreakWindowAttributes.MAX_DISTANCE);
+        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowAttributes.BLOCK, null);
+        if (block != null) {
             return;
         }
         final NearestWindowBlockResult nearestWindowBlock = getNearestWindowBlock(zombie);
         if (nearestWindowBlock == null || nearestWindowBlock.distance() > maxDistance) {
             return;
         }
-        breakWindowContainer.set(BreakWindowAttributes.REMAINING_TIME.getKey(), PersistentDataType.INTEGER, time);
-        breakWindowContainer.set(BreakWindowAttributes.BLOCK.getKey(), BlockPositionPersistentDataType.INSTANCE, nearestWindowBlock.position());
-        pdc.set(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER, breakWindowContainer);
+        breakWindowComponent.set(BreakWindowAttributes.BLOCK, nearestWindowBlock.position());
+        breakWindowComponent.set(BreakWindowAttributes.REMAINING_TIME, time);
     }
 
     private record NearestWindowBlockResult(BlockPosition position, double distance) { }
 
-    private @Nullable NearestWindowBlockResult getNearestWindowBlock(final Entity zombie) {
-        final World world = zombie.getWorld();
+    private @Nullable NearestWindowBlockResult getNearestWindowBlock(final Zombie zombie) {
+        final ZombiesWorld world = zombie.getWorld();
         BlockPosition nearestWindowBlock = null;
         double smallestDistance = Double.POSITIVE_INFINITY;
         for (final Window window : ZombiesPlugin.getConfig(world).windows) {
             for (final BlockPosition windowBlockPos : window.blocks.getBlocks()) {
-                final Block block = windowBlockPos.toLocation(world).getBlock();
+                final Block block = windowBlockPos.toLocation(world.getBukkit()).getBlock();
                 if (block.getType() == Material.AIR) {
                     continue;
                 }
-                final Location zombieLocation = zombie instanceof final LivingEntity living ? living.getEyeLocation() : zombie.getLocation();
+                final Location zombieLocation = zombie.getEntity() instanceof final LivingEntity living
+                        ? living.getEyeLocation()
+                        : zombie.getEntity().getLocation();
                 final double distance = windowBlockPos.toCenter().toVector().distance(zombieLocation.toVector());
                 if (distance < smallestDistance) {
                     nearestWindowBlock = windowBlockPos;
@@ -90,54 +90,46 @@ public final class BreakWindowSystem implements Listener {
 
     @EventHandler
     private void tick(final ServerTickEndEvent event) {
-        for (final Entity zombie : Zombie.getAllZombies()) {
+        for (final Zombie zombie : ZombiesPlugin.INSTANCE.getZombies()) {
             tickZombie(zombie);
         }
     }
 
-    private void tickZombie(final Entity zombie) {
-        final PersistentDataContainer pdc = zombie.getPersistentDataContainer();
-        final PersistentDataContainer container = pdc.get(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (container == null) {
+    private void tickZombie(final Zombie zombie) {
+        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        if (breakWindowComponent == null) {
             return;
         }
-        final Integer time = container.get(BreakWindowAttributes.TIME.getKey(), PersistentDataType.INTEGER);
-        final Integer remainingTime = container.get(BreakWindowAttributes.REMAINING_TIME.getKey(), PersistentDataType.INTEGER);
-        final BlockPosition blockPos = container.get(BreakWindowAttributes.BLOCK.getKey(), BlockPositionPersistentDataType.INSTANCE);
-        if (time == null || remainingTime == null || blockPos == null) {
-            return;
-        }
-        if (remainingTime == 0) {
+        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowAttributes.REMAINING_TIME, null);
+        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowAttributes.BLOCK, null);
+        if (remainingTime == null || block == null) {
             return;
         }
         if (remainingTime == 1) {
-            container.remove(BreakWindowAttributes.REMAINING_TIME.getKey());
-            container.remove(BreakWindowAttributes.BLOCK.getKey());
-            pdc.set(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER, container);
-            blockPos.toLocation(zombie.getWorld()).getBlock().setType(Material.AIR);
+            breakWindowComponent.remove(BreakWindowAttributes.REMAINING_TIME);
+            breakWindowComponent.remove(BreakWindowAttributes.BLOCK);
+            block.toLocation(zombie.getWorld().getBukkit()).getBlock().setType(Material.AIR);
             return;
         }
-        container.set(BreakWindowAttributes.REMAINING_TIME.getKey(), PersistentDataType.INTEGER, remainingTime - 1);
-        pdc.set(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER, container);
+        breakWindowComponent.set(BreakWindowAttributes.REMAINING_TIME, remainingTime - 1);
         if (!new BreakWindowTickEvent(zombie, remainingTime - 1).callEvent()) {
-            container.remove(BreakWindowAttributes.REMAINING_TIME.getKey());
-            container.remove(BreakWindowAttributes.BLOCK.getKey());
-            pdc.set(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER, container);
+            breakWindowComponent.remove(BreakWindowAttributes.REMAINING_TIME);
+            breakWindowComponent.remove(BreakWindowAttributes.BLOCK);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     private void cancelMoveWhileBreakingWindow(final EntityMoveEvent event) {
-        final Entity zombie = event.getEntity();
-        if (!Zombie.isZombie(zombie)) {
+        final Entity entity = event.getEntity();
+        if (!Zombie.isZombie(entity)) {
             return;
         }
-        final PersistentDataContainer pdc = zombie.getPersistentDataContainer();
-        final PersistentDataContainer container = pdc.get(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (container == null) {
+        final Zombie zombie = new Zombie(entity);
+        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        if (breakWindowComponent == null) {
             return;
         }
-        final Integer remainingTime = container.get(BreakWindowAttributes.REMAINING_TIME.getKey(), PersistentDataType.INTEGER);
+        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowAttributes.REMAINING_TIME, null);
         if (remainingTime == null) {
             return;
         }
@@ -146,17 +138,14 @@ public final class BreakWindowSystem implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     private void cancelWhenBlockDisappears(final BreakWindowTickEvent event) {
-        final Entity zombie = event.getZombie();
-        final PersistentDataContainer pdc = zombie.getPersistentDataContainer();
-        final PersistentDataContainer container = pdc.get(ZombieAttributes.BREAK_WINDOW.getKey(), PersistentDataType.TAG_CONTAINER);
-        if (container == null) {
+        final Zombie zombie = event.getZombie();
+        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        Objects.requireNonNull(breakWindowComponent);
+        final BlockPosition blockPos = breakWindowComponent.getOrDefault(BreakWindowAttributes.BLOCK, null);
+        if (blockPos == null) {
             return;
         }
-        final BlockPosition blockPosition = container.get(BreakWindowAttributes.BLOCK.getKey(), BlockPositionPersistentDataType.INSTANCE);
-        if (blockPosition == null) {
-            return;
-        }
-        final Block block = blockPosition.toLocation(event.getWorld()).getBlock();
+        final Block block = blockPos.toLocation(event.getWorld().getBukkit()).getBlock();
         if (block.getType() == Material.AIR) {
             event.setCancelled(true);
         }
@@ -165,10 +154,16 @@ public final class BreakWindowSystem implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     private void playSound(final BreakWindowTickEvent event) {
         final int SOUND_DELAY = 2 * 20;
-        final Entity zombie = event.getZombie();
+        final Zombie zombie = event.getZombie();
         if (event.getNewRemainingTime() % SOUND_DELAY != 0) {
             return;
         }
-        zombie.getWorld().playSound(zombie, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, SoundCategory.HOSTILE, 1, 1);
+        zombie.getWorld().getBukkit().playSound(
+                zombie.getEntity(),
+                Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR,
+                SoundCategory.HOSTILE,
+                1,
+                1
+        );
     }
 }

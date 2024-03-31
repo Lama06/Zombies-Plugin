@@ -35,6 +35,9 @@ public final class PreventEventsSystem implements Listener {
 
     @EventHandler
     private void onFoodLevelChange(final FoodLevelChangeEvent event) {
+        if (!ZombiesWorld.isGameWorld(event.getEntity().getWorld())) {
+            return;
+        }
         event.setCancelled(true);
     }
 }

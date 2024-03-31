@@ -2,8 +2,11 @@ package io.lama06.zombies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
+import io.lama06.zombies.weapon.Weapon;
+import io.lama06.zombies.zombie.Zombie;
 import io.papermc.paper.math.BlockPosition;
 import io.papermc.paper.math.FinePosition;
 import net.kyori.adventure.text.Component;
@@ -21,15 +24,42 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public final class ZombiesPlugin extends JavaPlugin {
     public static ZombiesPlugin INSTANCE;
 
-    public static WorldConfig getConfig(final World world) {
+    public static WorldConfig getConfig(final ZombiesWorld world) {
         return INSTANCE.config;
     }
 
     private WorldConfig config = new WorldConfig();
+
+    public List<ZombiesWorld> getWorlds() {
+        return Bukkit.getWorlds().stream().filter(ZombiesWorld::isGameWorld).map(ZombiesWorld::new).toList();
+    }
+
+    public List<ZombiesPlayer> getPlayers() {
+        return getWorlds().stream().map(ZombiesWorld::getPlayers).flatMap(Collection::stream).toList();
+    }
+
+    public @NotNull List<Weapon> getWeapons() {
+        final List<Weapon> weapons = new ArrayList<>();
+        for (final ZombiesPlayer player : getPlayers()) {
+            weapons.addAll(player.getWeapons());
+        }
+        return weapons;
+    }
+
+    public List<Zombie> getZombies() {
+        final List<Zombie> zombies = new ArrayList<>();
+        for (final ZombiesWorld world : getWorlds()) {
+            zombies.addAll(world.getZombies());
+        }
+        return zombies;
+    }
 
     private Gson createGson() {
         return new GsonBuilder()
@@ -95,7 +125,8 @@ public final class ZombiesPlugin extends JavaPlugin {
                     player.sendMessage(Component.text(e.getLocalizedMessage()));
                     return true;
                 }
-                ZombiesWorld.startGame(player.getWorld());
+                final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+                world.startGame();
             }
             case "clear" -> {
                 for (final World world : Bukkit.getWorlds()) {

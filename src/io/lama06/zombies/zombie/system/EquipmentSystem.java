@@ -14,8 +14,8 @@ import java.util.Map;
 public final class EquipmentSystem implements Listener {
     @EventHandler
     private void onSpawn(final ZombieSpawnEvent event) {
-        final Entity zombie = event.getZombie();
-        if (!(zombie instanceof final LivingEntity living)) {
+        final Entity entity = event.getZombie().getEntity();
+        if (!(entity instanceof final LivingEntity living)) {
             return;
         }
         final EntityEquipment equipment = living.getEquipment();

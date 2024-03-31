@@ -1,55 +1,71 @@
 package io.lama06.zombies.weapon;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.data.AttributeId;
+import io.lama06.zombies.data.Storage;
+import io.lama06.zombies.data.StorageSession;
+import io.lama06.zombies.player.ZombiesPlayer;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Contract;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class Weapon extends Storage {
+    public static final AttributeId<Boolean> IS_WEAPON = new AttributeId<>("is_weapon", PersistentDataType.BOOLEAN);
 
-public record Weapon(Player owner, int slot) {
+    @Contract("null -> false")
     public static boolean isWeapon(final ItemStack weapon) {
+        if (weapon == null) {
+            return false;
+        }
         final ItemMeta meta = weapon.getItemMeta();
         if (meta == null) {
             return false;
         }
-        return meta.getPersistentDataContainer().getOrDefault(WeaponAttributes.IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, false);
+        final PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        return pdc.getOrDefault(IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, false);
     }
 
-    public static Weapon getHeldWeapon(final Player player) {
-        final PlayerInventory inventory = player.getInventory();
-        final ItemStack item = inventory.getItemInMainHand();
-        if (!isWeapon(item)) {
-            return null;
-        }
-        return new Weapon(player, inventory.getHeldItemSlot());
+    private final ZombiesPlayer player;
+    private final int slot;
+
+    public Weapon(final ZombiesPlayer player, final int slot) {
+        this.player = player;
+        this.slot = slot;
     }
 
-    public static List<Weapon> getPlayerWeapons(final Player player) {
-        final PlayerInventory inventory = player.getInventory();
-        final List<Weapon> weapons = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            final ItemStack item = inventory.getItem(i);
-            if (item == null || !isWeapon(item)) {
-                continue;
-            }
-            weapons.add(new Weapon(player, i));
-        }
-        return weapons;
+    public ZombiesPlayer getPlayer() {
+        return player;
     }
 
-    public static List<Weapon> getAllWeapons() {
-        final List<Weapon> weapons = new ArrayList<>();
-        for (final Player player : Bukkit.getOnlinePlayers()) {
-            weapons.addAll(getPlayerWeapons(player));
-        }
-        return weapons;
+    public int getSlot() {
+        return slot;
     }
 
     public ItemStack getItem() {
-        return owner.getInventory().getItem(slot);
+        return player.getBukkit().getInventory().getItem(slot);
+    }
+
+    public ZombiesWorld getWorld() {
+        return new ZombiesWorld(player.getBukkit().getWorld());
+    }
+
+    @Override
+    protected StorageSession startSession() {
+        final ItemStack item = getItem();
+        final ItemMeta meta = item.getItemMeta();
+        final PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        return new StorageSession() {
+            @Override
+            public PersistentDataContainer getData() {
+                return pdc;
+            }
+
+            @Override
+            public void applyChanges() {
+                item.setItemMeta(meta);
+            }
+        };
     }
 }

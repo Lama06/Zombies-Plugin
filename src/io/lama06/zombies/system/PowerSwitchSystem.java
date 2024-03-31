@@ -1,30 +1,30 @@
 package io.lama06.zombies.system;
 
-import io.lama06.zombies.*;
+import io.lama06.zombies.WorldAttributes;
+import io.lama06.zombies.WorldConfig;
+import io.lama06.zombies.ZombiesPlugin;
+import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.GameStartEvent;
+import io.lama06.zombies.player.PlayerAttributes;
+import io.lama06.zombies.player.ZombiesPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 public final class PowerSwitchSystem implements Listener {
     @EventHandler
     private void disablePowerSwitchOnStart(final GameStartEvent event) {
-        final World world = event.getWorld();
+        final ZombiesWorld world = event.getWorld();
         final WorldConfig config = ZombiesPlugin.getConfig(world);
         if (config.powerSwitch == null) {
             return;
         }
-        config.powerSwitch.setActive(world, false);
-        final PersistentDataContainer pdc = world.getPersistentDataContainer();
-        pdc.set(WorldAttributes.POWER_SWITCH.getKey(), PersistentDataType.BOOLEAN, false);
+        config.powerSwitch.setActive(world.getBukkit(), false);
+        world.set(WorldAttributes.POWER_SWITCH, false);
     }
 
     @EventHandler
@@ -36,8 +36,8 @@ public final class PowerSwitchSystem implements Listener {
         if (clickedBlock == null) {
             return;
         }
-        final Player player = event.getPlayer();
-        final World world = player.getWorld();
+        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
+        final ZombiesWorld world = player.getWorld();
         final WorldConfig config = ZombiesPlugin.getConfig(world);
         if (config == null || config.powerSwitch == null) {
             return;
@@ -45,13 +45,8 @@ public final class PowerSwitchSystem implements Listener {
         if (!clickedBlock.getLocation().toBlock().equals(config.powerSwitch.position)) {
             return;
         }
-        final PersistentDataContainer playerPdc = player.getPersistentDataContainer();
-        final PersistentDataContainer worldPdc = world.getPersistentDataContainer();
-        final Boolean powerSwitchOn = worldPdc.get(WorldAttributes.POWER_SWITCH.getKey(), PersistentDataType.BOOLEAN);
-        final Integer gold = playerPdc.get(PlayerAttributes.GOLD.getKey(), PersistentDataType.INTEGER);
-        if (powerSwitchOn == null || gold == null) {
-            return;
-        }
+        final boolean powerSwitchOn = world.get(WorldAttributes.POWER_SWITCH);
+        final int gold = player.get(PlayerAttributes.GOLD);
         if (powerSwitchOn) {
             return;
         }
@@ -59,8 +54,8 @@ public final class PowerSwitchSystem implements Listener {
             player.sendMessage(Component.text("You don't have enough gold to open this door").color(NamedTextColor.RED));
             return;
         }
-        playerPdc.set(PlayerAttributes.GOLD.getKey(), PersistentDataType.INTEGER, gold - config.powerSwitch.gold);
-        world.showTitle(Title.title(Component.text(player.getName() + " activated the power switch"), Component.empty()));
-        worldPdc.set(WorldAttributes.POWER_SWITCH.getKey(), PersistentDataType.BOOLEAN, true);
+        player.set(PlayerAttributes.GOLD, gold - config.powerSwitch.gold);
+        world.showTitle(Title.title(Component.text(player.getBukkit().getName() + " activated the power switch"), Component.empty()));
+        world.set(WorldAttributes.POWER_SWITCH, true);
     }
 }

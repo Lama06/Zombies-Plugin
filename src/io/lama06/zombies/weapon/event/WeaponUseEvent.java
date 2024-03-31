@@ -1,6 +1,6 @@
 package io.lama06.zombies.weapon.event;
 
-import io.lama06.zombies.util.EventHandlerAccess;
+import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.weapon.Weapon;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -15,7 +15,7 @@ public abstract class WeaponUseEvent extends WeaponEvent implements Cancellable 
         super(weapon);
     }
 
-    @EventHandlerAccess
+    @HandlerListGetter
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }
