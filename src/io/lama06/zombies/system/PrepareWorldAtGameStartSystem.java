@@ -9,6 +9,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -47,6 +49,8 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
             bukkit.setGameMode(GameMode.ADVENTURE);
             bukkit.setLevel(0);
             bukkit.setExp(0);
+            bukkit.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
+            bukkit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 5));
             player.giveWeapon(0, WeaponType.KNIFE);
             player.giveWeapon(1, WeaponType.PISTOL);
             player.set(PlayerAttributes.KILLS, 0);

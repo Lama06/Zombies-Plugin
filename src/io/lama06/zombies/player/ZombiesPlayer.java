@@ -55,9 +55,9 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
     }
 
     public Weapon giveWeapon(final int slot, final WeaponType type) {
-        final ItemStack item = new ItemStack(type.data.material());
+        final ItemStack item = new ItemStack(type.data.material);
         final ItemMeta meta = item.getItemMeta();
-        meta.displayName(type.data.displayName());
+        meta.displayName(type.data.displayName);
         item.setItemMeta(meta);
         final PlayerInventory inventory = player.getInventory();
         inventory.setItem(slot, item);

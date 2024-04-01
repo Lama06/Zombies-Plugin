@@ -4,9 +4,12 @@ import io.lama06.zombies.*;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.List;
 
 public final class CleanupAfterGameSystem implements Listener {
     @EventHandler
@@ -37,6 +40,14 @@ public final class CleanupAfterGameSystem implements Listener {
             playerBukkit.getInventory().clear();
             playerBukkit.setLevel(0);
             playerBukkit.setExp(0);
+            playerBukkit.clearActivePotionEffects();
+            playerBukkit.setHealth(20);
+            playerBukkit.setFoodLevel(20);
+        }
+
+        final List<Zombie> zombies = world.getZombies();
+        for (final Zombie zombie : zombies) {
+            zombie.getEntity().remove();
         }
     }
 }

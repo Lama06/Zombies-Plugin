@@ -5,4 +5,5 @@ import org.bukkit.persistence.PersistentDataType;
 
 public final class ZombieAttributes {
     public static final AttributeId<Boolean> IS_ZOMBIE = new AttributeId<>("is_zombie", PersistentDataType.BOOLEAN);
+    public static final AttributeId<Boolean> FIRE_IMMUNE = new AttributeId<>("fire_immune", PersistentDataType.BOOLEAN);
 }

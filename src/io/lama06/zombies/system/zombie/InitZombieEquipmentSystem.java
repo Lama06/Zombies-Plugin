@@ -22,7 +22,7 @@ public final class InitZombieEquipmentSystem implements Listener {
         if (equipment == null) {
             return;
         }
-        final Map<EquipmentSlot, ItemStack> newEquipment = event.getData().equipment();
+        final Map<EquipmentSlot, ItemStack> newEquipment = event.getData().equipment;
         for (final EquipmentSlot slot : newEquipment.keySet()) {
             equipment.setItem(slot, newEquipment.get(slot));
         }

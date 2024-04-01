@@ -7,51 +7,41 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public record ZombieData(
-        EntityType entity,
-        int health,
-        Map<EquipmentSlot, ItemStack> equipment,
-        BreakWindowData breakWindow
-) {
-    public static Builder builder() {
-        return new Builder();
+public final class ZombieData {
+    public EntityType entity;
+    public int health;
+    public Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
+    public BreakWindowData breakWindow;
+    public boolean fireImmune;
+    public LaserAttackData laserAttack;
+
+    public ZombieData setEntity(final EntityType entity) {
+        this.entity = entity;
+        return this;
     }
 
-    public static final class Builder {
-        private EntityType entity;
-        private int health;
-        private final Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
-        private BreakWindowData breakWindow;
+    public ZombieData setHealth(final int health) {
+        this.health = health;
+        return this;
+    }
 
-        private Builder() { }
+    public ZombieData addEquipment(final EquipmentSlot slot, final ItemStack item) {
+        equipment.put(slot, item);
+        return this;
+    }
 
-        public ZombieData build() {
-            return new ZombieData(
-                    entity,
-                    health,
-                    equipment,
-                    breakWindow
-            );
-        }
+    public ZombieData setBreakWindow(final BreakWindowData breakWindow) {
+        this.breakWindow = breakWindow;
+        return this;
+    }
 
-        public Builder setEntity(final EntityType entity) {
-            this.entity = entity;
-            return this;
-        }
+    public ZombieData setFireImmune(final boolean fireImmune) {
+        this.fireImmune = fireImmune;
+        return this;
+    }
 
-        public Builder setHealth(final int health) {
-            this.health = health;
-            return this;
-        }
-
-        public Builder addEquipment(final EquipmentSlot slot, final ItemStack item) {
-            equipment.put(slot, item);
-            return this;
-        }
-
-        public Builder setBreakWindow(final BreakWindowData breakWindow) {
-            this.breakWindow = breakWindow;
-            return this;
-        }
+    public ZombieData setLaserAttack(final LaserAttackData laserAttack) {
+        this.laserAttack = laserAttack;
+        return this;
     }
 }

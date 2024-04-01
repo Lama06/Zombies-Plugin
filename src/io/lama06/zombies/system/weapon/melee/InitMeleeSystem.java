@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 public final class InitMeleeSystem implements Listener {
     @EventHandler
     private void onWeaponCreate(final WeaponCreateEvent event) {
-        final MeleeData data = event.getData().melee();
+        final MeleeData data = event.getData().melee;
         if (data == null) {
             return;
         }

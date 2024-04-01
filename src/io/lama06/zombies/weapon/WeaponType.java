@@ -7,7 +7,7 @@ import org.bukkit.Particle;
 
 public enum WeaponType implements MenuDisplayableEnum {
     KNIFE(
-            WeaponData.builder()
+            new WeaponData()
                     .setDisplayName(Component.text("Knife"))
                     .setMaterial(Material.IRON_SWORD)
                     .setDelay(30)
@@ -15,7 +15,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setAttack(new AttackData(5, false, 10))
     ),
     PISTOL(
-            WeaponData.builder()
+            new WeaponData()
                     .setDisplayName(Component.text("Pistol"))
                     .setMaterial(Material.WOODEN_HOE)
                     .setAmmo(new AmmoData(100, 10))
@@ -28,17 +28,17 @@ public enum WeaponType implements MenuDisplayableEnum {
 
     public final WeaponData data;
 
-    WeaponType(final WeaponData.Builder data) {
-        this.data = data.build();
+    WeaponType(final WeaponData data) {
+        this.data = data;
     }
 
     @Override
     public Component getDisplayName() {
-        return data.displayName();
+        return data.displayName;
     }
 
     @Override
     public Material getMaterial() {
-        return data.material();
+        return data.material;
     }
 }

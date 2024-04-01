@@ -15,11 +15,12 @@ import io.lama06.zombies.system.weapon.melee.InitMeleeSystem;
 import io.lama06.zombies.system.weapon.melee.RenderMeleeLoreSystem;
 import io.lama06.zombies.system.weapon.reload.*;
 import io.lama06.zombies.system.weapon.shoot.*;
-import io.lama06.zombies.system.zombie.DamageZombieAfterAttackSystem;
-import io.lama06.zombies.system.zombie.InitZombieEquipmentSystem;
-import io.lama06.zombies.system.zombie.InitZombieHealthSystem;
-import io.lama06.zombies.system.zombie.SpawnZombiesSystem;
+import io.lama06.zombies.system.zombie.*;
 import io.lama06.zombies.system.zombie.break_window.*;
+import io.lama06.zombies.system.zombie.laser_attack.InitLaserAttackSystem;
+import io.lama06.zombies.system.zombie.laser_attack.LaserAttackDamageSystem;
+import io.lama06.zombies.system.zombie.laser_attack.MoveLaserAttackGuardianSystem;
+import io.lama06.zombies.system.zombie.laser_attack.RemoveLaserAttackGuardianSystem;
 import org.bukkit.event.Listener;
 
 public final class Systems {
@@ -89,6 +90,7 @@ public final class Systems {
             new DamageZombieAfterAttackSystem(),
             new InitZombieEquipmentSystem(),
             new InitZombieHealthSystem(),
+            new PreventFireWhenImmuneSystem(),
             new SpawnZombiesSystem(),
 
             // Break Window
@@ -97,7 +99,13 @@ public final class Systems {
             new InitWindowBreakingSystem(),
             new PlaySoundDuringWindowBreakingSystem(),
             new StartWindowBreakingSystem(),
-            new TickWindowBreakingSystem()
+            new TickWindowBreakingSystem(),
+
+            // Laser Attack
+            new InitLaserAttackSystem(),
+            new LaserAttackDamageSystem(),
+            new MoveLaserAttackGuardianSystem(),
+            new RemoveLaserAttackGuardianSystem()
     };
 
     private Systems() { }

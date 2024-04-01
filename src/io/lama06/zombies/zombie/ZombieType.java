@@ -7,13 +7,14 @@ import org.bukkit.inventory.ItemStack;
 
 public enum ZombieType {
     NORMAL_EASY(
-            ZombieData.builder()
+            new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
                     .setBreakWindow(new BreakWindowData(5*20, 3))
                     .setHealth(10)
+                    .setLaserAttack(new LaserAttackData(1))
     ),
     NORMAL_MEDIUM(
-            ZombieData.builder()
+            new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
                     .addEquipment(EquipmentSlot.CHEST, new ItemStack(Material.LEATHER_CHESTPLATE))
                     .addEquipment(EquipmentSlot.FEET, new ItemStack(Material.LEATHER_BOOTS))
@@ -21,7 +22,7 @@ public enum ZombieType {
                     .setHealth(20)
     ),
     NORMAL_HARD(
-            ZombieData.builder()
+            new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
                     .addEquipment(EquipmentSlot.CHEST, new ItemStack(Material.IRON_CHESTPLATE))
                     .addEquipment(EquipmentSlot.LEGS, new ItemStack(Material.IRON_LEGGINGS))
@@ -32,7 +33,7 @@ public enum ZombieType {
 
     public final ZombieData data;
 
-    ZombieType(final ZombieData.Builder data) {
-        this.data = data.build();
+    ZombieType(final ZombieData data) {
+        this.data = data;
     }
 }

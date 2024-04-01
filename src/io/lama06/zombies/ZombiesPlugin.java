@@ -130,6 +130,10 @@ public final class ZombiesPlugin extends JavaPlugin {
                 final ZombiesWorld world = new ZombiesWorld(player.getWorld());
                 world.startGame();
             }
+            case "stop" -> {
+                final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+                world.endGame();
+            }
             case "clear" -> {
                 for (final World world : Bukkit.getWorlds()) {
                     for (final NamespacedKey key : world.getPersistentDataContainer().getKeys()) {

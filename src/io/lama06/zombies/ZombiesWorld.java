@@ -55,7 +55,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     }
 
     public Zombie spawnZombie(final Location location, final ZombieData data) {
-        final Entity entity = world.spawnEntity(location, data.entity(), false);
+        final Entity entity = world.spawnEntity(location, data.entity, false);
         final Zombie zombie = new Zombie(entity);
         zombie.set(ZombieAttributes.IS_ZOMBIE, true);
         Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie, data));

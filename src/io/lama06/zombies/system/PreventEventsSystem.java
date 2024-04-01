@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
@@ -53,5 +54,15 @@ public final class PreventEventsSystem implements Listener {
             return;
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onEntityDeath(final EntityDeathEvent event) {
+        final ZombiesWorld world = new ZombiesWorld(event.getEntity().getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.setDroppedExp(0);
+        event.getDrops().clear();
     }
 }

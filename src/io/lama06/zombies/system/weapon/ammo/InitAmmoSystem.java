@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 public final class InitAmmoSystem implements Listener {
     @EventHandler
     private void onWeaponCreate(final WeaponCreateEvent event) {
-        final AmmoData data = event.getData().ammo();
+        final AmmoData data = event.getData().ammo;
         if (data == null) {
             return;
         }

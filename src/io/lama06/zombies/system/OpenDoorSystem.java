@@ -23,7 +23,7 @@ public final class OpenDoorSystem implements Listener {
         }
         final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
         final ZombiesWorld world = player.getWorld();
-        if (!world.isGameRunning()) {
+        if (!world.isGameRunning() || !player.isAlive()) {
             return;
         }
         final WorldConfig config = world.getConfig();

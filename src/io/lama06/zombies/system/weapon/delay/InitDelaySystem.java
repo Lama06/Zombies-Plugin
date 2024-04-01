@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 public final class InitDelaySystem implements Listener {
     @EventHandler
     private void onWeaponCreate(final WeaponCreateEvent event) {
-        final Integer delay = event.getData().delay();
+        final Integer delay = event.getData().delay;
         if (delay == null) {
             return;
         }

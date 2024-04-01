@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 public final class InitReloadSystem implements Listener {
     @EventHandler
     private void onWeaponCreate(final WeaponCreateEvent event) {
-        final Integer reload = event.getData().reload();
+        final Integer reload = event.getData().reload;
         if (reload == null) {
             return;
         }

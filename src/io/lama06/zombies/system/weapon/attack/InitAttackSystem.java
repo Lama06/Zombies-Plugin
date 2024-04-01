@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 public final class InitAttackSystem implements Listener {
     @EventHandler
     private void onWeaponCreate(final WeaponCreateEvent event) {
-        final AttackData data = event.getData().attack();
+        final AttackData data = event.getData().attack;
         if (data == null) {
             return;
         }

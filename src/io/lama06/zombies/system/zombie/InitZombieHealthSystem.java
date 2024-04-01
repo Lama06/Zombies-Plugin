@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 public final class InitZombieHealthSystem implements Listener {
     @EventHandler
     private void onSpawn(final ZombieSpawnEvent event) {
-        final int health = event.getData().health();
+        final int health = event.getData().health;
         final Entity entity = event.getZombie().getEntity();
         if (!(entity instanceof final Attributable attributable)) {
             return;

@@ -17,6 +17,9 @@ public final class DetectPlayerKillsZombieSystem implements Listener {
         if (!zombie.isZombie()) {
             return;
         }
+        if (entity.getKiller() == null) {
+            return;
+        }
         final ZombiesPlayer killer = new ZombiesPlayer(entity.getKiller());
         Bukkit.getPluginManager().callEvent(new PlayerKillZombieEvent(killer, zombie));
     }

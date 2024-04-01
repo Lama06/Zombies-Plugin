@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 public final class InitWindowBreakingSystem implements Listener {
     @EventHandler
     private void onZombieSpawn(final ZombieSpawnEvent event) {
-        final BreakWindowData data = event.getData().breakWindow();
+        final BreakWindowData data = event.getData().breakWindow;
         if (data == null) {
             return;
         }

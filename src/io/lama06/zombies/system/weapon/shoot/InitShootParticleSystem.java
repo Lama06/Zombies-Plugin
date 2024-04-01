@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 public final class InitShootParticleSystem implements Listener {
     @EventHandler
     private void onWeaponCreate(final WeaponCreateEvent event) {
-        final ShootParticleData data = event.getData().shootParticle();
+        final ShootParticleData data = event.getData().shootParticle;
         if (data == null) {
             return;
         }

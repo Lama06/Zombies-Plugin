@@ -5,6 +5,7 @@ import io.lama06.zombies.Window;
 import io.lama06.zombies.WorldConfig;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.papermc.paper.math.BlockPosition;
@@ -18,7 +19,8 @@ import org.bukkit.event.Listener;
 import java.util.List;
 
 public final class RepairWindowSystem implements Listener {
-    private static final int DELAY = 30;
+    private static final int DELAY = 3 * 20;
+    private static final int GOLD = 10;
 
     @EventHandler
     private void onServerTick(final ServerTickEndEvent event) {
@@ -53,7 +55,9 @@ public final class RepairWindowSystem implements Listener {
             player.sendMessage(Component.text("Window Repaired: +10 Gold").color(NamedTextColor.GOLD));
             world.getBukkit().playSound(block.getLocation(), Sound.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 1);
             final int gold = player.get(PlayerAttributes.GOLD);
-            player.set(PlayerAttributes.GOLD, gold + 10);
+            final int newGold = gold + GOLD;
+            player.set(PlayerAttributes.GOLD, newGold);
+            Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, newGold));
             return;
         }
     }
