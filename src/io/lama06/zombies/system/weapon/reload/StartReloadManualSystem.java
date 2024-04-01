@@ -1,12 +1,12 @@
 package io.lama06.zombies.system.weapon.reload;
 
 import io.lama06.zombies.data.Component;
+import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.weapon.AmmoAttributes;
 import io.lama06.zombies.weapon.ReloadAttributes;
-import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
+import io.lama06.zombies.weapon.Weapon;
+import io.lama06.zombies.weapon.WeaponComponents;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,10 +18,10 @@ public final class StartReloadManualSystem implements Listener {
         if (!event.getAction().isRightClick()) {
             return;
         }
-        if (!ZombiesPlayer.isZombiesPlayer(event.getPlayer())) {
+        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
+        if (!player.getWorld().isGameRunning() || !player.isAlive()) {
             return;
         }
-        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
         final Weapon weapon = player.getHeldWeapon();
         if (weapon == null) {
             return;

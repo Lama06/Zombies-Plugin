@@ -10,6 +10,7 @@ import io.lama06.zombies.weapon.WeaponType;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -22,10 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 public final class ZombiesPlayer extends Storage implements ForwardingAudience {
-    public static boolean isZombiesPlayer(final Player player) {
-        return player != null && ZombiesWorld.isGameWorld(player.getWorld());
-    }
-
     private final Player player;
 
     public ZombiesPlayer(final Player player) {
@@ -69,6 +66,10 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
         weapon.set(WeaponAttributes.TYPE, type);
         Bukkit.getPluginManager().callEvent(new WeaponCreateEvent(weapon, type.data));
         return weapon;
+    }
+
+    public boolean isAlive() {
+        return player.getGameMode() == GameMode.ADVENTURE;
     }
 
     @Override

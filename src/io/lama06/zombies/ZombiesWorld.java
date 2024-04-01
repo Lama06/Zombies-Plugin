@@ -1,64 +1,72 @@
 package io.lama06.zombies;
 
-import io.lama06.zombies.data.AttributeId;
 import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
+import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.zombie.Zombie;
+import io.lama06.zombies.zombie.ZombieAttributes;
 import io.lama06.zombies.zombie.ZombieData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public final class ZombiesWorld extends Storage implements ForwardingAudience {
-    public static final AttributeId<Boolean> IS_GAME = new AttributeId<>("is_game", PersistentDataType.BOOLEAN);
-
-    public static boolean isGameWorld(final World world) {
-        return world.getPersistentDataContainer().getOrDefault(IS_GAME.getKey(), PersistentDataType.BOOLEAN, false);
-    }
-
     private final World world;
 
     public ZombiesWorld(final World world) {
         this.world = world;
     }
 
+    public boolean isGameRunning() {
+        return getOrDefault(WorldAttributes.GAME_RUNNING, false);
+    }
+
+    public boolean isZombiesWorld() {
+        return ZombiesPlugin.INSTANCE.isZombiesWorld(this);
+    }
+
+    public WorldConfig getConfig() {
+        return ZombiesPlugin.INSTANCE.getConfig(this);
+    }
+
     public void startGame() {
-        final PersistentDataContainer pdc = world.getPersistentDataContainer();
-        pdc.set(IS_GAME.getKey(), PersistentDataType.BOOLEAN, true);
+        set(WorldAttributes.GAME_RUNNING, true);
         Bukkit.getPluginManager().callEvent(new GameStartEvent(this));
     }
 
+    public void endGame() {
+        set(WorldAttributes.GAME_RUNNING, false);
+        Bukkit.getPluginManager().callEvent(new GameEndEvent(this));
+    }
+
     public List<Zombie> getZombies() {
-        final List<Zombie> zombies = new ArrayList<>();
-        for (final Entity entity : world.getEntities()) {
-            if (!Zombie.isZombie(entity)) {
-                continue;
-            }
-            zombies.add(new Zombie(entity));
-        }
-        return zombies;
+        return world.getEntities().stream().map(Zombie::new).filter(Zombie::isZombie).toList();
     }
 
     public Zombie spawnZombie(final Location location, final ZombieData data) {
         final Entity entity = world.spawnEntity(location, data.entity(), false);
-        final PersistentDataContainer pdc = entity.getPersistentDataContainer();
-        pdc.set(Zombie.IS_ZOMBIE.getKey(), PersistentDataType.BOOLEAN, true);
         final Zombie zombie = new Zombie(entity);
+        zombie.set(ZombieAttributes.IS_ZOMBIE, true);
         Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie, data));
         return zombie;
+    }
+
+    public List<ZombiesPlayer> getAlivePlayers() {
+        return world.getPlayers().stream()
+                .filter(player -> player.getGameMode() == GameMode.ADVENTURE)
+                .map(ZombiesPlayer::new)
+                .toList();
     }
 
     public List<ZombiesPlayer> getPlayers() {

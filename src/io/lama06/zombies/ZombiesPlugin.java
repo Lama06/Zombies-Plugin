@@ -26,41 +26,43 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public final class ZombiesPlugin extends JavaPlugin {
     public static ZombiesPlugin INSTANCE;
 
-    public static WorldConfig getConfig(final ZombiesWorld world) {
-        return INSTANCE.config;
-    }
-
     private WorldConfig config = new WorldConfig();
 
-    public List<ZombiesWorld> getWorlds() {
-        return Bukkit.getWorlds().stream().filter(ZombiesWorld::isGameWorld).map(ZombiesWorld::new).toList();
-    }
-
-    public List<ZombiesPlayer> getPlayers() {
-        return getWorlds().stream().map(ZombiesWorld::getPlayers).flatMap(Collection::stream).toList();
-    }
-
-    public @NotNull List<Weapon> getWeapons() {
-        final List<Weapon> weapons = new ArrayList<>();
-        for (final ZombiesPlayer player : getPlayers()) {
-            weapons.addAll(player.getWeapons());
+    public WorldConfig getConfig(final ZombiesWorld world) {
+        if (world.getBukkit().getName().equals("world")) {
+            return config;
         }
-        return weapons;
+        return null;
+    }
+
+    public boolean isZombiesWorld(final ZombiesWorld world) {
+        return getConfig(world) != null;
+    }
+
+    public List<ZombiesWorld> getWorlds() {
+        return Bukkit.getWorlds().stream().map(ZombiesWorld::new).filter(ZombiesWorld::isZombiesWorld).toList();
+    }
+
+    public List<ZombiesWorld> getGameWorlds() {
+        return Bukkit.getWorlds().stream().map(ZombiesWorld::new).filter(ZombiesWorld::isGameRunning).toList();
+    }
+
+    public List<ZombiesPlayer> getAlivePlayers() {
+        return getGameWorlds().stream().map(ZombiesWorld::getAlivePlayers).flatMap(Collection::stream).toList();
+    }
+
+    public List<Weapon> getWeapons() {
+        return getAlivePlayers().stream().map(ZombiesPlayer::getWeapons).flatMap(Collection::stream).toList();
     }
 
     public List<Zombie> getZombies() {
-        final List<Zombie> zombies = new ArrayList<>();
-        for (final ZombiesWorld world : getWorlds()) {
-            zombies.addAll(world.getZombies());
-        }
-        return zombies;
+        return getGameWorlds().stream().map(ZombiesWorld::getZombies).flatMap(Collection::stream).toList();
     }
 
     private Gson createGson() {

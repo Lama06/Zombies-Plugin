@@ -12,7 +12,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 public final class PreventEventsSystem implements Listener {
     @EventHandler
     private void onPlayerBreakBlockEvent(final BlockBreakEvent event) {
-        if (!ZombiesWorld.isGameWorld(event.getPlayer().getWorld())) {
+        final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
+        if (!world.isZombiesWorld()) {
             return;
         }
         event.setCancelled(true);
@@ -20,7 +21,8 @@ public final class PreventEventsSystem implements Listener {
 
     @EventHandler
     private void onBlockPlaceEvent(final BlockPlaceEvent event) {
-        if (!ZombiesWorld.isGameWorld(event.getPlayer().getWorld())) {
+        final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
+        if (!world.isZombiesWorld()) {
             return;
         }
         event.setCancelled(true);
@@ -28,7 +30,8 @@ public final class PreventEventsSystem implements Listener {
 
     @EventHandler
     private void onPlayerDamageEntityEvent(final PrePlayerAttackEntityEvent event) {
-        if (!ZombiesWorld.isGameWorld(event.getPlayer().getWorld())) {
+        final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
+        if (!world.isZombiesWorld()) {
             return;
         }
         event.setCancelled(true);
@@ -36,7 +39,8 @@ public final class PreventEventsSystem implements Listener {
 
     @EventHandler
     private void onPlayerDropsItem(final PlayerDropItemEvent event) {
-        if (!ZombiesWorld.isGameWorld(event.getPlayer().getWorld())) {
+        final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
+        if (!world.isZombiesWorld()) {
             return;
         }
         event.setCancelled(true);
@@ -44,7 +48,8 @@ public final class PreventEventsSystem implements Listener {
 
     @EventHandler
     private void onFoodLevelChange(final FoodLevelChangeEvent event) {
-        if (!ZombiesWorld.isGameWorld(event.getEntity().getWorld())) {
+        final ZombiesWorld world = new ZombiesWorld(event.getEntity().getWorld());
+        if (!world.isZombiesWorld()) {
             return;
         }
         event.setCancelled(true);

@@ -39,10 +39,10 @@ public final class FireBulletsSystem implements Listener {
     }
 
     private void onLeftClick(final Player bukkit) {
-        if (!ZombiesPlayer.isZombiesPlayer(bukkit)) {
+        final ZombiesPlayer player = new ZombiesPlayer(bukkit);
+        if (!player.getWorld().isGameRunning() || !player.isAlive()) {
             return;
         }
-        final ZombiesPlayer player = new ZombiesPlayer(bukkit);
         final Weapon weapon = player.getHeldWeapon();
         if (weapon == null) {
             return;
@@ -82,9 +82,10 @@ public final class FireBulletsSystem implements Listener {
             return;
         }
         final Entity entity = ray.getHitEntity();
-        if (!Zombie.isZombie(entity)) {
+        final Zombie zombie = new Zombie(entity);
+        if (!zombie.isZombie()) {
             return;
         }
-        Bukkit.getPluginManager().callEvent(new PlayerAttackZombieEvent(weapon, new Zombie(entity)));
+        Bukkit.getPluginManager().callEvent(new PlayerAttackZombieEvent(weapon, zombie));
     }
 }

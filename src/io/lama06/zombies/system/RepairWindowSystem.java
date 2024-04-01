@@ -25,14 +25,14 @@ public final class RepairWindowSystem implements Listener {
         if (Bukkit.getCurrentTick() % DELAY != 0) {
             return;
         }
-        final List<ZombiesPlayer> players = ZombiesPlugin.INSTANCE.getPlayers();
+        final List<ZombiesPlayer> players = ZombiesPlugin.INSTANCE.getAlivePlayers();
         for (final ZombiesPlayer player : players) {
             if (!player.getBukkit().isSneaking()) {
                 continue;
             }
             final Location playerLocation = player.getBukkit().getLocation();
             final ZombiesWorld world = player.getWorld();
-            final WorldConfig config = ZombiesPlugin.getConfig(world);
+            final WorldConfig config = world.getConfig();
             for (final Window window : config.windows) {
                 if (!window.repairArea.containsBlock(playerLocation.toBlock())) {
                     continue;

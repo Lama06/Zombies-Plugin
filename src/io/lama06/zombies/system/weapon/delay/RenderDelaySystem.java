@@ -13,10 +13,11 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 public final class RenderDelaySystem implements Listener {
     @EventHandler
     private void onPlayerItemHeld(final PlayerItemHeldEvent event) {
-        if (!ZombiesPlayer.isZombiesPlayer(event.getPlayer())) {
+        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
+        if (!player.getWorld().isGameRunning() || !player.isAlive()) {
             return;
         }
-        renderDelay(new ZombiesPlayer(event.getPlayer()), event.getNewSlot());
+        renderDelay(player, event.getNewSlot());
     }
 
     @EventHandler

@@ -50,7 +50,7 @@ public final class StartWindowBreakingSystem implements Listener {
         final ZombiesWorld world = zombie.getWorld();
         BlockPosition nearestWindowBlock = null;
         double smallestDistance = Double.POSITIVE_INFINITY;
-        for (final Window window : ZombiesPlugin.getConfig(world).windows) {
+        for (final Window window : world.getConfig().windows) {
             for (final BlockPosition windowBlockPos : window.blocks.getBlocks()) {
                 final Block block = windowBlockPos.toLocation(world.getBukkit()).getBlock();
                 if (block.getType() == Material.AIR) {

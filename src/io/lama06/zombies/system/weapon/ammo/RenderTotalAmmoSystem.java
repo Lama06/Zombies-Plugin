@@ -1,5 +1,6 @@
 package io.lama06.zombies.system.weapon.ammo;
 
+import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;
@@ -14,7 +15,9 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 public final class RenderTotalAmmoSystem implements Listener {
     @EventHandler
     private void onPlayerItemHeld(final PlayerItemHeldEvent event) {
-        if (!ZombiesPlayer.isZombiesPlayer(event.getPlayer())) {
+        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
+        final ZombiesWorld world = player.getWorld();
+        if (!world.isGameRunning() || !player.isAlive()) {
             return;
         }
         renderTotalAmmo(new ZombiesPlayer(event.getPlayer()), event.getNewSlot());

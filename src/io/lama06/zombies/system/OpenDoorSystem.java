@@ -8,7 +8,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -23,12 +22,11 @@ public final class OpenDoorSystem implements Listener {
             return;
         }
         final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
-        final World bukkitWorld = event.getPlayer().getWorld();
-        if (!ZombiesWorld.isGameWorld(bukkitWorld)) {
+        final ZombiesWorld world = player.getWorld();
+        if (!world.isGameRunning()) {
             return;
         }
-        final ZombiesWorld world = new ZombiesWorld(bukkitWorld);
-        final WorldConfig config = ZombiesPlugin.getConfig(world);
+        final WorldConfig config = world.getConfig();
         if (config == null) {
             return;
         }

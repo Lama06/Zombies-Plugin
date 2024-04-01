@@ -13,10 +13,10 @@ public final class CancelMovementDuringWindowBreakingSystem implements Listener 
     @EventHandler(ignoreCancelled = true)
     private void onEntityMove(final EntityMoveEvent event) {
         final Entity entity = event.getEntity();
-        if (!Zombie.isZombie(entity)) {
+        final Zombie zombie = new Zombie(entity);
+        if (!zombie.isZombie()) {
             return;
         }
-        final Zombie zombie = new Zombie(entity);
         final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
         if (breakWindowComponent == null) {
             return;

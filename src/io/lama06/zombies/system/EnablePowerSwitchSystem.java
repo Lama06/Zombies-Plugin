@@ -2,7 +2,6 @@ package io.lama06.zombies.system;
 
 import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.WorldConfig;
-import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
@@ -26,8 +25,11 @@ public final class EnablePowerSwitchSystem implements Listener {
         }
         final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
         final ZombiesWorld world = player.getWorld();
-        final WorldConfig config = ZombiesPlugin.getConfig(world);
-        if (config == null || config.powerSwitch == null) {
+        if (!world.isGameRunning()) {
+            return;
+        }
+        final WorldConfig config = world.getConfig();
+        if (config.powerSwitch == null) {
             return;
         }
         if (!clickedBlock.getLocation().toBlock().equals(config.powerSwitch.position)) {

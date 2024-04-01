@@ -18,7 +18,7 @@ import java.util.random.RandomGenerator;
 public final class SpawnZombiesSystem implements Listener {
     @EventHandler
     private void onServerTick(final ServerTickEndEvent event) {
-        for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getWorlds()) {
+        for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getGameWorlds()) {
             final int round = world.get(WorldAttributes.ROUND);
             final int nextZombieTime = world.get(WorldAttributes.NEXT_ZOMBIE_TIME);
             if (nextZombieTime > 0) {
@@ -58,7 +58,7 @@ public final class SpawnZombiesSystem implements Listener {
     }
 
     private List<Window> getAvailableWindows(final ZombiesWorld world) {
-        final WorldConfig config = ZombiesPlugin.getConfig(world);
+        final WorldConfig config = world.getConfig();
         if (config == null) {
             return null;
         }

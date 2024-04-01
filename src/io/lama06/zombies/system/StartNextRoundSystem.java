@@ -17,7 +17,7 @@ import java.util.List;
 public final class StartNextRoundSystem implements Listener {
     @EventHandler
     private void onServerTick(final ServerTickEndEvent event) {
-        for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getWorlds()) {
+        for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getGameWorlds()) {
             final List<Zombie> zombies = world.getZombies();
             if (!zombies.isEmpty()) {
                 continue;

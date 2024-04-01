@@ -11,7 +11,7 @@ public final class CloseDoorsOnStartSystem implements Listener {
     @EventHandler
     private void onGameStart(final GameStartEvent event) {
         final ZombiesWorld world = event.getWorld();
-        final WorldConfig config = ZombiesPlugin.getConfig(world);
+        final WorldConfig config = world.getConfig();
         for (final Door door : config.doors) {
             door.setOpen(world, false);
         }
