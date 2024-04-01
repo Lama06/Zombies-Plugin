@@ -1,6 +1,6 @@
 package io.lama06.zombies.system.zombie;
 
-import io.lama06.zombies.event.PlayerAttackZombieEvent;
+import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;

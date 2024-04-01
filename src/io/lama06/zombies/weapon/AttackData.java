@@ -1,3 +1,3 @@
 package io.lama06.zombies.weapon;
 
-public record AttackData(double damage, boolean fire) { }
+public record AttackData(double damage, boolean fire, int gold) { }

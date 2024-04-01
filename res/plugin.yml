@@ -5,3 +5,8 @@ main: io.lama06.zombies.ZombiesPlugin
 commands:
   zombies:
     description: Command of the Zombies plugin
+    permission: zombies
+permissions:
+  zombies:
+    default: op
+    description: Gives access to the Zombies Plugin's command

@@ -1,8 +1,12 @@
-package io.lama06.zombies.system;
+package io.lama06.zombies.system.player;
 
 import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.GameStartEvent;
+import io.lama06.zombies.event.StartRoundEvent;
+import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
+import io.lama06.zombies.event.player.PlayerKillZombieEvent;
+import io.lama06.zombies.event.player.PlayerKillsIncrementEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.papermc.paper.scoreboard.numbers.NumberFormat;
@@ -55,15 +59,9 @@ public final class RenderScoreboardSystem implements Listener {
     private static void updateSidebar(final ZombiesPlayer player, final Scoreboard scoreboard) {
         final String SIDEBAR_OBJECTIVE_NAME = "sidebar";
 
-        final Objective existingSidebarObjective = scoreboard.getObjective(SIDEBAR_OBJECTIVE_NAME);
-        final Objective sidebarObjective;
-        if (existingSidebarObjective != null) {
-            sidebarObjective = existingSidebarObjective;
-        } else {
-            final Component heading = Component.text("ZOMBIES").decorate(TextDecoration.BOLD).color(NamedTextColor.YELLOW);
-            sidebarObjective = scoreboard.registerNewObjective(SIDEBAR_OBJECTIVE_NAME, Criteria.DUMMY, heading);
-            sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        }
+        final Component heading = Component.text("ZOMBIES").decorate(TextDecoration.BOLD).color(NamedTextColor.YELLOW);
+        final Objective sidebarObjective = scoreboard.registerNewObjective(SIDEBAR_OBJECTIVE_NAME, Criteria.DUMMY, heading);
+        sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         final List<Component> content = getSidebarContent(player);
         for (int i = 0; i < content.size(); i++) {
@@ -76,18 +74,67 @@ public final class RenderScoreboardSystem implements Listener {
         }
     }
 
+    private static void updateTabList(final ZombiesPlayer player, final Scoreboard scoreboard) {
+        final String TAB_LIST_OBJECTIVE_NAME = "tab_list";
+
+        final Objective tabListObjective = scoreboard.registerNewObjective(TAB_LIST_OBJECTIVE_NAME, Criteria.DUMMY, Component.empty());
+        tabListObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
+        final ZombiesWorld world = player.getWorld();
+        for (final ZombiesPlayer otherPlayer : world.getPlayers()) {
+            final int kills = otherPlayer.get(PlayerAttributes.KILLS);
+            final Score score = tabListObjective.getScore(player.getBukkit());
+            score.setScore(kills);
+        }
+    }
+
+    private static void updateBelowName(final Scoreboard scoreboard) {
+        final String BELOW_NAME_OBJECTIVE_NAME = "below_name";
+
+        final Objective belowNameObjective = scoreboard.registerNewObjective(BELOW_NAME_OBJECTIVE_NAME, Criteria.HEALTH, Component.empty());
+        belowNameObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        belowNameObjective.setRenderType(RenderType.HEARTS);
+        belowNameObjective.setAutoUpdateDisplay(true);
+    }
+
     public static void updateScoreboard(final ZombiesPlayer player) {
         final ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
         final Player bukkit = player.getBukkit();
         final Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
         bukkit.setScoreboard(scoreboard);
         updateSidebar(player, scoreboard);
+        updateTabList(player, scoreboard);
+        updateBelowName(scoreboard);
+    }
+
+    private static void updateScoreboard(final ZombiesWorld world) {
+        for (final ZombiesPlayer player : world.getPlayers()) {
+            updateScoreboard(player);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    private void createScoreboardOnGameStart(final GameStartEvent event) {
-        for (final ZombiesPlayer player : event.getWorld().getPlayers()) {
-            updateScoreboard(player);
-        }
+    private void onGameStart(final GameStartEvent event) {
+        updateScoreboard(event.getWorld());
+    }
+
+    @EventHandler
+    private void onPlayerKillsIncrement(final PlayerKillsIncrementEvent event) {
+        updateScoreboard(event.getWorld());
+    }
+
+    @EventHandler
+    private void onPlayerGoldChangeEvent(final PlayerGoldChangeEvent event) {
+        updateScoreboard(event.getWorld());
+    }
+
+    @EventHandler
+    private void onPlayerKillsZombie(final PlayerKillZombieEvent event) {
+        updateScoreboard(event.getWorld());
+    }
+
+    @EventHandler
+    private void onRoundStart(final StartRoundEvent event) {
+        updateScoreboard(event.getWorld());
     }
 }

@@ -1,9 +1,13 @@
 package io.lama06.zombies;
 
 import io.lama06.zombies.system.*;
+import io.lama06.zombies.system.player.DetectPlayerKillsZombieSystem;
+import io.lama06.zombies.system.player.IncrementPlayerKillsSystem;
+import io.lama06.zombies.system.player.RenderScoreboardSystem;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
 import io.lama06.zombies.system.weapon.ammo.*;
 import io.lama06.zombies.system.weapon.attack.ApplyAttackDamageSystem;
+import io.lama06.zombies.system.weapon.attack.GiveGoldAfterAttackSystem;
 import io.lama06.zombies.system.weapon.attack.InitAttackSystem;
 import io.lama06.zombies.system.weapon.delay.*;
 import io.lama06.zombies.system.weapon.melee.AttackMeleeSystem;
@@ -25,9 +29,13 @@ public final class Systems {
             new InitRoundsSystem(),
             new OpenDoorSystem(),
             new PreventEventsSystem(),
-            new RenderScoreboardSystem(),
             new RepairWindowSystem(),
             new StartNextRoundSystem(),
+
+            // Player
+            new DetectPlayerKillsZombieSystem(),
+            new IncrementPlayerKillsSystem(),
+            new RenderScoreboardSystem(),
 
             // Weapon
             new RenderWeaponLoreSystem(),
@@ -43,6 +51,7 @@ public final class Systems {
 
             // Attack
             new ApplyAttackDamageSystem(),
+            new GiveGoldAfterAttackSystem(),
             new InitAttackSystem(),
             new RenderAmmoLoreSystem(),
 

@@ -20,5 +20,6 @@ public final class InitAttackSystem implements Listener {
         final Component attackComponent = weapon.addComponent(WeaponComponents.ATTACK);
         attackComponent.set(AttackAttributes.DAMAGE, data.damage());
         attackComponent.set(AttackAttributes.FIRE, data.fire());
+        attackComponent.set(AttackAttributes.GOLD, data.gold());
     }
 }

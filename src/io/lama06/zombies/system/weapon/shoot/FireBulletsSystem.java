@@ -1,7 +1,7 @@
 package io.lama06.zombies.system.weapon.shoot;
 
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.event.PlayerAttackZombieEvent;
+import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.VectorUtil;
 import io.lama06.zombies.weapon.Weapon;

@@ -1,4 +1,4 @@
-package io.lama06.zombies.event;
+package io.lama06.zombies.event.player;
 
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.HandlerListGetter;
@@ -8,7 +8,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public final class PlayerAttackZombieEvent extends ZombiesEvent implements Cancellable {
+public final class PlayerAttackZombieEvent extends PlayerEvent implements Cancellable {
     public static final HandlerList HANDLERS = new HandlerList();
 
     @HandlerListGetter
@@ -24,7 +24,7 @@ public final class PlayerAttackZombieEvent extends ZombiesEvent implements Cance
     private double damageModifier = 1;
 
     public PlayerAttackZombieEvent(final Weapon weapon, final Zombie zombie) {
-        super(weapon.getWorld());
+        super(weapon.getPlayer());
         this.zombie = zombie;
         this.weapon = weapon;
     }

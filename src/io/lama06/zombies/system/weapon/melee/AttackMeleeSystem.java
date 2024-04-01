@@ -1,7 +1,7 @@
 package io.lama06.zombies.system.weapon.melee;
 
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.event.PlayerAttackZombieEvent;
+import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.event.weapon.WeaponMeleeEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;

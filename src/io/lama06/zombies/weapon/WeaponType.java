@@ -12,7 +12,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setMaterial(Material.IRON_SWORD)
                     .setDelay(30)
                     .setMelee(new MeleeData(5))
-                    .setAttack(new AttackData(5, false))
+                    .setAttack(new AttackData(5, false, 10))
     ),
     PISTOL(
             WeaponData.builder()
@@ -23,7 +23,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setDelay(30)
                     .setShoot(new ShootData(1, 1))
                     .setShootParticle(new ShootParticleData(Particle.FLAME))
-                    .setAttack(new AttackData(5, false))
+                    .setAttack(new AttackData(5, false, 10))
     );
 
     public final WeaponData data;
