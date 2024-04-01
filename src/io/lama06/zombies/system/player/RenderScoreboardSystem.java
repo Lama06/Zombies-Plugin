@@ -2,6 +2,7 @@ package io.lama06.zombies.system.player;
 
 import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.event.StartRoundEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
@@ -136,5 +137,12 @@ public final class RenderScoreboardSystem implements Listener {
     @EventHandler
     private void onRoundStart(final StartRoundEvent event) {
         updateScoreboard(event.getWorld());
+    }
+
+    @EventHandler
+    private void onGameEnd(final GameEndEvent event) {
+        for (final ZombiesPlayer player : event.getWorld().getPlayers()) {
+            player.getBukkit().setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        }
     }
 }

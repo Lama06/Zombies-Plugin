@@ -6,7 +6,6 @@ import io.lama06.zombies.util.EntityPosition;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public final class Window {
@@ -15,12 +14,12 @@ public final class Window {
     public BlockArea blocks;
     public BlockArea repairArea;
 
-    public void open(final World world) {
-        blocks.fill(world, Bukkit.createBlockData(Material.AIR));
+    public void open(final ZombiesWorld world) {
+        blocks.fill(world.getBukkit(), Bukkit.createBlockData(Material.AIR));
     }
 
-    public void close(final World world) {
-        blocks.fill(world, Bukkit.createBlockData(Material.OAK_SLAB));
+    public void close(final ZombiesWorld world) {
+        blocks.fill(world.getBukkit(), Bukkit.createBlockData(Material.OAK_SLAB));
     }
 
     public void check() throws InvalidConfigException {

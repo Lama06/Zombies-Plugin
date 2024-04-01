@@ -3,7 +3,6 @@ package io.lama06.zombies;
 import io.lama06.zombies.system.*;
 import io.lama06.zombies.system.player.DetectPlayerKillsZombieSystem;
 import io.lama06.zombies.system.player.IncrementPlayerKillsSystem;
-import io.lama06.zombies.system.player.InitPlayersSystem;
 import io.lama06.zombies.system.player.RenderScoreboardSystem;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
 import io.lama06.zombies.system.weapon.ammo.*;
@@ -16,20 +15,20 @@ import io.lama06.zombies.system.weapon.melee.InitMeleeSystem;
 import io.lama06.zombies.system.weapon.melee.RenderMeleeLoreSystem;
 import io.lama06.zombies.system.weapon.reload.*;
 import io.lama06.zombies.system.weapon.shoot.*;
-import io.lama06.zombies.system.zombie.*;
+import io.lama06.zombies.system.zombie.DamageZombieAfterAttackSystem;
+import io.lama06.zombies.system.zombie.InitZombieEquipmentSystem;
+import io.lama06.zombies.system.zombie.InitZombieHealthSystem;
+import io.lama06.zombies.system.zombie.SpawnZombiesSystem;
 import io.lama06.zombies.system.zombie.break_window.*;
 import org.bukkit.event.Listener;
 
 public final class Systems {
     public static Listener[] SYSTEMS = new Listener[] {
-            new CloseDoorsOnStartSystem(),
-            new CloseWindowsOnStartSystem(),
-            new DisablePowerSwitchOnStartSystem(),
+            new CleanupAfterGameSystem(),
             new EnablePowerSwitchSystem(),
-            new InitPlayersSystem(),
-            new InitRoundsSystem(),
             new InteractWithWeaponShopSystem(),
             new OpenDoorSystem(),
+            new PrepareWorldAtGameStartSystem(),
             new PreventEventsSystem(),
             new RepairWindowSystem(),
             new StartNextRoundSystem(),
@@ -90,7 +89,6 @@ public final class Systems {
             new DamageZombieAfterAttackSystem(),
             new InitZombieEquipmentSystem(),
             new InitZombieHealthSystem(),
-            new InitZombieSpawningSystem(),
             new SpawnZombiesSystem(),
 
             // Break Window

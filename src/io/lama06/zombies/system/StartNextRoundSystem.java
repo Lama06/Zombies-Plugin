@@ -29,7 +29,7 @@ public final class StartNextRoundSystem implements Listener {
             }
             final int nextRound = currentRound + 1;
             if (nextRound > SpawnRate.SPAWN_RATES.size()) {
-                world.sendMessage(Component.text("Finish"));
+                world.endGame();
                 continue;
             }
             final SpawnRate spawnRate = SpawnRate.SPAWN_RATES.get(nextRound - 1);

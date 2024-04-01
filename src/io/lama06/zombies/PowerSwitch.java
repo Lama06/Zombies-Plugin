@@ -6,7 +6,6 @@ import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Switch;
 import org.bukkit.entity.Player;
@@ -15,8 +14,8 @@ public final class PowerSwitch {
     public int gold;
     public BlockPosition position;
 
-    public void setActive(final World world, final boolean active) {
-        final Block block = position.toLocation(world).getBlock();
+    public void setActive(final ZombiesWorld world, final boolean active) {
+        final Block block = position.toLocation(world.getBukkit()).getBlock();
         if (block.getType() != Material.LEVER) {
             return;
         }
