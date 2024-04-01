@@ -4,18 +4,16 @@ import io.lama06.zombies.data.AttributeId;
 import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
 import io.lama06.zombies.event.GameStartEvent;
+import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.weapon.WeaponType;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieData;
-import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -38,18 +36,6 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     }
 
     public void startGame() {
-        final WorldConfig config = ZombiesPlugin.getConfig(this);
-        if (config == null) {
-            return;
-        }
-        for (final ZombiesPlayer player :getPlayers()) {
-            final Player bukkit = player.getBukkit();
-            bukkit.getInventory().clear();
-            bukkit.setFoodLevel(20);
-            bukkit.setHealth(20);
-            player.giveWeapon(0, WeaponType.KNIFE.data);
-            player.giveWeapon(1, WeaponType.PISTOL.data);
-        }
         final PersistentDataContainer pdc = world.getPersistentDataContainer();
         pdc.set(IS_GAME.getKey(), PersistentDataType.BOOLEAN, true);
         Bukkit.getPluginManager().callEvent(new GameStartEvent(this));

@@ -3,9 +3,10 @@ package io.lama06.zombies.player;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
-import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponData;
 import io.lama06.zombies.event.weapon.WeaponCreateEvent;
+import io.lama06.zombies.weapon.Weapon;
+import io.lama06.zombies.weapon.WeaponAttributes;
+import io.lama06.zombies.weapon.WeaponType;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;
@@ -13,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,17 +57,17 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
         return weapons;
     }
 
-    public Weapon giveWeapon(final int slot, final WeaponData data) {
-        final ItemStack item = new ItemStack(data.material());
+    public Weapon giveWeapon(final int slot, final WeaponType type) {
+        final ItemStack item = new ItemStack(type.data.material());
         final ItemMeta meta = item.getItemMeta();
-        meta.displayName(data.displayName());
-        final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        pdc.set(Weapon.IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, true);
+        meta.displayName(type.data.displayName());
         item.setItemMeta(meta);
         final PlayerInventory inventory = player.getInventory();
         inventory.setItem(slot, item);
         final Weapon weapon = new Weapon(this, slot);
-        Bukkit.getPluginManager().callEvent(new WeaponCreateEvent(weapon, data));
+        weapon.set(WeaponAttributes.IS_WEAPON, true);
+        weapon.set(WeaponAttributes.TYPE, type);
+        Bukkit.getPluginManager().callEvent(new WeaponCreateEvent(weapon, type.data));
         return weapon;
     }
 

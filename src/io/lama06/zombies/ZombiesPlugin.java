@@ -2,6 +2,8 @@ package io.lama06.zombies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
+import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
@@ -115,9 +117,7 @@ public final class ZombiesPlugin extends JavaPlugin {
         if (args.length == 0) return false;
         if (!(sender instanceof final Player player)) return false;
         switch (args[0]) {
-            case "config" -> {
-                config.openMenu(player, () -> {});
-            }
+            case "config" -> config.openMenu(player, () -> {});
             case "start" -> {
                 try {
                     config.check();
@@ -149,6 +149,10 @@ public final class ZombiesPlugin extends JavaPlugin {
                     player.sendMessage(key.toString());
                 }
                 player.sendMessage(string);
+            }
+            case "gold" -> {
+                new ZombiesPlayer(player).set(PlayerAttributes.GOLD, 100);
+                Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(new ZombiesPlayer(player), 0, 100));
             }
         }
         return true;

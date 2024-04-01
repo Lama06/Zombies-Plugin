@@ -3,6 +3,7 @@ package io.lama06.zombies;
 import io.lama06.zombies.system.*;
 import io.lama06.zombies.system.player.DetectPlayerKillsZombieSystem;
 import io.lama06.zombies.system.player.IncrementPlayerKillsSystem;
+import io.lama06.zombies.system.player.InitPlayersSystem;
 import io.lama06.zombies.system.player.RenderScoreboardSystem;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
 import io.lama06.zombies.system.weapon.ammo.*;
@@ -21,13 +22,13 @@ import org.bukkit.event.Listener;
 
 public final class Systems {
     public static Listener[] SYSTEMS = new Listener[] {
-            new BuyWeaponAtShopSystem(),
             new CloseDoorsOnStartSystem(),
             new CloseWindowsOnStartSystem(),
             new DisablePowerSwitchOnStartSystem(),
             new EnablePowerSwitchSystem(),
             new InitPlayersSystem(),
             new InitRoundsSystem(),
+            new InteractWithWeaponShopSystem(),
             new OpenDoorSystem(),
             new PreventEventsSystem(),
             new RepairWindowSystem(),

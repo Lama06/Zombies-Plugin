@@ -20,9 +20,7 @@ public final class EnumSelectionMenu {
             entries.add(new SelectionEntry(
                     constant.getDisplayName(),
                     constant.getMaterial(),
-                    () -> {
-                        callback.accept(constant);
-                    }
+                    () -> callback.accept(constant)
             ));
         }
         SelectionMenu.open(

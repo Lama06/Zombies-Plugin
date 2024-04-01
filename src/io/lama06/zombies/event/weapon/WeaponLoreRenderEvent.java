@@ -52,6 +52,6 @@ public final class WeaponLoreRenderEvent extends WeaponEvent {
         MELEE,
         AMMO,
         DELAY,
-        RELOAD;
+        RELOAD
     }
 }

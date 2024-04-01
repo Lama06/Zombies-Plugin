@@ -1,7 +1,6 @@
 package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.ZombiesWorld;
-import io.lama06.zombies.data.AttributeId;
 import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
 import io.lama06.zombies.player.ZombiesPlayer;
@@ -12,8 +11,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Contract;
 
 public final class Weapon extends Storage {
-    public static final AttributeId<Boolean> IS_WEAPON = new AttributeId<>("is_weapon", PersistentDataType.BOOLEAN);
-
     @Contract("null -> false")
     public static boolean isWeapon(final ItemStack weapon) {
         if (weapon == null) {
@@ -24,7 +21,7 @@ public final class Weapon extends Storage {
             return false;
         }
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        return pdc.getOrDefault(IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, false);
+        return pdc.getOrDefault(WeaponAttributes.IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, false);
     }
 
     private final ZombiesPlayer player;

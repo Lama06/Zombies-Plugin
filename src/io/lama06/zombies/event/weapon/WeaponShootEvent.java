@@ -20,6 +20,6 @@ public final class WeaponShootEvent extends WeaponUseEvent implements Cancellabl
         return Collections.unmodifiableList(bullets);
     }
 
-    public static record Bullet(Vector direction) {
+    public record Bullet(Vector direction) {
     }
 }
