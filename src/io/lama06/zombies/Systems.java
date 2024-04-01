@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 
 public final class Systems {
     public static Listener[] SYSTEMS = new Listener[] {
+            new BuyWeaponAtShopSystem(),
             new CloseDoorsOnStartSystem(),
             new CloseWindowsOnStartSystem(),
             new DisablePowerSwitchOnStartSystem(),

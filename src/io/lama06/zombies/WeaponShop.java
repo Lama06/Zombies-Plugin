@@ -1,6 +1,7 @@
 package io.lama06.zombies;
 
 import io.lama06.zombies.menu.*;
+import io.lama06.zombies.util.PositionUtil;
 import io.lama06.zombies.weapon.WeaponType;
 import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -20,7 +21,7 @@ public final class WeaponShop {
                 Component.text("Weapon Shop"),
                 callback,
                 new SelectionEntry(
-                        Component.text("Position"),
+                        Component.text("Position: " + PositionUtil.format(position)),
                         Material.LEVER,
                         () -> BlockPositionSelection.open(
                                 player,
@@ -33,7 +34,7 @@ public final class WeaponShop {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Weapon"),
+                        Component.text("Weapon: ").append(weaponType != null ? weaponType.getDisplayName() : Component.text("null")),
                         Material.STONE_SWORD,
                         () -> EnumSelectionMenu.open(
                                 WeaponType.class,
@@ -47,7 +48,7 @@ public final class WeaponShop {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Purchase Price"),
+                        Component.text("Purchase Price: " + purchasePrice),
                         Material.GOLD_NUGGET,
                         () -> InputMenu.open(
                                 player,
@@ -62,7 +63,7 @@ public final class WeaponShop {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Refill Price"),
+                        Component.text("Refill Price: " + refillPrice),
                         Material.GOLD_NUGGET,
                         () -> InputMenu.open(
                                 player,

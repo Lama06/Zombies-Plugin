@@ -1,6 +1,7 @@
 package io.lama06.zombies;
 
 import io.lama06.zombies.menu.*;
+import io.lama06.zombies.util.PositionUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ public final class WorldConfig {
     public final List<Door> doors = new ArrayList<>();
     public PowerSwitch powerSwitch = new PowerSwitch();
     public final List<Window> windows = new ArrayList<>();
+    public final List<WeaponShop> weaponShops = new ArrayList<>();
 
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(startArea, "start area");
@@ -95,6 +97,20 @@ public final class WorldConfig {
                             powerSwitch = null;
                             reopen.run();
                         }
+                ),
+                new SelectionEntry(
+                        Component.text("Weapon Shops"),
+                        Material.WOODEN_HOE,
+                        () -> ListConfigMenu.open(
+                                player,
+                                Component.text("Weapon Shops"),
+                                weaponShops,
+                                Material.WOODEN_HOE,
+                                shop -> Component.text("Weapon Shop at " + PositionUtil.format(shop.position)),
+                                WeaponShop::new,
+                                shop -> shop.openMenu(player, reopen),
+                                reopen
+                        )
                 )
         );
     }

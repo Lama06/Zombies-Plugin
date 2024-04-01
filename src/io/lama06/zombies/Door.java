@@ -19,7 +19,7 @@ public final class Door {
     public BlockArea templateClosed;
 
     public void setOpen(final ZombiesWorld world, final boolean open) {
-        if (!open && templateClosed == null) {
+        if (open && templateOpen == null) {
             position.fill(world.getBukkit(), Material.AIR.createBlockData());
             return;
         }
