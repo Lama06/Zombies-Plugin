@@ -35,6 +35,8 @@ public final class CleanupAfterGameSystem implements Listener {
             final Player playerBukkit = player.getBukkit();
             playerBukkit.teleport(world.getBukkit().getSpawnLocation());
             playerBukkit.getInventory().clear();
+            playerBukkit.setLevel(0);
+            playerBukkit.setExp(0);
         }
     }
 }

@@ -41,6 +41,7 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
         for (final ZombiesPlayer player : world.getPlayers()) {
             final Player bukkit = player.getBukkit();
             bukkit.getInventory().clear();
+            bukkit.teleport(world.getBukkit().getSpawnLocation());
             bukkit.setFoodLevel(20);
             bukkit.setHealth(20);
             bukkit.setGameMode(GameMode.ADVENTURE);
