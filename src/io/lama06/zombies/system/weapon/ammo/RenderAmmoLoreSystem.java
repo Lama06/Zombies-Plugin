@@ -1,9 +1,9 @@
 package io.lama06.zombies.system.weapon.ammo;
 
 import io.lama06.zombies.data.Component;
+import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.AmmoAttributes;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
@@ -31,10 +31,10 @@ public final class RenderAmmoLoreSystem implements Listener {
         if (component == null) {
             return;
         }
-        final int maxAmmo = component.get(AmmoAttributes.MAX_AMMO);
-        final int ammo = component.get(AmmoAttributes.AMMO);
-        final int maxClip = component.get(AmmoAttributes.MAX_CLIP);
-        final int clip = component.get(AmmoAttributes.CLIP);
+        final int maxAmmo = component.get(AmmoData.MAX_AMMO);
+        final int ammo = component.get(AmmoData.AMMO);
+        final int maxClip = component.get(AmmoData.MAX_CLIP);
+        final int clip = component.get(AmmoData.CLIP);
         event.addLore(WeaponLoreRenderEvent.Part.AMMO, List.of(
                 new WeaponLoreRenderEvent.Entry("Ammo", ammo + " / " + maxAmmo),
                 new WeaponLoreRenderEvent.Entry("Clip", clip + " / " + maxClip)

@@ -1,10 +1,10 @@
 package io.lama06.zombies.system.weapon.shoot;
 
 import io.lama06.zombies.data.Component;
+import io.lama06.zombies.weapon.ShootData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponLoreRenderEvent;
-import io.lama06.zombies.weapon.ShootAttributes;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -18,8 +18,8 @@ public final class RenderShootLoreSystem implements Listener {
         if (shootComponent == null) {
             return;
         }
-        final int bullets = shootComponent.get(ShootAttributes.BULLETS);
-        final double precision = shootComponent.get(ShootAttributes.PRECISION);
+        final int bullets = shootComponent.get(ShootData.BULLETS);
+        final double precision = shootComponent.get(ShootData.PRECISION);
         event.addLore(WeaponLoreRenderEvent.Part.SHOOT, List.of(
                 new WeaponLoreRenderEvent.Entry("Bullets", Integer.toString(bullets)),
                 new WeaponLoreRenderEvent.Entry("Precision", Math.round(precision * 100) + "%")

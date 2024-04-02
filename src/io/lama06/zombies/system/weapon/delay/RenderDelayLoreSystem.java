@@ -3,7 +3,7 @@ package io.lama06.zombies.system.weapon.delay;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.DelayAttributes;
+import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponLoreRenderEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +18,7 @@ public final class RenderDelayLoreSystem implements Listener {
         if (delayComponent == null) {
             return;
         }
-        final int delay = delayComponent.get(DelayAttributes.DELAY);
+        final int delay = delayComponent.get(DelayData.DELAY);
         event.addLore(WeaponLoreRenderEvent.Part.DELAY, List.of(
                 new WeaponLoreRenderEvent.Entry("Delay", "%.1f".formatted(delay / 20.0))
         ));

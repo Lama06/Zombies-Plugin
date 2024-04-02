@@ -4,7 +4,7 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.event.weapon.WeaponMeleeEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.weapon.MeleeAttributes;
+import io.lama06.zombies.weapon.MeleeData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.zombie.Zombie;
@@ -29,7 +29,7 @@ public final class AttackMeleeSystem implements Listener {
         if (meleeComponent == null) {
             return;
         }
-        final double range = meleeComponent.get(MeleeAttributes.RANGE);
+        final double range = meleeComponent.get(MeleeData.RANGE);
         if (!new WeaponMeleeEvent(weapon).callEvent()) {
             return;
         }

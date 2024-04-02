@@ -4,7 +4,7 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.zombie.BreakWindowTickEvent;
-import io.lama06.zombies.zombie.BreakWindowAttributes;
+import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.math.BlockPosition;
@@ -25,21 +25,21 @@ public final class TickWindowBreakingSystem implements Listener {
         if (breakWindowComponent == null) {
             return;
         }
-        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowAttributes.REMAINING_TIME, null);
-        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowAttributes.BLOCK, null);
+        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowData.REMAINING_TIME, null);
+        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
         if (remainingTime == null || block == null) {
             return;
         }
         if (remainingTime == 1) {
-            breakWindowComponent.remove(BreakWindowAttributes.REMAINING_TIME);
-            breakWindowComponent.remove(BreakWindowAttributes.BLOCK);
+            breakWindowComponent.remove(BreakWindowData.REMAINING_TIME);
+            breakWindowComponent.remove(BreakWindowData.BLOCK);
             block.toLocation(zombie.getWorld().getBukkit()).getBlock().setType(Material.AIR);
             return;
         }
-        breakWindowComponent.set(BreakWindowAttributes.REMAINING_TIME, remainingTime - 1);
+        breakWindowComponent.set(BreakWindowData.REMAINING_TIME, remainingTime - 1);
         if (!new BreakWindowTickEvent(zombie, remainingTime - 1).callEvent()) {
-            breakWindowComponent.remove(BreakWindowAttributes.REMAINING_TIME);
-            breakWindowComponent.remove(BreakWindowAttributes.BLOCK);
+            breakWindowComponent.remove(BreakWindowData.REMAINING_TIME);
+            breakWindowComponent.remove(BreakWindowData.BLOCK);
         }
     }
 }

@@ -35,7 +35,7 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
         }
         world.set(WorldAttributes.POWER_SWITCH, false);
 
-        final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.getFirst();
+        final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.get(0);
         world.set(WorldAttributes.NEXT_ZOMBIE_TIME, firstRoundSpawnRate.spawnDelay());
         world.set(WorldAttributes.REMAINING_ZOMBIES, firstRoundSpawnRate.getNumberOfZombies());
         event.getWorld().set(WorldAttributes.ROUND, 1);

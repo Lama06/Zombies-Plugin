@@ -2,10 +2,10 @@ package io.lama06.zombies.system.weapon.shoot;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.weapon.ShootParticleData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponShootEvent;
-import io.lama06.zombies.weapon.ShootParticleAttributes;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -23,9 +23,9 @@ public final class SpawnParticlesAfterShotSystem implements Listener {
         if (shootParticleComponent == null) {
             return;
         }
-        final Particle particle = shootParticleComponent.get(ShootParticleAttributes.PARTICLE);
-        final int count = shootParticleComponent.get(ShootParticleAttributes.COUNT);
-        final double spacing = shootParticleComponent.get(ShootParticleAttributes.SPACING);
+        final Particle particle = shootParticleComponent.get(ShootParticleData.PARTICLE);
+        final int count = shootParticleComponent.get(ShootParticleData.COUNT);
+        final double spacing = shootParticleComponent.get(ShootParticleData.SPACING);
         for (final WeaponShootEvent.Bullet bullet : event.getBullets()) {
             final Vector direction = bullet.direction().clone();
             final Vector directionWithDistance = direction.multiply(spacing);

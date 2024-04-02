@@ -3,10 +3,7 @@ package io.lama06.zombies.system.weapon.reload;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.weapon.AmmoAttributes;
-import io.lama06.zombies.weapon.ReloadAttributes;
-import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
+import io.lama06.zombies.weapon.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,14 +28,14 @@ public final class StartReloadManualSystem implements Listener {
         if (reloadComponent == null || ammoComponent == null) {
             return;
         }
-        final int reload = reloadComponent.get(ReloadAttributes.RELOAD);
-        final int remainingReload = reloadComponent.get(ReloadAttributes.REMAINING_RELOAD);
-        final int maxClip = ammoComponent.get(AmmoAttributes.MAX_CLIP);
-        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
+        final int reload = reloadComponent.get(ReloadData.RELOAD);
+        final int remainingReload = reloadComponent.get(ReloadData.REMAINING_RELOAD);
+        final int maxClip = ammoComponent.get(AmmoData.MAX_CLIP);
+        final int clip = ammoComponent.get(AmmoData.CLIP);
         if (remainingReload != 0 || clip == maxClip) {
             return;
         }
-        reloadComponent.set(ReloadAttributes.REMAINING_RELOAD, reload);
+        reloadComponent.set(ReloadData.REMAINING_RELOAD, reload);
         Bukkit.getPluginManager().callEvent(new WeaponReloadChangeEvent(weapon, remainingReload, reload));
     }
 }

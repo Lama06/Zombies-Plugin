@@ -2,7 +2,7 @@ package io.lama06.zombies.system.weapon.attack;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.weapon.WeaponLoreRenderEvent;
-import io.lama06.zombies.weapon.AttackAttributes;
+import io.lama06.zombies.weapon.AttackData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import org.bukkit.event.EventHandler;
@@ -19,8 +19,8 @@ public final class RenderAttackLoreSystem implements Listener {
         if (attackComponent == null) {
             return;
         }
-        final boolean fire = attackComponent.get(AttackAttributes.FIRE);
-        final double damage = attackComponent.get(AttackAttributes.DAMAGE);
+        final boolean fire = attackComponent.get(AttackData.FIRE);
+        final double damage = attackComponent.get(AttackData.DAMAGE);
         final List<WeaponLoreRenderEvent.Entry> loreEntries = new ArrayList<>();
         loreEntries.add(new WeaponLoreRenderEvent.Entry("Damage", Double.toString(damage)));
         if (fire) {

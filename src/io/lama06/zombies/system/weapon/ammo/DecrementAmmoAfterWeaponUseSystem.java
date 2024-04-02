@@ -1,9 +1,9 @@
 package io.lama06.zombies.system.weapon.ammo;
 
 import io.lama06.zombies.data.Component;
+import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.AmmoAttributes;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponUseEvent;
 import org.bukkit.Bukkit;
@@ -19,11 +19,11 @@ public final class DecrementAmmoAfterWeaponUseSystem implements Listener {
         if (ammoComponent == null) {
             return;
         }
-        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
+        final int clip = ammoComponent.get(AmmoData.CLIP);
         if (clip == 0) {
             return;
         }
-        ammoComponent.set(AmmoAttributes.CLIP, clip - 1);
+        ammoComponent.set(AmmoData.CLIP, clip - 1);
         Bukkit.getPluginManager().callEvent(new WeaponClipChangeEvent(weapon, clip, clip - 1));
     }
 }

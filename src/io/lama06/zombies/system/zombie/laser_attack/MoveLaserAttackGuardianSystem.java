@@ -4,7 +4,7 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.zombie.LaserAttackAttributes;
+import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.Location;
@@ -24,7 +24,7 @@ public final class MoveLaserAttackGuardianSystem implements Listener {
             if (laserAttackComponent == null) {
                 continue;
             }
-            final UUID guardianUuid = laserAttackComponent.get(LaserAttackAttributes.GUARDIAN);
+            final UUID guardianUuid = laserAttackComponent.get(LaserAttackData.GUARDIAN);
             final ZombiesWorld world = zombie.getWorld();
             final Entity guardianEntity = world.getBukkit().getEntity(guardianUuid);
             if (!(guardianEntity instanceof final Guardian guardian)) {

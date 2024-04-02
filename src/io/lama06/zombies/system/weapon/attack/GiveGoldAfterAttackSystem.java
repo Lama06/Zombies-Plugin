@@ -5,7 +5,7 @@ import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.weapon.AttackAttributes;
+import io.lama06.zombies.weapon.AttackData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,7 +21,7 @@ public final class GiveGoldAfterAttackSystem implements Listener {
         if (attackComponent == null) {
             return;
         }
-        final int gold = attackComponent.get(AttackAttributes.GOLD);
+        final int gold = attackComponent.get(AttackData.GOLD);
         final ZombiesPlayer player = event.getPlayer();
         final int goldBefore = player.get(PlayerAttributes.GOLD);
         final int goldAfter = goldBefore + gold;

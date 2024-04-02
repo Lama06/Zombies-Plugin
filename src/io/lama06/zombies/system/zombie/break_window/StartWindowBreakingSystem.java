@@ -5,7 +5,7 @@ import io.lama06.zombies.Window;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.zombie.BreakWindowAttributes;
+import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.math.BlockPosition;
@@ -30,9 +30,9 @@ public final class StartWindowBreakingSystem implements Listener {
         if (breakWindowComponent == null) {
             return;
         }
-        final int time = breakWindowComponent.get(BreakWindowAttributes.TIME);
-        final double maxDistance = breakWindowComponent.get(BreakWindowAttributes.MAX_DISTANCE);
-        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowAttributes.BLOCK, null);
+        final int time = breakWindowComponent.get(BreakWindowData.TIME);
+        final double maxDistance = breakWindowComponent.get(BreakWindowData.MAX_DISTANCE);
+        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
         if (block != null) {
             return;
         }
@@ -40,8 +40,8 @@ public final class StartWindowBreakingSystem implements Listener {
         if (nearestWindowBlock == null || nearestWindowBlock.distance() > maxDistance) {
             return;
         }
-        breakWindowComponent.set(BreakWindowAttributes.BLOCK, nearestWindowBlock.position());
-        breakWindowComponent.set(BreakWindowAttributes.REMAINING_TIME, time);
+        breakWindowComponent.set(BreakWindowData.BLOCK, nearestWindowBlock.position());
+        breakWindowComponent.set(BreakWindowData.REMAINING_TIME, time);
     }
 
     private record NearestWindowBlockResult(BlockPosition position, double distance) { }

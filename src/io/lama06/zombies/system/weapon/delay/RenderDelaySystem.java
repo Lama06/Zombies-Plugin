@@ -4,7 +4,7 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.DelayAttributes;
+import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponDelayChangeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,8 +36,8 @@ public final class RenderDelaySystem implements Listener {
             player.getBukkit().setExp(0);
             return;
         }
-        final int delay = delayComponent.get(DelayAttributes.DELAY);
-        final int remainingDelay = delayComponent.get(DelayAttributes.REMAINING_DELAY);
+        final int delay = delayComponent.get(DelayData.DELAY);
+        final int remainingDelay = delayComponent.get(DelayData.REMAINING_DELAY);
         final float progress = (float) (delay - remainingDelay) / delay;
         player.getBukkit().setExp(progress);
     }

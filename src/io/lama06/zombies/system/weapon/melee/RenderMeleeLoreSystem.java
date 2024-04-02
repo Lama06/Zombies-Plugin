@@ -2,9 +2,9 @@ package io.lama06.zombies.system.weapon.melee;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.weapon.WeaponLoreRenderEvent;
+import io.lama06.zombies.weapon.MeleeData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.MeleeAttributes;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -18,7 +18,7 @@ public final class RenderMeleeLoreSystem implements Listener {
         if (meleeComponent == null) {
             return;
         }
-        final double range = meleeComponent.get(MeleeAttributes.RANGE);
+        final double range = meleeComponent.get(MeleeData.RANGE);
         event.addLore(WeaponLoreRenderEvent.Part.MELEE, List.of(
                 new WeaponLoreRenderEvent.Entry("Range", "%.1f".formatted(range))
         ));

@@ -7,10 +7,7 @@ import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.weapon.AmmoAttributes;
-import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponAttributes;
-import io.lama06.zombies.weapon.WeaponComponents;
+import io.lama06.zombies.weapon.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -76,16 +73,16 @@ public final class InteractWithWeaponShopSystem implements Listener {
             player.sendMessage(Component.text("This weapon cannot be refilled").color(NamedTextColor.RED));
             return;
         }
-        final int clip = ammComponent.get(AmmoAttributes.CLIP);
-        final int ammo = ammComponent.get(AmmoAttributes.AMMO);
-        final int maxAmmo = ammComponent.get(AmmoAttributes.MAX_AMMO);
-        final int maxClip = ammComponent.get(AmmoAttributes.MAX_CLIP);
+        final int clip = ammComponent.get(AmmoData.CLIP);
+        final int ammo = ammComponent.get(AmmoData.AMMO);
+        final int maxAmmo = ammComponent.get(AmmoData.MAX_AMMO);
+        final int maxClip = ammComponent.get(AmmoData.MAX_CLIP);
         if (ammo == maxAmmo) {
             player.sendMessage(Component.text("This weapon is already refilled").color(NamedTextColor.RED));
             return;
         }
-        ammComponent.set(AmmoAttributes.CLIP, maxClip);
-        ammComponent.set(AmmoAttributes.AMMO, maxAmmo);
+        ammComponent.set(AmmoData.CLIP, maxClip);
+        ammComponent.set(AmmoData.AMMO, maxAmmo);
         Bukkit.getPluginManager().callEvent(new WeaponAmmoChangeEvent(weapon, ammo, maxAmmo));
         Bukkit.getPluginManager().callEvent(new WeaponClipChangeEvent(weapon, clip, maxClip));
 

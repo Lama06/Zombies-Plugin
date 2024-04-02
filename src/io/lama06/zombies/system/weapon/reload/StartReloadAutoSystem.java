@@ -4,7 +4,7 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
-import io.lama06.zombies.weapon.ReloadAttributes;
+import io.lama06.zombies.weapon.ReloadData;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -21,9 +21,9 @@ public final class StartReloadAutoSystem implements Listener {
         if (reloadComponent == null) {
             return;
         }
-        final int reload = reloadComponent.get(ReloadAttributes.RELOAD);
-        final int remainingReload = reloadComponent.get(ReloadAttributes.REMAINING_RELOAD);
-        reloadComponent.set(ReloadAttributes.REMAINING_RELOAD, reload);
+        final int reload = reloadComponent.get(ReloadData.RELOAD);
+        final int remainingReload = reloadComponent.get(ReloadData.REMAINING_RELOAD);
+        reloadComponent.set(ReloadData.REMAINING_RELOAD, reload);
         Bukkit.getPluginManager().callEvent(new WeaponReloadChangeEvent(event.getWeapon(), remainingReload, reload));
     }
 

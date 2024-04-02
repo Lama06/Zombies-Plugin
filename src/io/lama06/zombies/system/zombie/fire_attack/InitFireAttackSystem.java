@@ -2,7 +2,6 @@ package io.lama06.zombies.system.zombie.fire_attack;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
-import io.lama06.zombies.zombie.FireAttackAttributes;
 import io.lama06.zombies.zombie.FireAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
@@ -18,6 +17,6 @@ public final class InitFireAttackSystem implements Listener {
             return;
         }
         final Component fireAttackComponent = zombie.addComponent(ZombieComponents.FIRE_ATTACK);
-        fireAttackComponent.set(FireAttackAttributes.TICKS, fireAttack.ticks());
+        fireAttackComponent.set(FireAttackData.TICKS, fireAttack.ticks());
     }
 }

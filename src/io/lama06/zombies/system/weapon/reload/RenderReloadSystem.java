@@ -3,7 +3,7 @@ package io.lama06.zombies.system.weapon.reload;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.ReloadAttributes;
+import io.lama06.zombies.weapon.ReloadData;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +19,7 @@ public final class RenderReloadSystem implements Listener {
         if (reloadComponent == null) {
             return;
         }
-        final int reload = reloadComponent.get(ReloadAttributes.RELOAD);
+        final int reload = reloadComponent.get(ReloadData.RELOAD);
         final ItemStack item = weapon.getItem();
         final ItemMeta meta = item.getItemMeta();
         if (!(meta instanceof final Damageable damageable)) {

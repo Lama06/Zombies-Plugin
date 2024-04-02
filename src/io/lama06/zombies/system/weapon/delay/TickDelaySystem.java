@@ -5,7 +5,7 @@ import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.DelayAttributes;
+import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponDelayChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -19,11 +19,11 @@ public final class TickDelaySystem implements Listener {
             if (delayComponent == null) {
                 continue;
             }
-            final int remainingDelay = delayComponent.get(DelayAttributes.REMAINING_DELAY);
+            final int remainingDelay = delayComponent.get(DelayData.REMAINING_DELAY);
             if (remainingDelay == 0) {
                 continue;
             }
-            delayComponent.set(DelayAttributes.REMAINING_DELAY, remainingDelay - 1);
+            delayComponent.set(DelayData.REMAINING_DELAY, remainingDelay - 1);
             Bukkit.getPluginManager().callEvent(new WeaponDelayChangeEvent(weapon, remainingDelay, remainingDelay - 1));
         }
     }

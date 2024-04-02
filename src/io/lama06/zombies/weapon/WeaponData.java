@@ -7,8 +7,8 @@ public final class WeaponData {
     public Component displayName;
     public Material material;
     public AmmoData ammo;
-    public Integer delay;
-    public Integer reload;
+    public DelayData delay;
+    public ReloadData reload;
     public ShootData shoot;
     public ShootParticleData shootParticle;
     public MeleeData melee;
@@ -29,12 +29,12 @@ public final class WeaponData {
         return this;
     }
 
-    public WeaponData setDelay(final Integer delay) {
+    public WeaponData setDelay(final DelayData delay) {
         this.delay = delay;
         return this;
     }
 
-    public WeaponData setReload(final Integer reload) {
+    public WeaponData setReload(final ReloadData reload) {
         this.reload = reload;
         return this;
     }

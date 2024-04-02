@@ -3,7 +3,7 @@ package io.lama06.zombies.system.weapon.delay;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.DelayAttributes;
+import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponDelayChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponUseEvent;
 import org.bukkit.Bukkit;
@@ -19,9 +19,9 @@ public final class StartDelayAfterWeaponUseSystem implements Listener {
         if (delayComponent == null) {
             return;
         }
-        final int delay = delayComponent.get(DelayAttributes.DELAY);
-        final int remainingDelay = delayComponent.get(DelayAttributes.REMAINING_DELAY);
-        delayComponent.set(DelayAttributes.REMAINING_DELAY, delay);
+        final int delay = delayComponent.get(DelayData.DELAY);
+        final int remainingDelay = delayComponent.get(DelayData.REMAINING_DELAY);
+        delayComponent.set(DelayData.REMAINING_DELAY, delay);
         Bukkit.getPluginManager().callEvent(new WeaponDelayChangeEvent(event.getWeapon(), remainingDelay, delay));
     }
 }

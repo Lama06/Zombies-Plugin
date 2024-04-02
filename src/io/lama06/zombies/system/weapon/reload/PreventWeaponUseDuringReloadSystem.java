@@ -4,7 +4,7 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponUseEvent;
-import io.lama06.zombies.weapon.ReloadAttributes;
+import io.lama06.zombies.weapon.ReloadData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -16,7 +16,7 @@ public final class PreventWeaponUseDuringReloadSystem implements Listener {
         if (reloadComponent == null) {
             return;
         }
-        final int remainingReload = reloadComponent.get(ReloadAttributes.REMAINING_RELOAD);
+        final int remainingReload = reloadComponent.get(ReloadData.REMAINING_RELOAD);
         if (remainingReload > 0) {
             event.setCancelled(true);
         }

@@ -3,9 +3,9 @@ package io.lama06.zombies.system.weapon.ammo;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.AmmoAttributes;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import org.bukkit.event.EventHandler;
@@ -48,8 +48,8 @@ public final class RenderTotalAmmoSystem implements Listener {
             player.getBukkit().setLevel(0);
             return;
         }
-        final int ammo = ammoComponent.get(AmmoAttributes.AMMO);
-        final int clip = ammoComponent.get(AmmoAttributes.CLIP);
+        final int ammo = ammoComponent.get(AmmoData.AMMO);
+        final int clip = ammoComponent.get(AmmoData.CLIP);
         final int totalAmmo = ammo + clip;
         player.getBukkit().setLevel(totalAmmo);
     }

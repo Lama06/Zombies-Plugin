@@ -4,9 +4,9 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.VectorUtil;
+import io.lama06.zombies.weapon.ShootData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.WeaponComponents;
-import io.lama06.zombies.weapon.ShootAttributes;
 import io.lama06.zombies.event.weapon.WeaponShootEvent;
 import io.lama06.zombies.zombie.Zombie;
 import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
@@ -51,8 +51,8 @@ public final class FireBulletsSystem implements Listener {
         if (shootComponent == null) {
             return;
         }
-        final int bullets = shootComponent.get(ShootAttributes.BULLETS);
-        final double precision = shootComponent.get(ShootAttributes.PRECISION);
+        final int bullets = shootComponent.get(ShootData.BULLETS);
+        final double precision = shootComponent.get(ShootData.PRECISION);
         final RandomGenerator rnd = ThreadLocalRandom.current();
         final List<WeaponShootEvent.Bullet> bulletsList = new ArrayList<>();
         for (int i = 0; i < bullets; i++) {

@@ -1,7 +1,7 @@
 package io.lama06.zombies.system.zombie.fire_attack;
 
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.zombie.FireAttackAttributes;
+import io.lama06.zombies.zombie.FireAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.entity.Entity;
@@ -17,7 +17,7 @@ public final class PerformFireAttackSystem implements Listener {
         if (fireAttackComponent == null) {
             return;
         }
-        final int fireTicks = fireAttackComponent.get(FireAttackAttributes.TICKS);
+        final int fireTicks = fireAttackComponent.get(FireAttackData.TICKS);
         final Entity entity = event.getEntity();
         entity.setFireTicks(fireTicks);
     }

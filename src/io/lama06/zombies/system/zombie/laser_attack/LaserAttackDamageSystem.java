@@ -3,7 +3,7 @@ package io.lama06.zombies.system.zombie.laser_attack;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.util.json.UUIDTypeAdapter;
-import io.lama06.zombies.zombie.LaserAttackAttributes;
+import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.NamespacedKey;
@@ -37,7 +37,7 @@ public final class LaserAttackDamageSystem implements Listener {
         if (laserAttackComponent == null) {
             return;
         }
-        final double damage = laserAttackComponent.get(LaserAttackAttributes.DAMAGE);
+        final double damage = laserAttackComponent.get(LaserAttackData.DAMAGE);
         event.setDamage(damage);
     }
 }

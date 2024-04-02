@@ -1,7 +1,7 @@
 package io.lama06.zombies.system.zombie.break_window;
 
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.zombie.BreakWindowAttributes;
+import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.event.entity.EntityMoveEvent;
@@ -21,7 +21,7 @@ public final class CancelMovementDuringWindowBreakingSystem implements Listener 
         if (breakWindowComponent == null) {
             return;
         }
-        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowAttributes.REMAINING_TIME, null);
+        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowData.REMAINING_TIME, null);
         if (remainingTime == null) {
             return;
         }
