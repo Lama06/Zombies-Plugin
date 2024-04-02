@@ -5,6 +5,8 @@ import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -64,5 +66,23 @@ public final class PreventEventsSystem implements Listener {
         }
         event.setDroppedExp(0);
         event.getDrops().clear();
+    }
+
+    @EventHandler
+    private void onBlockBurn(final BlockBurnEvent event) {
+        final ZombiesWorld world = new ZombiesWorld(event.getBlock().getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onBlockIgnite(final BlockIgniteEvent event) {
+        final ZombiesWorld world = new ZombiesWorld(event.getBlock().getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.setCancelled(true);
     }
 }

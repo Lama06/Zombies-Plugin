@@ -43,6 +43,7 @@ public final class CleanupAfterGameSystem implements Listener {
             playerBukkit.clearActivePotionEffects();
             playerBukkit.setHealth(20);
             playerBukkit.setFoodLevel(20);
+            playerBukkit.setFireTicks(0);
         }
 
         final List<Zombie> zombies = world.getZombies();

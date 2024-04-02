@@ -6,6 +6,7 @@ import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.WeaponType;
 import org.bukkit.GameMode;
+import org.bukkit.GameRule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,8 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
     private void onGameStart(final GameStartEvent event) {
         final ZombiesWorld world = event.getWorld();
         final WorldConfig config = world.getConfig();
+
+        world.getBukkit().setGameRule(GameRule.DO_FIRE_TICK, false);
 
         for (final Door door : config.doors) {
             door.setOpen(world, false);
