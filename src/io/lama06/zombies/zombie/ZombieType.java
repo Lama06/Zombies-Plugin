@@ -12,6 +12,7 @@ public enum ZombieType {
                     .setBreakWindow(new BreakWindowData(5*20, 3))
                     .setHealth(10)
                     .setLaserAttack(new LaserAttackData(1))
+                    .setFireAttack(new FireAttackData(30))
     ),
     NORMAL_MEDIUM(
             new ZombieData()
