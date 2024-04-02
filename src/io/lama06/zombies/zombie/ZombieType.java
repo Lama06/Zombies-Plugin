@@ -11,9 +11,7 @@ public enum ZombieType {
                     .setEntity(EntityType.ZOMBIE)
                     .setBreakWindow(new BreakWindowData(2*20, 3))
                     .setHealth(10)
-                    .setFireAttack(new FireAttackData(30))
-                    .setFireTrail(true)
-                    .setFireImmune(true)
+                    .setFireBallAttack(new FireBallAttackData(2, 40))
     ),
     NORMAL_MEDIUM(
             new ZombieData()

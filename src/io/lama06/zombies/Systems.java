@@ -22,6 +22,9 @@ import io.lama06.zombies.system.zombie.explosion_attack.ExplodePeriodicallySyste
 import io.lama06.zombies.system.zombie.explosion_attack.InitExplosionAttackSystem;
 import io.lama06.zombies.system.zombie.fire_attack.InitFireAttackSystem;
 import io.lama06.zombies.system.zombie.fire_attack.PerformFireAttackSystem;
+import io.lama06.zombies.system.zombie.fireball_attack.DamagePlayerWhenFireballExplodesSystem;
+import io.lama06.zombies.system.zombie.fireball_attack.InitFireballAttackSystem;
+import io.lama06.zombies.system.zombie.fireball_attack.SpawnFireballsSystem;
 import io.lama06.zombies.system.zombie.laser_attack.InitLaserAttackSystem;
 import io.lama06.zombies.system.zombie.laser_attack.LaserAttackDamageSystem;
 import io.lama06.zombies.system.zombie.laser_attack.MoveLaserAttackGuardianSystem;
@@ -116,6 +119,11 @@ public final class Systems {
             // Fire Attack
             new InitFireAttackSystem(),
             new PerformFireAttackSystem(),
+
+            // Fireball Attack
+            new DamagePlayerWhenFireballExplodesSystem(),
+            new InitFireballAttackSystem(),
+            new SpawnFireballsSystem(),
 
             // Laser Attack
             new InitLaserAttackSystem(),

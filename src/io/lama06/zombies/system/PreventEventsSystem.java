@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
@@ -80,6 +81,15 @@ public final class PreventEventsSystem implements Listener {
     @EventHandler
     private void onBlockIgnite(final BlockIgniteEvent event) {
         final ZombiesWorld world = new ZombiesWorld(event.getBlock().getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onEntityExplode(final EntityExplodeEvent event) {
+        final ZombiesWorld world = new ZombiesWorld(event.getEntity().getWorld());
         if (!world.isZombiesWorld()) {
             return;
         }

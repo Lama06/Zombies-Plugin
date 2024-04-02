@@ -40,6 +40,7 @@ public final class RenderScoreboardSystem implements Listener {
 
         content.add(Component.empty());
 
+        content.add(Component.text("Gold:").color(NamedTextColor.GOLD));
         for (final ZombiesPlayer otherPlayer : world.getPlayers()) {
             final int coins = otherPlayer.get(PlayerAttributes.GOLD);
             final TextComponent.Builder coinsComponent = Component.text();
