@@ -96,6 +96,7 @@ public final class Systems {
             new InitZombieEquipmentSystem(),
             new InitZombieHealthSystem(),
             new PreventFireWhenImmuneSystem(),
+            new SpawnDescendantsSystem(),
             new SpawnFireTrailSystem(),
             new SpawnZombiesSystem(),
 

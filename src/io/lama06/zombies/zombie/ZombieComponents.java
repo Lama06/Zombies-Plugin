@@ -7,4 +7,5 @@ public final class ZombieComponents {
     public static final ComponentId LASER_ATTACK = new ComponentId("laser_attack");
     public static final ComponentId FIRE_ATTACK = new ComponentId("fire_attack");
     public static final ComponentId EXPLOSION_ATTACK = new ComponentId("explosion_attack");
+    public static final ComponentId DESCENDANTS = new ComponentId("descendants");
 }
