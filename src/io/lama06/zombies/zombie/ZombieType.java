@@ -9,10 +9,10 @@ public enum ZombieType {
     NORMAL_EASY(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
-                    .setBreakWindow(new BreakWindowData(5*20, 3))
+                    .setBreakWindow(new BreakWindowData(2*20, 3))
                     .setHealth(10)
-                    .setLaserAttack(new LaserAttackData(1))
                     .setFireAttack(new FireAttackData(30))
+                    .setExplosionAttack(ExplosionAttackData.explodeOnDeath(2))
     ),
     NORMAL_MEDIUM(
             new ZombieData()

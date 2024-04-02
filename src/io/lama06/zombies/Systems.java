@@ -17,6 +17,8 @@ import io.lama06.zombies.system.weapon.reload.*;
 import io.lama06.zombies.system.weapon.shoot.*;
 import io.lama06.zombies.system.zombie.*;
 import io.lama06.zombies.system.zombie.break_window.*;
+import io.lama06.zombies.system.zombie.explosion_attack.ExplodeZombieSystem;
+import io.lama06.zombies.system.zombie.explosion_attack.InitExplosionAttackSystem;
 import io.lama06.zombies.system.zombie.fire_attack.InitFireAttackSystem;
 import io.lama06.zombies.system.zombie.fire_attack.PerformFireAttackSystem;
 import io.lama06.zombies.system.zombie.laser_attack.InitLaserAttackSystem;
@@ -102,6 +104,10 @@ public final class Systems {
             new PlaySoundDuringWindowBreakingSystem(),
             new StartWindowBreakingSystem(),
             new TickWindowBreakingSystem(),
+
+            // Explosion Attack
+            new ExplodeZombieSystem(),
+            new InitExplosionAttackSystem(),
 
             // Fire Attack
             new InitFireAttackSystem(),

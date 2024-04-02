@@ -15,6 +15,7 @@ public final class ZombieData {
     public boolean fireImmune;
     public LaserAttackData laserAttack;
     public FireAttackData fireAttack;
+    public ExplosionAttackData explosionAttack;
 
     public ZombieData setEntity(final EntityType entity) {
         this.entity = entity;
@@ -48,6 +49,11 @@ public final class ZombieData {
 
     public ZombieData setFireAttack(final FireAttackData fireAttack) {
         this.fireAttack = fireAttack;
+        return this;
+    }
+
+    public ZombieData setExplosionAttack(final ExplosionAttackData explosionAttack) {
+        this.explosionAttack = explosionAttack;
         return this;
     }
 }
