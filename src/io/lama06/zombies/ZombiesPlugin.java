@@ -1,35 +1,25 @@
 package io.lama06.zombies;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.lama06.zombies.player.ZombiesPlayer;
-import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
-import io.lama06.zombies.util.json.FinePositionTypeAdapter;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.zombie.Zombie;
-import io.papermc.paper.math.BlockPosition;
-import io.papermc.paper.math.FinePosition;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
 public final class ZombiesPlugin extends JavaPlugin implements Listener {
     public static ZombiesPlugin INSTANCE;
 
-    private WorldConfig config = new WorldConfig();
+    private ConfigManager configManager;
+    private ZombiesConfig config;
 
     public WorldConfig getConfig(final ZombiesWorld world) {
-        if (world.getBukkit().getName().equals("world")) {
-            return config;
-        }
-        return null;
+        return config.worlds.get(world.getBukkit().getName());
     }
 
     public boolean isZombiesWorld(final ZombiesWorld world) {
@@ -56,31 +46,20 @@ public final class ZombiesPlugin extends JavaPlugin implements Listener {
         return getGameWorlds().stream().map(ZombiesWorld::getZombies).flatMap(Collection::stream).toList();
     }
 
-    private Gson createGson() {
-        return new GsonBuilder()
-                .serializeNulls()
-                .setPrettyPrinting()
-                .registerTypeAdapter(BlockPosition.class, new BlockPositionTypeAdapter())
-                .registerTypeAdapter(FinePosition.class, new FinePositionTypeAdapter())
-                .create();
-    }
-
     @Override
     public void onEnable() {
         INSTANCE = this;
 
-        final Path data = getDataFolder().toPath();
+        configManager = new ConfigManager(this);
         try {
-            if (!Files.exists(data)) Files.createDirectory(data);
-            if (!Files.exists(data.resolve("data.json"))) {
-                Files.createFile(data.resolve("data.json"));
-                return;
-            }
-            final String configText = Files.readString(data.resolve("data.json"));
-            final Gson gson = createGson();
-            config = gson.fromJson(configText, WorldConfig.class);
+            configManager.backupConfig();
         } catch (final IOException e) {
-            e.printStackTrace();
+            getSLF4JLogger().error("failed to backup the config file", e);
+        }
+        try {
+            config = configManager.loadConfig();
+        } catch (final IOException e) {
+            getSLF4JLogger().error("failed to load the config file", e);
         }
 
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -99,13 +78,10 @@ public final class ZombiesPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        final Path data = getDataFolder().toPath();
         try {
-            final Gson gson = createGson();
-            final String configText = gson.toJson(config);
-            Files.writeString(data.resolve("data.json"), configText);
+            configManager.saveConfig(config);
         } catch (final IOException e) {
-            e.printStackTrace();
+            getSLF4JLogger().error("failed to save the config file", e);
         }
     }
 }
