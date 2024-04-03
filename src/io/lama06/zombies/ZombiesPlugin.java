@@ -20,7 +20,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-public final class ZombiesPlugin extends JavaPlugin {
+public final class ZombiesPlugin extends JavaPlugin implements Listener {
     public static ZombiesPlugin INSTANCE;
 
     private WorldConfig config = new WorldConfig();
@@ -83,6 +83,7 @@ public final class ZombiesPlugin extends JavaPlugin {
             e.printStackTrace();
         }
 
+        Bukkit.getPluginManager().registerEvents(this, this);
         for (final Listener system : Systems.SYSTEMS) {
             Bukkit.getPluginManager().registerEvents(system, this);
         }

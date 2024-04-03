@@ -53,9 +53,9 @@ public final class FireBulletsSystem implements Listener {
         final List<WeaponShootEvent.Bullet> bulletsList = new ArrayList<>();
         for (int i = 0; i < shootData.bullets(); i++) {
             final float yaw = (float) (player.getBukkit().getYaw() +
-                    (1 - shootData.precision()) * rnd.nextDouble() * 10 * (rnd.nextBoolean() ? 1 : -1));
+                    (1 - shootData.precision()) * rnd.nextDouble() * 90 * (rnd.nextBoolean() ? 1 : -1));
             final float pitch = (float) (player.getBukkit().getPitch() +
-                    (1 - shootData.precision()) * rnd.nextDouble() * 5 * (rnd.nextBoolean() ? 1 : -1));
+                    (1 - shootData.precision()) * rnd.nextDouble() * 90 * (rnd.nextBoolean() ? 1 : -1));
             final Vector bulletDirection = VectorUtil.fromJawAndPitch(yaw, pitch);
             bulletsList.add(new WeaponShootEvent.Bullet(bulletDirection));
         }

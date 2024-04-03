@@ -14,6 +14,7 @@ public final class DamageZombieAfterAttackSystem implements Listener {
         if (!(zombie.getEntity() instanceof final LivingEntity living)) {
             return;
         }
+        living.setNoDamageTicks(0);
         living.damage(event.getDamage(), event.getPlayer().getBukkit());
         if (event.getFire()) {
             living.setFireTicks(5 * 20);

@@ -32,6 +32,7 @@ final class ZombieExplosion {
             if (!(nearbyEntity instanceof final Player player)) {
                 continue;
             }
+            player.setNoDamageTicks(0);
             player.damage(explosionAttackData.damage(), zombie.getEntity());
         }
     }
