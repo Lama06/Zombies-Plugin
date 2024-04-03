@@ -19,7 +19,7 @@ public final class StartDelayAfterWeaponUseSystem implements Listener {
         if (delayComponent == null) {
             return;
         }
-        final int delay = delayComponent.get(DelayData.DELAY);
+        final int delay = weapon.getData().delay.delay();
         final int remainingDelay = delayComponent.get(DelayData.REMAINING_DELAY);
         delayComponent.set(DelayData.REMAINING_DELAY, delay);
         Bukkit.getPluginManager().callEvent(new WeaponDelayChangeEvent(event.getWeapon(), remainingDelay, delay));

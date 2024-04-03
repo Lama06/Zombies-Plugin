@@ -17,7 +17,6 @@ public final class InitReloadSystem implements Listener {
         }
         final Weapon weapon = event.getWeapon();
         final Component reloadComponent = weapon.addComponent(WeaponComponents.RELOAD);
-        reloadComponent.set(ReloadData.RELOAD, reload.reload());
         reloadComponent.set(ReloadData.REMAINING_RELOAD, 0);
     }
 }

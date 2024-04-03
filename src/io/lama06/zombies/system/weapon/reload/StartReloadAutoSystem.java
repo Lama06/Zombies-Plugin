@@ -21,7 +21,7 @@ public final class StartReloadAutoSystem implements Listener {
         if (reloadComponent == null) {
             return;
         }
-        final int reload = reloadComponent.get(ReloadData.RELOAD);
+        final int reload = weapon.getData().reload.reload();
         final int remainingReload = reloadComponent.get(ReloadData.REMAINING_RELOAD);
         reloadComponent.set(ReloadData.REMAINING_RELOAD, reload);
         Bukkit.getPluginManager().callEvent(new WeaponReloadChangeEvent(event.getWeapon(), remainingReload, reload));

@@ -30,9 +30,8 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
     }
 
     public @Nullable Weapon getWeapon(final int slot) {
-        final PlayerInventory inventory = player.getInventory();
-        final ItemStack item = inventory.getItem(slot);
-        if (!Weapon.isWeapon(item)) {
+        final Weapon weapon = new Weapon(this, slot);
+        if (!weapon.isWeapon()) {
             return null;
         }
         return new Weapon(this, slot);

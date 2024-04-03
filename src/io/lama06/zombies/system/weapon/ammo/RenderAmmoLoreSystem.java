@@ -31,9 +31,9 @@ public final class RenderAmmoLoreSystem implements Listener {
         if (component == null) {
             return;
         }
-        final int maxAmmo = component.get(AmmoData.MAX_AMMO);
+        final int maxAmmo = weapon.getData().ammo.ammo();
         final int ammo = component.get(AmmoData.AMMO);
-        final int maxClip = component.get(AmmoData.MAX_CLIP);
+        final int maxClip = weapon.getData().ammo.clip();
         final int clip = component.get(AmmoData.CLIP);
         event.addLore(WeaponLoreRenderEvent.Part.AMMO, List.of(
                 new WeaponLoreRenderEvent.Entry("Ammo", ammo + " / " + maxAmmo),

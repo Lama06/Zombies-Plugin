@@ -18,9 +18,7 @@ public final class InitAmmoSystem implements Listener {
         final Weapon weapon = event.getWeapon();
         weapon.getItem().setAmount(data.clip());
         final Component ammoComponent = weapon.addComponent(WeaponComponents.AMMO);
-        ammoComponent.set(AmmoData.MAX_AMMO, data.ammo());
         ammoComponent.set(AmmoData.AMMO, data.ammo());
-        ammoComponent.set(AmmoData.MAX_CLIP, data.clip());
         ammoComponent.set(AmmoData.CLIP, data.clip());
     }
 }

@@ -73,10 +73,11 @@ public final class InteractWithWeaponShopSystem implements Listener {
             player.sendMessage(Component.text("This weapon cannot be refilled").color(NamedTextColor.RED));
             return;
         }
+        final AmmoData ammoData = weapon.getData().ammo;
         final int clip = ammComponent.get(AmmoData.CLIP);
         final int ammo = ammComponent.get(AmmoData.AMMO);
-        final int maxAmmo = ammComponent.get(AmmoData.MAX_AMMO);
-        final int maxClip = ammComponent.get(AmmoData.MAX_CLIP);
+        final int maxAmmo = ammoData.ammo();
+        final int maxClip = ammoData.clip();
         if (ammo == maxAmmo) {
             player.sendMessage(Component.text("This weapon is already refilled").color(NamedTextColor.RED));
             return;

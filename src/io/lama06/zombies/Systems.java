@@ -8,13 +8,13 @@ import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
 import io.lama06.zombies.system.weapon.ammo.*;
 import io.lama06.zombies.system.weapon.attack.ApplyAttackDamageSystem;
 import io.lama06.zombies.system.weapon.attack.GiveGoldAfterAttackSystem;
-import io.lama06.zombies.system.weapon.attack.InitAttackSystem;
 import io.lama06.zombies.system.weapon.delay.*;
 import io.lama06.zombies.system.weapon.melee.AttackMeleeSystem;
-import io.lama06.zombies.system.weapon.melee.InitMeleeSystem;
 import io.lama06.zombies.system.weapon.melee.RenderMeleeLoreSystem;
 import io.lama06.zombies.system.weapon.reload.*;
-import io.lama06.zombies.system.weapon.shoot.*;
+import io.lama06.zombies.system.weapon.shoot.FireBulletsSystem;
+import io.lama06.zombies.system.weapon.shoot.RenderShootLoreSystem;
+import io.lama06.zombies.system.weapon.shoot.SpawnParticlesAfterShotSystem;
 import io.lama06.zombies.system.zombie.*;
 import io.lama06.zombies.system.zombie.break_window.*;
 import io.lama06.zombies.system.zombie.explosion_attack.ExplodeOnDeathSystem;
@@ -58,7 +58,6 @@ public final class Systems {
             // Attack
             new ApplyAttackDamageSystem(),
             new GiveGoldAfterAttackSystem(),
-            new InitAttackSystem(),
             new RenderAmmoLoreSystem(),
 
             // Delay
@@ -71,7 +70,6 @@ public final class Systems {
 
             // Melee
             new AttackMeleeSystem(),
-            new InitMeleeSystem(),
             new RenderMeleeLoreSystem(),
 
             // Reload
@@ -85,8 +83,6 @@ public final class Systems {
 
             // Shoot
             new FireBulletsSystem(),
-            new InitShootParticleSystem(),
-            new InitShootSystem(),
             new RenderShootLoreSystem(),
             new SpawnParticlesAfterShotSystem(),
 

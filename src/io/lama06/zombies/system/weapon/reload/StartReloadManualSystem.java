@@ -28,9 +28,9 @@ public final class StartReloadManualSystem implements Listener {
         if (reloadComponent == null || ammoComponent == null) {
             return;
         }
-        final int reload = reloadComponent.get(ReloadData.RELOAD);
+        final int reload = weapon.getData().reload.reload();
         final int remainingReload = reloadComponent.get(ReloadData.REMAINING_RELOAD);
-        final int maxClip = ammoComponent.get(AmmoData.MAX_CLIP);
+        final int maxClip = weapon.getData().ammo.clip();
         final int clip = ammoComponent.get(AmmoData.CLIP);
         if (remainingReload != 0 || clip == maxClip) {
             return;

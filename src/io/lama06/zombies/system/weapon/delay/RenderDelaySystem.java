@@ -36,7 +36,7 @@ public final class RenderDelaySystem implements Listener {
             player.getBukkit().setExp(0);
             return;
         }
-        final int delay = delayComponent.get(DelayData.DELAY);
+        final int delay = weapon.getData().delay.delay();
         final int remainingDelay = delayComponent.get(DelayData.REMAINING_DELAY);
         final float progress = (float) (delay - remainingDelay) / delay;
         player.getBukkit().setExp(progress);

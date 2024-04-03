@@ -17,7 +17,6 @@ public final class InitDelaySystem implements Listener {
         }
         final Weapon weapon = event.getWeapon();
         final Component delayComponent = weapon.addComponent(WeaponComponents.DELAY);
-        delayComponent.set(DelayData.DELAY, delay.delay());
         delayComponent.set(DelayData.REMAINING_DELAY, 0);
     }
 }

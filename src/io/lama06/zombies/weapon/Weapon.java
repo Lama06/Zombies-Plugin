@@ -7,23 +7,8 @@ import io.lama06.zombies.player.ZombiesPlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.Contract;
 
 public final class Weapon extends Storage {
-    @Contract("null -> false")
-    public static boolean isWeapon(final ItemStack weapon) {
-        if (weapon == null) {
-            return false;
-        }
-        final ItemMeta meta = weapon.getItemMeta();
-        if (meta == null) {
-            return false;
-        }
-        final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        return pdc.getOrDefault(WeaponAttributes.IS_WEAPON.getKey(), PersistentDataType.BOOLEAN, false);
-    }
-
     private final ZombiesPlayer player;
     private final int slot;
 
@@ -46,6 +31,25 @@ public final class Weapon extends Storage {
 
     public ZombiesWorld getWorld() {
         return new ZombiesWorld(player.getBukkit().getWorld());
+    }
+
+    public boolean isWeapon() {
+        final ItemStack item = getItem();
+        if (item == null) {
+            return false;
+        }
+        if (item.getItemMeta() == null) {
+            return false;
+        }
+        return getOrDefault(WeaponAttributes.IS_WEAPON, false);
+    }
+
+    public WeaponType getType() {
+        return get(WeaponAttributes.TYPE);
+    }
+
+    public WeaponData getData() {
+        return getType().data;
     }
 
     @Override
