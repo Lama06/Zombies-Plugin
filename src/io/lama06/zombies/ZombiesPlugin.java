@@ -2,8 +2,6 @@ package io.lama06.zombies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
@@ -11,17 +9,10 @@ import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.zombie.Zombie;
 import io.papermc.paper.math.BlockPosition;
 import io.papermc.paper.math.FinePosition;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -95,6 +86,14 @@ public final class ZombiesPlugin extends JavaPlugin {
         for (final Listener system : Systems.SYSTEMS) {
             Bukkit.getPluginManager().registerEvents(system, this);
         }
+
+        final PluginCommand zombiesCommand = getCommand("zombies");
+        if (zombiesCommand == null) {
+            throw new IllegalStateException();
+        }
+        final ZombiesCommandExecutor zombiesCommandExecutor = new ZombiesCommandExecutor();
+        zombiesCommand.setExecutor(zombiesCommandExecutor);
+        zombiesCommand.setTabCompleter(zombiesCommandExecutor);
     }
 
     @Override
@@ -107,60 +106,5 @@ public final class ZombiesPlugin extends JavaPlugin {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean onCommand(
-            final @NotNull CommandSender sender,
-            final @NotNull Command command,
-            final @NotNull String label,
-            final @NotNull String[] args
-    ) {
-        if (args.length == 0) return false;
-        if (!(sender instanceof final Player player)) return false;
-        switch (args[0]) {
-            case "config" -> config.openMenu(player, () -> {});
-            case "start" -> {
-                try {
-                    config.check();
-                } catch (final InvalidConfigException e) {
-                    player.sendMessage(Component.text(e.getLocalizedMessage()));
-                    return true;
-                }
-                final ZombiesWorld world = new ZombiesWorld(player.getWorld());
-                world.startGame();
-            }
-            case "stop" -> {
-                final ZombiesWorld world = new ZombiesWorld(player.getWorld());
-                world.endGame();
-            }
-            case "clear" -> {
-                for (final World world : Bukkit.getWorlds()) {
-                    for (final NamespacedKey key : world.getPersistentDataContainer().getKeys()) {
-                        world.getPersistentDataContainer().remove(key);
-                    }
-                    for (final Player worldPlayer : world.getPlayers()) {
-                        worldPlayer.getInventory().clear();
-                    }
-                    for (final Entity entity : world.getEntities()) {
-                        for (final NamespacedKey key : entity.getPersistentDataContainer().getKeys()) {
-                            entity.getPersistentDataContainer().remove(key);
-                        }
-                    }
-                }
-            }
-            case "info" -> {
-                final String string = player.getWorld().getPersistentDataContainer().toString();
-                for (final NamespacedKey key : player.getWorld().getPersistentDataContainer().getKeys()) {
-                    player.sendMessage(key.toString());
-                }
-                player.sendMessage(string);
-            }
-            case "gold" -> {
-                new ZombiesPlayer(player).set(PlayerAttributes.GOLD, 100);
-                Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(new ZombiesPlayer(player), 0, 100));
-            }
-        }
-        return true;
     }
 }
