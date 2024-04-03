@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
@@ -100,6 +101,9 @@ public final class RenderScoreboardSystem implements Listener {
     }
 
     public static void updateScoreboard(final ZombiesPlayer player) {
+        if (!player.getWorld().isGameRunning()) {
+            return;
+        }
         final ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
         final Player bukkit = player.getBukkit();
         final Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
@@ -118,6 +122,11 @@ public final class RenderScoreboardSystem implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     private void onGameStart(final GameStartEvent event) {
         updateScoreboard(event.getWorld());
+    }
+
+    @EventHandler
+    private void onPlayerJoins(final PlayerJoinEvent event) {
+        updateScoreboard(new ZombiesPlayer(event.getPlayer()));
     }
 
     @EventHandler
