@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public enum PlayerHeads {
-    MAGMA_CUBE("EvModder");
+    MAGMA_CUBE("MagmaCube");
 
     private final String playerName;
 
