@@ -2,10 +2,8 @@ package io.lama06.zombies.system.zombie.explosion_attack;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;
-import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.ExplosionAttackData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -16,18 +14,18 @@ public final class ExplodePeriodicallySystem implements Listener {
     private void onServerTick(final ServerTickEndEvent event) {
         final List<Zombie> zombies = ZombiesPlugin.INSTANCE.getZombies();
         for (final Zombie zombie : zombies) {
-            final Component explosionAttackComponent = zombie.getComponent(ZombieComponents.EXPLOSION_ATTACK);
-            if (explosionAttackComponent == null) {
+            final ExplosionAttackData explosionAttackData = zombie.getData().explosionAttack;
+            if (explosionAttackData == null) {
                 continue;
             }
-            final int delay = explosionAttackComponent.getOrDefault(ExplosionAttackData.DELAY, 0);
+            final int delay = explosionAttackData.delay();
             if (delay == 0) {
                 continue;
             }
             if (event.getTickNumber() % delay != 0) {
                 continue;
             }
-            ZombieExplosion.explode(zombie, explosionAttackComponent);
+            ZombieExplosion.explode(zombie, explosionAttackData);
         }
     }
 }

@@ -30,8 +30,9 @@ public final class StartWindowBreakingSystem implements Listener {
         if (breakWindowComponent == null) {
             return;
         }
-        final int time = breakWindowComponent.get(BreakWindowData.TIME);
-        final double maxDistance = breakWindowComponent.get(BreakWindowData.MAX_DISTANCE);
+        final BreakWindowData breakWindowData = zombie.getData().breakWindow;
+        final int time = breakWindowData.time();
+        final double maxDistance = breakWindowData.maxDistance();
         final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
         if (block != null) {
             return;

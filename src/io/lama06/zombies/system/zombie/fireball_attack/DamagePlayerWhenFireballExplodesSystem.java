@@ -1,9 +1,7 @@
 package io.lama06.zombies.system.zombie.fireball_attack;
 
-import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.FireBallAttackData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
@@ -33,11 +31,10 @@ public final class DamagePlayerWhenFireballExplodesSystem implements Listener {
         if (!zombieShooter.isZombie()) {
             return;
         }
-        final Component fireBallAttackComponent = zombieShooter.getComponent(ZombieComponents.FIRE_BALL_ATTACK);
-        if (fireBallAttackComponent == null) {
+        final FireBallAttackData fireBallAttackData = zombieShooter.getData().fireBallAttack;
+        if (fireBallAttackData == null) {
             return;
         }
-        final double damage = fireBallAttackComponent.get(FireBallAttackData.DAMAGE);
-        event.setDamage(damage);
+        event.setDamage(fireBallAttackData.damage());
     }
 }

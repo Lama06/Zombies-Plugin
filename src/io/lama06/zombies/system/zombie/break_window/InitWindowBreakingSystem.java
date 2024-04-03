@@ -1,6 +1,5 @@
 package io.lama06.zombies.system.zombie.break_window;
 
-import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
@@ -16,8 +15,6 @@ public final class InitWindowBreakingSystem implements Listener {
             return;
         }
         final Zombie zombie = event.getZombie();
-        final Component breakWindowComponent = zombie.addComponent(ZombieComponents.BREAK_WINDOW);
-        breakWindowComponent.set(BreakWindowData.TIME, data.time());
-        breakWindowComponent.set(BreakWindowData.MAX_DISTANCE, data.maxDistance());
+        zombie.addComponent(ZombieComponents.BREAK_WINDOW);
     }
 }

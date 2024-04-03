@@ -24,7 +24,6 @@ public final class InitLaserAttackSystem implements Listener {
             return;
         }
         final Component laserAttackComponent = zombie.addComponent(ZombieComponents.LASER_ATTACK);
-        laserAttackComponent.set(LaserAttackData.DAMAGE, laserAttack.damage());
         final Guardian guardian = world.getBukkit().spawn(zombie.getEntity().getLocation(), Guardian.class);
         guardian.setSilent(true);
         guardian.setInvulnerable(true);

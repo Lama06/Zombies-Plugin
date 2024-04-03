@@ -12,6 +12,14 @@ public final class Zombie extends Storage {
         this.entity = entity;
     }
 
+    public ZombieType getType() {
+        return get(ZombieAttributes.TYPE);
+    }
+
+    public ZombieData getData() {
+        return getType().data;
+    }
+
     public boolean isZombie() {
         return getOrDefault(ZombieAttributes.IS_ZOMBIE, false);
     }

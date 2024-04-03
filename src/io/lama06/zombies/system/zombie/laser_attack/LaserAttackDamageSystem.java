@@ -1,11 +1,9 @@
 package io.lama06.zombies.system.zombie.laser_attack;
 
 import io.lama06.zombies.ZombiesPlugin;
-import io.lama06.zombies.data.Component;
 import io.lama06.zombies.util.json.UUIDTypeAdapter;
 import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Guardian;
@@ -33,11 +31,13 @@ public final class LaserAttackDamageSystem implements Listener {
         }
         final Entity zombieEntity = damager.getWorld().getEntity(zombieUuid);
         final Zombie zombie = new Zombie(zombieEntity);
-        final Component laserAttackComponent = zombie.getComponent(ZombieComponents.LASER_ATTACK);
-        if (laserAttackComponent == null) {
+        if (!zombie.isZombie()) {
             return;
         }
-        final double damage = laserAttackComponent.get(LaserAttackData.DAMAGE);
-        event.setDamage(damage);
+        final LaserAttackData laserAttackData = zombie.getData().laserAttack;
+        if (laserAttackData == null) {
+            return;
+        }
+        event.setDamage(laserAttackData.damage());
     }
 }

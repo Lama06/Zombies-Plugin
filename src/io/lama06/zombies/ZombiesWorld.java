@@ -8,7 +8,7 @@ import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieAttributes;
-import io.lama06.zombies.zombie.ZombieData;
+import io.lama06.zombies.zombie.ZombieType;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.Bukkit;
@@ -54,11 +54,12 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
         return world.getEntities().stream().map(Zombie::new).filter(Zombie::isZombie).toList();
     }
 
-    public Zombie spawnZombie(final Location location, final ZombieData data) {
-        final Entity entity = world.spawnEntity(location, data.entity, false);
+    public Zombie spawnZombie(final Location location, final ZombieType type) {
+        final Entity entity = world.spawnEntity(location, type.data.entity, false);
         final Zombie zombie = new Zombie(entity);
         zombie.set(ZombieAttributes.IS_ZOMBIE, true);
-        Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie, data));
+        zombie.set(ZombieAttributes.TYPE, type);
+        Bukkit.getPluginManager().callEvent(new ZombieSpawnEvent(zombie, type.data));
         return zombie;
     }
 

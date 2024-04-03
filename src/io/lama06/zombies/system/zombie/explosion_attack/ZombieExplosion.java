@@ -1,7 +1,6 @@
 package io.lama06.zombies.system.zombie.explosion_attack;
 
 import io.lama06.zombies.ZombiesWorld;
-import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.ExplosionAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.Particle;
@@ -17,8 +16,7 @@ final class ZombieExplosion {
     private static final int PARTICLE_COUNT = 4;
     private static final double DAMAGE_REACH = 5;
 
-    static void explode(final Zombie zombie, final Component explosionAttackComponent) {
-        final double damage = explosionAttackComponent.get(ExplosionAttackData.DAMAGE);
+    static void explode(final Zombie zombie, final ExplosionAttackData explosionAttackData) {
         final ZombiesWorld world = zombie.getWorld();
         final World worldBukkit = world.getBukkit();
         worldBukkit.spawnParticle(Particle.EXPLOSION_LARGE, zombie.getEntity().getLocation(), PARTICLE_COUNT);
@@ -34,7 +32,7 @@ final class ZombieExplosion {
             if (!(nearbyEntity instanceof final Player player)) {
                 continue;
             }
-            player.damage(damage, zombie.getEntity());
+            player.damage(explosionAttackData.damage(), zombie.getEntity());
         }
     }
 }

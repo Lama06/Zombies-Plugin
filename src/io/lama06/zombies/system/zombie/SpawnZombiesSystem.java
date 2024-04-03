@@ -34,7 +34,7 @@ public final class SpawnZombiesSystem implements Listener {
             if (type == null) {
                 continue;
             }
-            world.spawnZombie(spawnPoint, type.data);
+            world.spawnZombie(spawnPoint, type);
             world.set(WorldAttributes.NEXT_ZOMBIE_TIME, spawnRate.spawnDelay());
         }
     }
