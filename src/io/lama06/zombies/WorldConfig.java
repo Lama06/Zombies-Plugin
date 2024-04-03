@@ -16,6 +16,7 @@ public final class WorldConfig {
     public PowerSwitch powerSwitch = new PowerSwitch();
     public final List<Window> windows = new ArrayList<>();
     public final List<WeaponShop> weaponShops = new ArrayList<>();
+    public final List<ArmorShop> armorShops = new ArrayList<>();
 
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(startArea, "start area");
@@ -108,6 +109,20 @@ public final class WorldConfig {
                                 Material.WOODEN_HOE,
                                 shop -> Component.text("Weapon Shop at " + PositionUtil.format(shop.position)),
                                 WeaponShop::new,
+                                shop -> shop.openMenu(player, reopen),
+                                reopen
+                        )
+                ),
+                new SelectionEntry(
+                        Component.text("Armor Shops"),
+                        Material.IRON_CHESTPLATE,
+                        () -> ListConfigMenu.open(
+                                player,
+                                Component.text("Armor Shops"),
+                                armorShops,
+                                Material.IRON_CHESTPLATE,
+                                shop -> Component.text("Armor Shop at " + PositionUtil.format(shop.position)),
+                                ArmorShop::new,
                                 shop -> shop.openMenu(player, reopen),
                                 reopen
                         )

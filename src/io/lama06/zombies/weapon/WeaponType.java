@@ -38,7 +38,7 @@ public enum WeaponType implements MenuDisplayableEnum {
     }
 
     @Override
-    public Material getMaterial() {
+    public Material getDisplayMaterial() {
         return data.material;
     }
 }

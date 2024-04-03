@@ -6,5 +6,5 @@ import org.bukkit.Material;
 public interface MenuDisplayableEnum {
     Component getDisplayName();
 
-    Material getMaterial();
+    Material getDisplayMaterial();
 }

@@ -19,7 +19,7 @@ public final class EnumSelectionMenu {
         for (final T constant : enumClass.getEnumConstants()) {
             entries.add(new SelectionEntry(
                     constant.getDisplayName(),
-                    constant.getMaterial(),
+                    constant.getDisplayMaterial(),
                     () -> callback.accept(constant)
             ));
         }

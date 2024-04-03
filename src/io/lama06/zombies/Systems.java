@@ -87,6 +87,7 @@ public final class Systems {
             new SpawnParticlesAfterShotSystem(),
 
             // Zombie
+            new BuyArmorAtShopSystem(),
             new DamageZombieAfterAttackSystem(),
             new InitZombieEquipmentSystem(),
             new InitZombieHealthSystem(),
