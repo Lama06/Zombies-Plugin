@@ -7,7 +7,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public record BreakWindowData(int time, double maxDistance) {
     public BreakWindowData(final int time) {
-        this(time, 1);
+        this(time, 1.5);
     }
 
     public static final AttributeId<Integer> REMAINING_TIME = new AttributeId<>("remaining_time", PersistentDataType.INTEGER);

@@ -6,7 +6,6 @@ import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Guardian;
@@ -20,7 +19,7 @@ public final class MoveLaserAttackGuardianSystem implements Listener {
     @EventHandler
     private void onTick(final ServerTickEndEvent event) {
         for (final Zombie zombie : ZombiesPlugin.INSTANCE.getZombies()) {
-            final Component laserAttackComponent = zombie.getComponent(ZombieComponents.LASER_ATTACK);
+            final Component laserAttackComponent = zombie.getComponent(Zombie.LASER_ATTACK);
             if (laserAttackComponent == null) {
                 continue;
             }

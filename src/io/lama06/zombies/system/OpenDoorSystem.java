@@ -31,8 +31,8 @@ public final class OpenDoorSystem implements Listener {
             return;
         }
         final int gold = player.get(PlayerAttributes.GOLD);
-        final List<String> reachableAreas = world.get(WorldAttributes.REACHABLE_AREAS);
-        final List<Integer> doorIndizes = world.get(WorldAttributes.OPEN_DOORS);
+        final List<String> reachableAreas = world.get(ZombiesWorld.REACHABLE_AREAS);
+        final List<Integer> doorIndizes = world.get(ZombiesWorld.OPEN_DOORS);
         for (int i = 0; i < config.doors.size(); i++) {
             final Door door = config.doors.get(i);
             if (doorIndizes.contains(i)) {
@@ -53,11 +53,11 @@ public final class OpenDoorSystem implements Listener {
             final String newArea = reachableAreas.contains(door.area1) ? door.area2 : door.area1;
             final ArrayList<String> newAreas = new ArrayList<>(reachableAreas);
             newAreas.add(newArea);
-            world.set(WorldAttributes.REACHABLE_AREAS, newAreas);
+            world.set(ZombiesWorld.REACHABLE_AREAS, newAreas);
 
             final List<Integer> newDoorIndizes = new ArrayList<>(doorIndizes);
             newDoorIndizes.add(i);
-            world.set(WorldAttributes.OPEN_DOORS, newDoorIndizes);
+            world.set(ZombiesWorld.OPEN_DOORS, newDoorIndizes);
         }
     }
 }

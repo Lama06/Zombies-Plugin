@@ -7,7 +7,6 @@ import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import io.lama06.zombies.util.json.UUIDTypeAdapter;
 import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Guardian;
 import org.bukkit.event.EventHandler;
@@ -23,7 +22,7 @@ public final class InitLaserAttackSystem implements Listener {
         if (laserAttack == null) {
             return;
         }
-        final Component laserAttackComponent = zombie.addComponent(ZombieComponents.LASER_ATTACK);
+        final Component laserAttackComponent = zombie.addComponent(Zombie.LASER_ATTACK);
         final Guardian guardian = world.getBukkit().spawn(zombie.getEntity().getLocation(), Guardian.class);
         guardian.setSilent(true);
         guardian.setInvulnerable(true);

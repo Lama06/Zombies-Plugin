@@ -7,7 +7,6 @@ import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.math.BlockPosition;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,7 +25,7 @@ public final class StartWindowBreakingSystem implements Listener {
     }
 
     private void startZombie(final Zombie zombie) {
-        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        final Component breakWindowComponent = zombie.getComponent(Zombie.BREAK_WINDOW);
         if (breakWindowComponent == null) {
             return;
         }

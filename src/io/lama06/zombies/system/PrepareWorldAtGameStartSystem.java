@@ -1,6 +1,7 @@
 package io.lama06.zombies.system;
 
 import io.lama06.zombies.*;
+import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
@@ -26,8 +27,8 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
         for (final Door door : config.doors) {
             door.setOpen(world, false);
         }
-        world.set(WorldAttributes.OPEN_DOORS, List.of());
-        world.set(WorldAttributes.REACHABLE_AREAS, List.of(config.startArea));
+        world.set(ZombiesWorld.OPEN_DOORS, List.of());
+        world.set(ZombiesWorld.REACHABLE_AREAS, List.of(config.startArea));
 
         for (final Window window : config.windows) {
             window.close(event.getWorld());
@@ -36,12 +37,17 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
         if (config.powerSwitch != null) {
             config.powerSwitch.setActive(world, false);
         }
-        world.set(WorldAttributes.POWER_SWITCH, false);
+        world.set(ZombiesWorld.POWER_SWITCH, false);
 
         final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.get(0);
-        world.set(WorldAttributes.NEXT_ZOMBIE_TIME, firstRoundSpawnRate.spawnDelay());
-        world.set(WorldAttributes.REMAINING_ZOMBIES, firstRoundSpawnRate.getNumberOfZombies());
-        event.getWorld().set(WorldAttributes.ROUND, 1);
+        world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, firstRoundSpawnRate.spawnDelay());
+        world.set(ZombiesWorld.REMAINING_ZOMBIES, firstRoundSpawnRate.getNumberOfZombies());
+        event.getWorld().set(ZombiesWorld.ROUND, 1);
+
+        final Component perksComponent = world.addComponent(ZombiesWorld.PERKS_COMPONENT);
+        for (final GlobalPerk perk : GlobalPerk.values()) {
+            perksComponent.set(perk.getRemainingTimeAttribute(), 0);
+        }
 
         for (final ZombiesPlayer player : world.getPlayers()) {
             final Player bukkit = player.getBukkit();

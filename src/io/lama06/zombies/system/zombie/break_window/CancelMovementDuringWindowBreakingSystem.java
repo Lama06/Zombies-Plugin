@@ -3,7 +3,6 @@ package io.lama06.zombies.system.zombie.break_window;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -17,7 +16,7 @@ public final class CancelMovementDuringWindowBreakingSystem implements Listener 
         if (!zombie.isZombie()) {
             return;
         }
-        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        final Component breakWindowComponent = zombie.getComponent(Zombie.BREAK_WINDOW);
         if (breakWindowComponent == null) {
             return;
         }

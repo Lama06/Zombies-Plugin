@@ -4,11 +4,10 @@ import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.zombie.Zombie;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public final class PlayerAttackZombieEvent extends PlayerEvent implements Cancellable {
+public final class PlayerAttackZombieEvent extends PlayerEvent {
     public static final HandlerList HANDLERS = new HandlerList();
 
     @HandlerListGetter
@@ -18,8 +17,8 @@ public final class PlayerAttackZombieEvent extends PlayerEvent implements Cancel
 
     private final Weapon weapon;
     private final Zombie zombie;
-    private boolean cancel;
     private boolean fire;
+    private boolean kill;
     private double baseDamage;
     private double damageModifier = 1;
 
@@ -61,14 +60,12 @@ public final class PlayerAttackZombieEvent extends PlayerEvent implements Cancel
         this.fire = fire;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancel;
+    public boolean isKill() {
+        return kill;
     }
 
-    @Override
-    public void setCancelled(final boolean cancel) {
-        this.cancel = cancel;
+    public void setKill(final boolean kill) {
+        this.kill = kill;
     }
 
     @Override

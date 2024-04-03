@@ -1,6 +1,5 @@
 package io.lama06.zombies.system;
 
-import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.WorldConfig;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.player.PlayerAttributes;
@@ -35,7 +34,7 @@ public final class EnablePowerSwitchSystem implements Listener {
         if (!clickedBlock.getLocation().toBlock().equals(config.powerSwitch.position)) {
             return;
         }
-        final boolean powerSwitchOn = world.get(WorldAttributes.POWER_SWITCH);
+        final boolean powerSwitchOn = world.get(ZombiesWorld.POWER_SWITCH);
         final int gold = player.get(PlayerAttributes.GOLD);
         if (powerSwitchOn) {
             return;
@@ -46,6 +45,6 @@ public final class EnablePowerSwitchSystem implements Listener {
         }
         player.set(PlayerAttributes.GOLD, gold - config.powerSwitch.gold);
         world.showTitle(Title.title(Component.text(player.getBukkit().getName() + " activated the power switch"), Component.empty()));
-        world.set(WorldAttributes.POWER_SWITCH, true);
+        world.set(ZombiesWorld.POWER_SWITCH, true);
     }
 }

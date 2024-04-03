@@ -25,12 +25,13 @@ public final class CleanupAfterGameSystem implements Listener {
         for (final Window window : config.windows) {
             window.close(world);
         }
-        world.remove(WorldAttributes.ROUND);
-        world.remove(WorldAttributes.REMAINING_ZOMBIES);
-        world.remove(WorldAttributes.NEXT_ZOMBIE_TIME);
-        world.remove(WorldAttributes.REACHABLE_AREAS);
-        world.remove(WorldAttributes.OPEN_DOORS);
-        world.remove(WorldAttributes.POWER_SWITCH);
+        world.remove(ZombiesWorld.ROUND);
+        world.remove(ZombiesWorld.REMAINING_ZOMBIES);
+        world.remove(ZombiesWorld.NEXT_ZOMBIE_TIME);
+        world.remove(ZombiesWorld.REACHABLE_AREAS);
+        world.remove(ZombiesWorld.OPEN_DOORS);
+        world.remove(ZombiesWorld.POWER_SWITCH);
+        world.removeComponent(ZombiesWorld.PERKS_COMPONENT);
 
         for (final ZombiesPlayer player : world.getPlayers()) {
             player.remove(PlayerAttributes.GOLD);

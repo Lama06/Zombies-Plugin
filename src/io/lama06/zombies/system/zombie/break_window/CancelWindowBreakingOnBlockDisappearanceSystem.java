@@ -4,7 +4,6 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.zombie.BreakWindowTickEvent;
 import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.math.BlockPosition;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,7 +16,7 @@ public final class CancelWindowBreakingOnBlockDisappearanceSystem implements Lis
     @EventHandler(ignoreCancelled = true)
     private void onBreakWindowTick(final BreakWindowTickEvent event) {
         final Zombie zombie = event.getZombie();
-        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        final Component breakWindowComponent = zombie.getComponent(Zombie.BREAK_WINDOW);
         Objects.requireNonNull(breakWindowComponent);
         final BlockPosition blockPos = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
         if (blockPos == null) {

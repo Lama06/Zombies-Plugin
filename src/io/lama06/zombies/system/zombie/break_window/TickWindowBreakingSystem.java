@@ -6,7 +6,6 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.zombie.BreakWindowTickEvent;
 import io.lama06.zombies.zombie.BreakWindowData;
 import io.lama06.zombies.zombie.Zombie;
-import io.lama06.zombies.zombie.ZombieComponents;
 import io.papermc.paper.math.BlockPosition;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -21,7 +20,7 @@ public final class TickWindowBreakingSystem implements Listener {
     }
 
     private void tickZombie(final Zombie zombie) {
-        final Component breakWindowComponent = zombie.getComponent(ZombieComponents.BREAK_WINDOW);
+        final Component breakWindowComponent = zombie.getComponent(Zombie.BREAK_WINDOW);
         if (breakWindowComponent == null) {
             return;
         }

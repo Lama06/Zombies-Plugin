@@ -1,10 +1,7 @@
 package io.lama06.zombies.system;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
-import io.lama06.zombies.Window;
-import io.lama06.zombies.WorldConfig;
-import io.lama06.zombies.ZombiesPlugin;
-import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.*;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.player.PlayerAttributes;
 import io.lama06.zombies.player.ZombiesPlayer;
@@ -55,7 +52,7 @@ public final class RepairWindowSystem implements Listener {
             player.sendMessage(Component.text("Window Repaired: +10 Gold").color(NamedTextColor.GOLD));
             world.getBukkit().playSound(block.getLocation(), Sound.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 1);
             final int gold = player.get(PlayerAttributes.GOLD);
-            final int newGold = gold + GOLD;
+            final int newGold = gold + (world.isPerkEnabled(GlobalPerk.DOUBLE_GOLD) ? 2 : 1) * GOLD;
             player.set(PlayerAttributes.GOLD, newGold);
             Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, newGold));
             return;

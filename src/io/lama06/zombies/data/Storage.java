@@ -55,6 +55,16 @@ public abstract class Storage {
         return Objects.requireNonNull(getComponent(component));
     }
 
+    public void removeComponent(final ComponentId component) {
+        if (!hasComponent(component)) {
+            throw new IllegalStateException();
+        }
+        final StorageSession session = startSession();
+        final PersistentDataContainer data = session.getData();
+        data.remove(component.getKey());
+        session.applyChanges();
+    }
+
     public <T> T getOrDefault(final AttributeId<T> attribute, final T fallback) {
         final StorageSession session = startSession();
         final PersistentDataContainer data = session.getData();

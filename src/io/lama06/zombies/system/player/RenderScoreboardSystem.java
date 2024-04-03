@@ -1,6 +1,5 @@
 package io.lama06.zombies.system.player;
 
-import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.GameStartEvent;
@@ -31,11 +30,11 @@ public final class RenderScoreboardSystem implements Listener {
         final List<Component> content = new ArrayList<>();
         final ZombiesWorld world = player.getWorld();
 
-        final int round = world.get(WorldAttributes.ROUND);
+        final int round = world.get(ZombiesWorld.ROUND);
         content.add(Component.text("Round " + round).color(NamedTextColor.RED));
 
         final int aliveZombies = world.getZombies().size();
-        final int remainingZombies = world.get(WorldAttributes.REMAINING_ZOMBIES);
+        final int remainingZombies = world.get(ZombiesWorld.REMAINING_ZOMBIES);
         final int zombiesLeft = aliveZombies + remainingZombies;
         content.add(Component.text("Zombies Left: ").append(Component.text(zombiesLeft).color(NamedTextColor.GREEN)));
 

@@ -19,10 +19,10 @@ public final class SpawnZombiesSystem implements Listener {
     @EventHandler
     private void onServerTick(final ServerTickEndEvent event) {
         for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getGameWorlds()) {
-            final int round = world.get(WorldAttributes.ROUND);
-            final int nextZombieTime = world.get(WorldAttributes.NEXT_ZOMBIE_TIME);
+            final int round = world.get(ZombiesWorld.ROUND);
+            final int nextZombieTime = world.get(ZombiesWorld.NEXT_ZOMBIE_TIME);
             if (nextZombieTime > 0) {
-                world.set(WorldAttributes.NEXT_ZOMBIE_TIME, nextZombieTime - 1);
+                world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, nextZombieTime - 1);
                 continue;
             }
             final SpawnRate spawnRate = SpawnRate.SPAWN_RATES.get(round - 1);
@@ -35,13 +35,13 @@ public final class SpawnZombiesSystem implements Listener {
                 continue;
             }
             world.spawnZombie(spawnPoint, type);
-            world.set(WorldAttributes.NEXT_ZOMBIE_TIME, spawnRate.spawnDelay());
+            world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, spawnRate.spawnDelay());
         }
     }
 
     private ZombieType getNextZombie(final ZombiesWorld world) {
-        final int remainingZombies = world.get(WorldAttributes.REMAINING_ZOMBIES);
-        final int round = world.get(WorldAttributes.ROUND);
+        final int remainingZombies = world.get(ZombiesWorld.REMAINING_ZOMBIES);
+        final int round = world.get(ZombiesWorld.ROUND);
         if (remainingZombies == 0) {
             return null;
         }
@@ -53,7 +53,7 @@ public final class SpawnZombiesSystem implements Listener {
         });
         final RandomGenerator rnd = ThreadLocalRandom.current();
         final ZombieType nextZombieType = types.get(rnd.nextInt(types.size()));
-        world.set(WorldAttributes.REMAINING_ZOMBIES, remainingZombies - 1);
+        world.set(ZombiesWorld.REMAINING_ZOMBIES, remainingZombies - 1);
         return nextZombieType;
     }
 
@@ -62,7 +62,7 @@ public final class SpawnZombiesSystem implements Listener {
         if (config == null) {
             return null;
         }
-        final List<String> areas = world.get(WorldAttributes.REACHABLE_AREAS);
+        final List<String> areas = world.get(ZombiesWorld.REACHABLE_AREAS);
         return config.windows.stream().filter(window -> areas.contains(window.area)).toList();
     }
 

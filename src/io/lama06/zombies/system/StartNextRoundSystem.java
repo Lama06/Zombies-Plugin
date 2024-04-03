@@ -2,7 +2,6 @@ package io.lama06.zombies.system;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.SpawnRate;
-import io.lama06.zombies.WorldAttributes;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.StartRoundEvent;
@@ -22,8 +21,8 @@ public final class StartNextRoundSystem implements Listener {
             if (!zombies.isEmpty()) {
                 continue;
             }
-            final int currentRound = world.get(WorldAttributes.ROUND);
-            final int remainingZombies = world.get(WorldAttributes.REMAINING_ZOMBIES);
+            final int currentRound = world.get(ZombiesWorld.ROUND);
+            final int remainingZombies = world.get(ZombiesWorld.REMAINING_ZOMBIES);
             if (remainingZombies > 0) {
                 continue;
             }
@@ -33,9 +32,9 @@ public final class StartNextRoundSystem implements Listener {
                 continue;
             }
             final SpawnRate spawnRate = SpawnRate.SPAWN_RATES.get(nextRound - 1);
-            world.set(WorldAttributes.ROUND, nextRound);
-            world.set(WorldAttributes.NEXT_ZOMBIE_TIME, spawnRate.spawnDelay());
-            world.set(WorldAttributes.REMAINING_ZOMBIES, spawnRate.getNumberOfZombies());
+            world.set(ZombiesWorld.ROUND, nextRound);
+            world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, spawnRate.spawnDelay());
+            world.set(ZombiesWorld.REMAINING_ZOMBIES, spawnRate.getNumberOfZombies());
             world.sendMessage(Component.text("Round " + nextRound));
             Bukkit.getPluginManager().callEvent(new StartRoundEvent(world, currentRound + 1));
         }
