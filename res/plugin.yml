@@ -1,7 +1,9 @@
 name: Zombies
-version: 1.0.0
-api-version: 1.20
 main: io.lama06.zombies.ZombiesPlugin
+api-version: 1.20
+version: 1.0.0
+author: Lama06
+website: https://github.com/Lama06/Zombies-Plugin/
 commands:
   zombies:
     description: Command of the Zombies plugin

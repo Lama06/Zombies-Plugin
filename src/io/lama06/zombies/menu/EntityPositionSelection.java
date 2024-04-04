@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 import java.util.function.Consumer;
 
@@ -46,12 +46,12 @@ public final class EntityPositionSelection implements Listener {
     }
 
     private void start() {
-        player.showTitle(Title.title(title, Component.text("Move to a new position and press ").append(Component.keybind("key.drop"))));
+        player.showTitle(Title.title(title, Component.text("Move to a new position and press ").append(Component.keybind("key.swapOffhand"))));
         Bukkit.getPluginManager().registerEvents(this, ZombiesPlugin.INSTANCE);
     }
 
     @EventHandler
-    private void onPlayerDropItem(final PlayerDropItemEvent event) {
+    private void onPlayerSwitchHands(final PlayerSwapHandItemsEvent event) {
         if (!event.getPlayer().equals(player)) {
             return;
         }
