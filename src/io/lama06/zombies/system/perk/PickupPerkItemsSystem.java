@@ -29,6 +29,9 @@ public final class PickupPerkItemsSystem implements Listener {
             for (final ItemDisplay nearbyDisplayItem : nearbyDisplayItems) {
                 final PersistentDataContainer pdc = nearbyDisplayItem.getPersistentDataContainer();
                 final String perkName = pdc.get(PerkItem.getPerkNameKey(), PersistentDataType.STRING);
+                if (perkName == null) {
+                    continue;
+                }
                 final GlobalPerk perk;
                 try {
                     perk = GlobalPerk.valueOf(perkName);

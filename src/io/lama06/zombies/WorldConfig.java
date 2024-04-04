@@ -17,6 +17,8 @@ public final class WorldConfig {
     public final List<Window> windows = new ArrayList<>();
     public final List<WeaponShop> weaponShops = new ArrayList<>();
     public final List<ArmorShop> armorShops = new ArrayList<>();
+    public final List<LuckyChest> luckyChests = new ArrayList<>();
+    public boolean preventBuilding;
 
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(startArea, "start area");
@@ -126,6 +128,28 @@ public final class WorldConfig {
                                 shop -> shop.openMenu(player, reopen),
                                 reopen
                         )
+                ),
+                new SelectionEntry(
+                        Component.text("Lucky Chests"),
+                        Material.CHEST,
+                        () -> ListConfigMenu.open(
+                                player,
+                                Component.text("Lucky Chests"),
+                                luckyChests,
+                                Material.CHEST,
+                                luckyChest -> Component.text("Lucky Chest at " + PositionUtil.format(luckyChest.position)),
+                                LuckyChest::new,
+                                luckChest -> luckChest.openMenu(player, reopen),
+                                reopen
+                        )
+                ),
+                new SelectionEntry(
+                        Component.text("Prevent Building by Operators: " + preventBuilding),
+                        Material.BARRIER,
+                        () -> {
+                            preventBuilding = !preventBuilding;
+                            reopen.run();
+                        }
                 )
         );
     }

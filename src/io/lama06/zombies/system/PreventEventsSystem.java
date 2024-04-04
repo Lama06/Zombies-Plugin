@@ -20,6 +20,9 @@ public final class PreventEventsSystem implements Listener {
         if (!world.isZombiesWorld()) {
             return;
         }
+        if (!world.isGameRunning() && event.getPlayer().isOp() && !world.getConfig().preventBuilding) {
+            return;
+        }
         event.setCancelled(true);
     }
 
@@ -27,6 +30,9 @@ public final class PreventEventsSystem implements Listener {
     private void onBlockPlaceEvent(final BlockPlaceEvent event) {
         final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
         if (!world.isZombiesWorld()) {
+            return;
+        }
+        if (!world.isGameRunning() && event.getPlayer().isOp() && !world.getConfig().preventBuilding) {
             return;
         }
         event.setCancelled(true);

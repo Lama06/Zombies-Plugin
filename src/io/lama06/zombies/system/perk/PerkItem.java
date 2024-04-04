@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey;
 
 final class PerkItem {
     static NamespacedKey getRemainingTimeKey() {
-        return new NamespacedKey(ZombiesPlugin.INSTANCE, "remaining_time");
+        return new NamespacedKey(ZombiesPlugin.INSTANCE, "perk_remaining_time");
     }
 
     static NamespacedKey getPerkNameKey() {

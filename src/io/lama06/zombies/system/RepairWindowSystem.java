@@ -49,12 +49,13 @@ public final class RepairWindowSystem implements Listener {
                 continue;
             }
             block.setType(Material.OAK_SLAB);
-            player.sendMessage(Component.text("Window Repaired: +10 Gold").color(NamedTextColor.GOLD));
             world.getBukkit().playSound(block.getLocation(), Sound.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 1);
             final int gold = player.get(PlayerAttributes.GOLD);
-            final int newGold = gold + (world.isPerkEnabled(GlobalPerk.DOUBLE_GOLD) ? 2 : 1) * GOLD;
+            final int goldAdd = (world.isPerkEnabled(GlobalPerk.DOUBLE_GOLD) ? 2 : 1) * GOLD;
+            final int newGold = gold + goldAdd;
             player.set(PlayerAttributes.GOLD, newGold);
             Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, newGold));
+            player.sendMessage(Component.text("Window Repaired: +%s Gold".formatted(goldAdd)).color(NamedTextColor.GOLD));
             return;
         }
     }

@@ -13,6 +13,7 @@ public final class WeaponData {
     public ShootParticleData shootParticle;
     public MeleeData melee;
     public AttackData attack;
+    public boolean inLuckyChest;
 
     public WeaponData setDisplayName(final Component displayName) {
         this.displayName = displayName;
@@ -56,6 +57,11 @@ public final class WeaponData {
 
     public WeaponData setAttack(final AttackData attack) {
         this.attack = attack;
+        return this;
+    }
+
+    public WeaponData includeInLuckyChest() {
+        inLuckyChest = true;
         return this;
     }
 }

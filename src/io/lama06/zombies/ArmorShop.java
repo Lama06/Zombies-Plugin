@@ -67,7 +67,7 @@ public final class ArmorShop {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Quality: ").append(part.getDisplayName()),
+                        Component.text("Quality: ").append(quality.getDisplayName()),
                         quality.getDisplayMaterial(),
                         () -> EnumSelectionMenu.open(
                                 Quality.class,

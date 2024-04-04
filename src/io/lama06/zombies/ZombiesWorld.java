@@ -14,6 +14,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,6 +68,9 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
 
     public Zombie spawnZombie(final Location location, final ZombieType type) {
         final Entity entity = world.spawnEntity(location, type.data.entity, false);
+        if (entity instanceof final LivingEntity living) {
+            living.setRemoveWhenFarAway(false);
+        }
         final Zombie zombie = new Zombie(entity);
         zombie.set(Zombie.IS_ZOMBIE, true);
         zombie.set(Zombie.TYPE, type);

@@ -57,6 +57,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setAmmo(new AmmoData(40, 4))
                     .setDelay(new DelayData(30))
                     .setReload(new ReloadData(40))
+                    .includeInLuckyChest()
     ),
     FLAME_THROWER(
             new WeaponData()
@@ -68,6 +69,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setAmmo(new AmmoData(350, 50))
                     .setDelay(new DelayData(2))
                     .setReload(new ReloadData(30))
+                    .includeInLuckyChest()
     );
 
     public final WeaponData data;
