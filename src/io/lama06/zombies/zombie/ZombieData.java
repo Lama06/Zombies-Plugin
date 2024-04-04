@@ -1,11 +1,13 @@
 package io.lama06.zombies.zombie;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public final class ZombieData {
     public EntityType entity;
@@ -19,6 +21,7 @@ public final class ZombieData {
     public boolean fireTrail;
     public DescendantsData descendants;
     public FireBallAttackData fireBallAttack;
+    public Consumer<? super Entity> initializer;
 
     public ZombieData setEntity(final EntityType entity) {
         this.entity = entity;
@@ -72,6 +75,11 @@ public final class ZombieData {
 
     public ZombieData setFireBallAttack(final FireBallAttackData fireBallAttack) {
         this.fireBallAttack = fireBallAttack;
+        return this;
+    }
+
+    public ZombieData setInitializer(final Consumer<? super Entity> initializer) {
+        this.initializer = initializer;
         return this;
     }
 }

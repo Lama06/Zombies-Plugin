@@ -82,9 +82,5 @@ public final class ZombiesPlugin extends JavaPlugin implements Listener {
         } catch (final IOException e) {
             getSLF4JLogger().error("failed to save the config file", e);
         }
-
-        for (final ZombiesWorld gameWorld : getGameWorlds()) {
-            gameWorld.endGame();
-        }
     }
 }

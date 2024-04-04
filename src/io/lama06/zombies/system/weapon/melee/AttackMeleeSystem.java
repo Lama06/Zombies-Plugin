@@ -31,6 +31,9 @@ public final class AttackMeleeSystem implements Listener {
             return;
         }
         final Entity entity = player.getBukkit().getTargetEntity((int) meleeData.range());
+        if (entity == null) {
+            return;
+        }
         final Zombie zombie = new Zombie(entity);
         if (!zombie.isZombie()) {
             return;

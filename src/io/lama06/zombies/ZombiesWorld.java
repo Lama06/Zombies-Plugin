@@ -72,6 +72,9 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
 
     public Zombie spawnZombie(final Location location, final ZombieType type) {
         final Entity entity = world.spawnEntity(location, type.data.entity, false);
+        if (type.data.initializer != null) {
+            type.data.initializer.accept(entity);
+        }
         if (entity instanceof final LivingEntity living) {
             living.setRemoveWhenFarAway(false);
         }

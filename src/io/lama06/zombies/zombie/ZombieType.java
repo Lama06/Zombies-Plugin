@@ -2,7 +2,8 @@ package io.lama06.zombies.zombie;
 
 import io.lama06.zombies.util.PlayerHeads;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.*;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -63,6 +64,7 @@ public enum ZombieType {
                     .setHealth(10)
                     .setExplosionAttack(ExplosionAttackData.explodeOnDeath(4))
                     .addEquipment(EquipmentSlot.HEAD, new ItemStack(Material.TNT))
+                    .setInitializer(entity -> ((Zombie) entity).setBaby())
     ),
     FIRE_ZOMBIE(
             new ZombieData()
@@ -78,6 +80,7 @@ public enum ZombieType {
                     .setEntity(EntityType.WOLF)
                     .setHealth(10)
                     .setBreakWindow(new BreakWindowData(2*20))
+                    .setInitializer(entity -> ((Wolf) entity).setAngry(true))
     ),
     GUARDIAN_ZOMBIE(
             new ZombieData()
