@@ -15,10 +15,14 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 public final class ZombiesWorld extends Storage implements ForwardingAudience {
     public static final AttributeId<Boolean> GAME_RUNNING = new AttributeId<>("is_game", PersistentDataType.BOOLEAN);
@@ -26,6 +30,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     public static final AttributeId<Integer> ROUND = new AttributeId<>("round", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> REMAINING_ZOMBIES = new AttributeId<>("remaining_zombies", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> NEXT_ZOMBIE_TIME = new AttributeId<>("next_zombie", PersistentDataType.INTEGER);
+    public static final AttributeId<Boolean> BOSS_SPAWNED = new AttributeId<>("boss_spawned", PersistentDataType.BOOLEAN);
     public static final AttributeId<Boolean> POWER_SWITCH = new AttributeId<>("power_switch", PersistentDataType.BOOLEAN);
     public static final AttributeId<List<String>> REACHABLE_AREAS = new AttributeId<>("reachable_areas", PersistentDataType.LIST.strings());
     public static final AttributeId<List<Integer>> OPEN_DOORS = new AttributeId<>("open_doors", PersistentDataType.LIST.integers());
@@ -94,6 +99,41 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
             return false;
         }
         return perksComponent.get(perk.getRemainingTimeAttribute()) != 0;
+    }
+
+    public List<Window> getAvailableWindows() {
+        final WorldConfig config = getConfig();
+        if (config == null) {
+            return List.of();
+        }
+        final List<String> areas = get(REACHABLE_AREAS);
+        return config.windows.stream().filter(window -> areas.contains(window.area)).toList();
+    }
+
+    public Location getNextZombieSpawnPoint() {
+        final RandomGenerator rnd = ThreadLocalRandom.current();
+        final List<ZombiesPlayer> players = getPlayers();
+        if (players.isEmpty()) {
+            return null;
+        }
+        final ZombiesPlayer player = players.get(rnd.nextInt(players.size()));
+        final Window window = getNearestWindowToPlayer(player);
+        if (window == null) {
+            return null;
+        }
+        return window.spawnLocation.toBukkit(getBukkit());
+    }
+
+    private Window getNearestWindowToPlayer(final ZombiesPlayer player) {
+        final List<Window> windows = getAvailableWindows();
+        if (windows == null || windows.isEmpty()) {
+            return null;
+        }
+        return windows.stream().min(Comparator.comparingDouble(window -> {
+            final Vector windowVector = window.spawnLocation.coordinates().toVector();
+            final Vector playerVector = player.getBukkit().getLocation().toVector();
+            return windowVector.distance(playerVector);
+        })).orElseThrow();
     }
 
     @Override

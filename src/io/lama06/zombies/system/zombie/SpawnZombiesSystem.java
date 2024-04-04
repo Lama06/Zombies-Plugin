@@ -2,15 +2,12 @@ package io.lama06.zombies.system.zombie;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.*;
-import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.zombie.ZombieType;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.random.RandomGenerator;
@@ -26,7 +23,7 @@ public final class SpawnZombiesSystem implements Listener {
                 continue;
             }
             final SpawnRate spawnRate = SpawnRate.SPAWN_RATES.get(round - 1);
-            final Location spawnPoint = getNextSpawnPoint(world);
+            final Location spawnPoint = world.getNextZombieSpawnPoint();
             if (spawnPoint == null) {
                 continue;
             }
@@ -55,40 +52,5 @@ public final class SpawnZombiesSystem implements Listener {
         final ZombieType nextZombieType = types.get(rnd.nextInt(types.size()));
         world.set(ZombiesWorld.REMAINING_ZOMBIES, remainingZombies - 1);
         return nextZombieType;
-    }
-
-    private List<Window> getAvailableWindows(final ZombiesWorld world) {
-        final WorldConfig config = world.getConfig();
-        if (config == null) {
-            return null;
-        }
-        final List<String> areas = world.get(ZombiesWorld.REACHABLE_AREAS);
-        return config.windows.stream().filter(window -> areas.contains(window.area)).toList();
-    }
-
-    private Window getNearestWindowToPlayer(final ZombiesWorld world, final ZombiesPlayer player) {
-        final List<Window> windows = getAvailableWindows(world);
-        if (windows == null || windows.isEmpty()) {
-            return null;
-        }
-        return windows.stream().min(Comparator.comparingDouble(window -> {
-            final Vector windowVector = window.spawnLocation.coordinates().toVector();
-            final Vector playerVector = player.getBukkit().getLocation().toVector();
-            return windowVector.distance(playerVector);
-        })).orElseThrow();
-    }
-
-    private Location getNextSpawnPoint(final ZombiesWorld world) {
-        final RandomGenerator rnd = ThreadLocalRandom.current();
-        final List<ZombiesPlayer> players = world.getPlayers();
-        if (players.isEmpty()) {
-            return null;
-        }
-        final ZombiesPlayer player = players.get(rnd.nextInt(players.size()));
-        final Window window = getNearestWindowToPlayer(world, player);
-        if (window == null) {
-            return null;
-        }
-        return window.spawnLocation.toBukkit(world.getBukkit());
     }
 }

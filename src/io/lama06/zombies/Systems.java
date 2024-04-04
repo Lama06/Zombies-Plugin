@@ -113,6 +113,7 @@ public final class Systems {
             new InitZombieHealthSystem(),
             new PerformFireAttackSystem(),
             new PreventFireWhenImmuneSystem(),
+            new SpawnBossSystem(),
             new SpawnDescendantsSystem(),
             new SpawnFireTrailSystem(),
             new SpawnZombiesSystem(),

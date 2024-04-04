@@ -41,6 +41,7 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
         final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.get(0);
         world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, firstRoundSpawnRate.spawnDelay());
         world.set(ZombiesWorld.REMAINING_ZOMBIES, firstRoundSpawnRate.getNumberOfZombies());
+        world.set(ZombiesWorld.BOSS_SPAWNED, false);
         event.getWorld().set(ZombiesWorld.ROUND, 1);
 
         final Component perksComponent = world.addComponent(ZombiesWorld.PERKS_COMPONENT);

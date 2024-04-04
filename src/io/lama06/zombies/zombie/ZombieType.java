@@ -59,17 +59,44 @@ public enum ZombieType {
     LITTLE_BOMBIE(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
-                    .setBreakWindow(new BreakWindowData(3*20))
+                    .setBreakWindow(new BreakWindowData(2*20))
                     .setHealth(10)
                     .setExplosionAttack(ExplosionAttackData.explodeOnDeath(4))
-                    .addEquipment(EquipmentSlot.HAND, new ItemStack(Material.TNT))
+                    .addEquipment(EquipmentSlot.HEAD, new ItemStack(Material.TNT))
     ),
     FIRE_ZOMBIE(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
                     .setHealth(10)
+                    .setBreakWindow(new BreakWindowData(2*20))
                     .setFireImmune(true)
                     .setFireAttack(new FireAttackData(3*20))
+                    .addEquipment(EquipmentSlot.HAND, new ItemStack(Material.BLAZE_ROD))
+    ),
+    ZOMBIE_WOLF(
+            new ZombieData()
+                    .setEntity(EntityType.WOLF)
+                    .setHealth(10)
+                    .setBreakWindow(new BreakWindowData(2*20))
+    ),
+    GUARDIAN_ZOMBIE(
+            new ZombieData()
+                    .setEntity(EntityType.ZOMBIE)
+                    .setHealth(13)
+                    .setBreakWindow(new BreakWindowData(2*20))
+                    .addEquipment(EquipmentSlot.HEAD, new ItemStack(Material.SEA_LANTERN))
+                    .setLaserAttack(new LaserAttackData(3))
+    ),
+    INFERNO(
+            new ZombieData()
+                    .setEntity(EntityType.ZOMBIE)
+                    .setHealth(100)
+                    .addEquipment(EquipmentSlot.HAND, new ItemStack(Material.BLAZE_ROD))
+                    .setFireTrail(true)
+                    .setBreakWindow(new BreakWindowData(2*20))
+                    .setFireImmune(true)
+                    .setFireBallAttack(new FireBallAttackData(4, 40))
+                    .setFireAttack(new FireAttackData(40))
     ),
     BOMBIE(
             new ZombieData()

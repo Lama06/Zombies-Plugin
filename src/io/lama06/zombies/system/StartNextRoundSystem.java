@@ -22,8 +22,10 @@ public final class StartNextRoundSystem implements Listener {
                 continue;
             }
             final int currentRound = world.get(ZombiesWorld.ROUND);
+            final SpawnRate currentSpawnRate = SpawnRate.SPAWN_RATES.get(currentRound - 1);
             final int remainingZombies = world.get(ZombiesWorld.REMAINING_ZOMBIES);
-            if (remainingZombies > 0) {
+            final boolean bossSpawned = world.get(ZombiesWorld.BOSS_SPAWNED);
+            if (remainingZombies > 0 || (currentSpawnRate.boss() != null && !bossSpawned)) {
                 continue;
             }
             final int nextRound = currentRound + 1;
@@ -35,6 +37,7 @@ public final class StartNextRoundSystem implements Listener {
             world.set(ZombiesWorld.ROUND, nextRound);
             world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, spawnRate.spawnDelay());
             world.set(ZombiesWorld.REMAINING_ZOMBIES, spawnRate.getNumberOfZombies());
+            world.set(ZombiesWorld.BOSS_SPAWNED, false);
             world.sendMessage(Component.text("Round " + nextRound));
             Bukkit.getPluginManager().callEvent(new StartRoundEvent(world, currentRound + 1));
         }
