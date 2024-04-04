@@ -3,8 +3,7 @@ package io.lama06.zombies.system;
 import io.lama06.zombies.ArmorShop;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -38,7 +37,7 @@ public final class BuyArmorAtShopSystem implements Listener {
         if (armorShop == null) {
             return;
         }
-        final int gold = player.get(PlayerAttributes.GOLD);
+        final int gold = player.get(ZombiesPlayer.GOLD);
         if (gold < armorShop.price) {
             player.sendMessage(Component.text("You cannot afford this").color(NamedTextColor.RED));
             return;
@@ -54,7 +53,7 @@ public final class BuyArmorAtShopSystem implements Listener {
         }
 
         final int newGold = gold - armorShop.price;
-        player.set(PlayerAttributes.GOLD, newGold);
+        player.set(ZombiesPlayer.GOLD, newGold);
         Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, newGold));
         for (final EquipmentSlot equipmentSlot : armorShop.part.getEquipmentSlots()) {
             final ItemStack item = new ItemStack(armorShop.quality.materials.get(equipmentSlot));

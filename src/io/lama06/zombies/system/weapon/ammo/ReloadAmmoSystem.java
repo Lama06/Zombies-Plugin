@@ -3,7 +3,6 @@ package io.lama06.zombies.system.weapon.ammo;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
@@ -18,7 +17,7 @@ public final class ReloadAmmoSystem implements Listener {
             return;
         }
         final Weapon weapon = event.getWeapon();
-        final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+        final Component ammoComponent = weapon.getComponent(Weapon.AMMO);
         if (ammoComponent == null) {
             return;
         }

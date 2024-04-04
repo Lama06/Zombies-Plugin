@@ -2,7 +2,7 @@ package io.lama06.zombies.system.player;
 
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.StartRoundEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

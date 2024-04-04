@@ -2,7 +2,6 @@ package io.lama06.zombies.system.weapon.ammo;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.event.weapon.WeaponCreateEvent;
 import org.bukkit.event.EventHandler;
@@ -17,7 +16,7 @@ public final class InitAmmoSystem implements Listener {
         }
         final Weapon weapon = event.getWeapon();
         weapon.getItem().setAmount(data.clip());
-        final Component ammoComponent = weapon.addComponent(WeaponComponents.AMMO);
+        final Component ammoComponent = weapon.addComponent(Weapon.AMMO);
         ammoComponent.set(AmmoData.AMMO, data.ammo());
         ammoComponent.set(AmmoData.CLIP, data.clip());
     }

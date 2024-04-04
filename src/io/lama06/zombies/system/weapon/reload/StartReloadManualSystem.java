@@ -2,7 +2,7 @@ package io.lama06.zombies.system.weapon.reload;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -23,8 +23,8 @@ public final class StartReloadManualSystem implements Listener {
         if (weapon == null) {
             return;
         }
-        final Component reloadComponent = weapon.getComponent(WeaponComponents.RELOAD);
-        final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+        final Component reloadComponent = weapon.getComponent(Weapon.RELOAD);
+        final Component ammoComponent = weapon.getComponent(Weapon.AMMO);
         if (reloadComponent == null || ammoComponent == null) {
             return;
         }

@@ -1,7 +1,7 @@
 package io.lama06.zombies.event.weapon;
 
 import io.lama06.zombies.event.ZombiesEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;
 
 public abstract class WeaponEvent extends ZombiesEvent {

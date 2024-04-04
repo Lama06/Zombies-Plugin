@@ -4,7 +4,7 @@ import io.lama06.zombies.GlobalPerk;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.perk.PerkTickEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

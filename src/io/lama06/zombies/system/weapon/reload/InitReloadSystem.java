@@ -2,7 +2,6 @@ package io.lama06.zombies.system.weapon.reload;
 
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponCreateEvent;
 import io.lama06.zombies.weapon.ReloadData;
 import org.bukkit.event.EventHandler;
@@ -16,7 +15,7 @@ public final class InitReloadSystem implements Listener {
             return;
         }
         final Weapon weapon = event.getWeapon();
-        final Component reloadComponent = weapon.addComponent(WeaponComponents.RELOAD);
+        final Component reloadComponent = weapon.addComponent(Weapon.RELOAD);
         reloadComponent.set(ReloadData.REMAINING_RELOAD, 0);
     }
 }

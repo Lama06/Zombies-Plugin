@@ -1,14 +1,25 @@
 package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.data.AttributeId;
+import io.lama06.zombies.data.ComponentId;
 import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
+import io.lama06.zombies.util.pdc.EnumPersistentDataType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public final class Weapon extends Storage {
+    public static final AttributeId<Boolean> IS_WEAPON = new AttributeId<>("is_weapon", PersistentDataType.BOOLEAN);
+    public static final AttributeId<WeaponType> TYPE = new AttributeId<>("type", new EnumPersistentDataType<>(WeaponType.class));
+
+    public static final ComponentId AMMO = new ComponentId("ammo");
+    public static final ComponentId DELAY = new ComponentId("delay");
+    public static final ComponentId RELOAD = new ComponentId("reload");
+
     private final ZombiesPlayer player;
     private final int slot;
 
@@ -41,11 +52,11 @@ public final class Weapon extends Storage {
         if (item.getItemMeta() == null) {
             return false;
         }
-        return getOrDefault(WeaponAttributes.IS_WEAPON, false);
+        return getOrDefault(IS_WEAPON, false);
     }
 
     public WeaponType getType() {
-        return get(WeaponAttributes.TYPE);
+        return get(TYPE);
     }
 
     public WeaponData getData() {

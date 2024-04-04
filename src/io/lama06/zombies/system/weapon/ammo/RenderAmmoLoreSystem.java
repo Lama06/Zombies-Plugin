@@ -3,7 +3,6 @@ package io.lama06.zombies.system.weapon.ammo;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
@@ -27,7 +26,7 @@ public final class RenderAmmoLoreSystem implements Listener {
     @EventHandler
     private void onWeaponLoreRender(final WeaponLoreRenderEvent event) {
         final Weapon weapon = event.getWeapon();
-        final Component component = weapon.getComponent(WeaponComponents.AMMO);
+        final Component component = weapon.getComponent(Weapon.AMMO);
         if (component == null) {
             return;
         }

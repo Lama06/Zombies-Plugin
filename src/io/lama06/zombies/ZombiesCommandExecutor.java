@@ -1,8 +1,6 @@
 package io.lama06.zombies;
 
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.WeaponType;
 import io.lama06.zombies.zombie.ZombieType;
 import net.kyori.adventure.text.Component;
@@ -137,9 +135,9 @@ public final class ZombiesCommandExecutor implements TabExecutor {
         } catch (final NumberFormatException e) {
             return;
         }
-        final int goldPrevious = zombiesPlayer.get(PlayerAttributes.GOLD);
+        final int goldPrevious = zombiesPlayer.get(ZombiesPlayer.GOLD);
         final int golfAfter = goldPrevious + goldAdd;
-        zombiesPlayer.set(PlayerAttributes.GOLD, golfAfter);
+        zombiesPlayer.set(ZombiesPlayer.GOLD, golfAfter);
         Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(zombiesPlayer, goldPrevious, golfAfter));
     }
 

@@ -3,8 +3,7 @@ package io.lama06.zombies.system;
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.*;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -50,10 +49,10 @@ public final class RepairWindowSystem implements Listener {
             }
             block.setType(Material.OAK_SLAB);
             world.getBukkit().playSound(block.getLocation(), Sound.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 1);
-            final int gold = player.get(PlayerAttributes.GOLD);
+            final int gold = player.get(ZombiesPlayer.GOLD);
             final int goldAdd = (world.isPerkEnabled(GlobalPerk.DOUBLE_GOLD) ? 2 : 1) * GOLD;
             final int newGold = gold + goldAdd;
-            player.set(PlayerAttributes.GOLD, newGold);
+            player.set(ZombiesPlayer.GOLD, newGold);
             Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, newGold));
             player.sendMessage(Component.text("Window Repaired: +%s Gold".formatted(goldAdd)).color(NamedTextColor.GOLD));
             return;

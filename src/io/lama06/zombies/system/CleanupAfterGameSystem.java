@@ -2,8 +2,7 @@ package io.lama06.zombies.system;
 
 import io.lama06.zombies.*;
 import io.lama06.zombies.event.GameEndEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,11 +30,12 @@ public final class CleanupAfterGameSystem implements Listener {
         world.remove(ZombiesWorld.REACHABLE_AREAS);
         world.remove(ZombiesWorld.OPEN_DOORS);
         world.remove(ZombiesWorld.POWER_SWITCH);
+        world.remove(ZombiesWorld.DRAGONS_WRATH_USED);
         world.removeComponent(ZombiesWorld.PERKS_COMPONENT);
 
         for (final ZombiesPlayer player : world.getPlayers()) {
-            player.remove(PlayerAttributes.GOLD);
-            player.remove(PlayerAttributes.KILLS);
+            player.remove(ZombiesPlayer.GOLD);
+            player.remove(ZombiesPlayer.KILLS);
             final Player playerBukkit = player.getBukkit();
             playerBukkit.teleport(world.getBukkit().getSpawnLocation());
             playerBukkit.getInventory().clear();

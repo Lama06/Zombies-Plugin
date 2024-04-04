@@ -3,8 +3,7 @@ package io.lama06.zombies.system.lucky_chest;
 import io.lama06.zombies.LuckyChest;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.util.pdc.EnumPersistentDataType;
 import io.lama06.zombies.weapon.WeaponType;
 import io.papermc.paper.math.BlockPosition;
@@ -56,7 +55,7 @@ public final class InteractWithLuckyChestSystem implements Listener {
     }
 
     private void openLuckyChest(final ZombiesPlayer player, final ZombiesWorld world, final LuckyChest chest) {
-        final int gold = player.get(PlayerAttributes.GOLD);
+        final int gold = player.get(ZombiesPlayer.GOLD);
         if (gold < chest.gold) {
             player.sendMessage(Component.text("You cannot afford opening this lucky chest").color(NamedTextColor.RED));
             return;
@@ -66,7 +65,7 @@ public final class InteractWithLuckyChestSystem implements Listener {
         final PersistentDataContainer pdc = itemDisplay.getPersistentDataContainer();
         pdc.set(LuckyChestItem.getRemainingTimeKey(), PersistentDataType.INTEGER, LuckyChestItem.SHUFFLE_TIME);
         final int newGold = gold - chest.gold;
-        player.set(PlayerAttributes.GOLD, newGold);
+        player.set(ZombiesPlayer.GOLD, newGold);
         Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, newGold));
     }
 

@@ -1,11 +1,10 @@
-package io.lama06.zombies.player;
+package io.lama06.zombies;
 
-import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.data.AttributeId;
 import io.lama06.zombies.data.Storage;
 import io.lama06.zombies.data.StorageSession;
 import io.lama06.zombies.event.weapon.WeaponCreateEvent;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponAttributes;
 import io.lama06.zombies.weapon.WeaponType;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
@@ -15,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 public final class ZombiesPlayer extends Storage implements ForwardingAudience {
+    public static final AttributeId<Integer> GOLD = new AttributeId<>("gold", PersistentDataType.INTEGER);
+    public static final AttributeId<Integer> KILLS = new AttributeId<>("kills", PersistentDataType.INTEGER);
     private final Player player;
 
     public ZombiesPlayer(final Player player) {
@@ -61,8 +63,8 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
         final PlayerInventory inventory = player.getInventory();
         inventory.setItem(slot, item);
         final Weapon weapon = new Weapon(this, slot);
-        weapon.set(WeaponAttributes.IS_WEAPON, true);
-        weapon.set(WeaponAttributes.TYPE, type);
+        weapon.set(Weapon.IS_WEAPON, true);
+        weapon.set(Weapon.TYPE, type);
         Bukkit.getPluginManager().callEvent(new WeaponCreateEvent(weapon, type.data));
         return weapon;
     }

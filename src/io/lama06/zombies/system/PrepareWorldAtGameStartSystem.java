@@ -3,8 +3,7 @@ package io.lama06.zombies.system;
 import io.lama06.zombies.*;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.GameStartEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.WeaponType;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
@@ -49,6 +48,8 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
             perksComponent.set(perk.getRemainingTimeAttribute(), 0);
         }
 
+        world.set(ZombiesWorld.DRAGONS_WRATH_USED, 0);
+
         for (final ZombiesPlayer player : world.getPlayers()) {
             final Player bukkit = player.getBukkit();
             bukkit.getInventory().clear();
@@ -62,8 +63,8 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
             bukkit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 5));
             player.giveWeapon(0, WeaponType.KNIFE);
             player.giveWeapon(1, WeaponType.PISTOL);
-            player.set(PlayerAttributes.KILLS, 0);
-            player.set(PlayerAttributes.GOLD, 0);
+            player.set(ZombiesPlayer.KILLS, 0);
+            player.set(ZombiesPlayer.GOLD, 0);
         }
     }
 }

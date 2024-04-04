@@ -4,7 +4,7 @@ import io.lama06.zombies.GlobalPerk;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.perk.PlayerPickupPerkItemEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

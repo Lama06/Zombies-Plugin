@@ -6,10 +6,9 @@ import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.perk.PlayerPickupPerkItemEvent;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +28,7 @@ public final class PerformMaxAmmoPerkSystem implements Listener {
                 if (ammoData == null) {
                     continue;
                 }
-                final Component ammoComponent = weapon.getComponent(WeaponComponents.AMMO);
+                final Component ammoComponent = weapon.getComponent(Weapon.AMMO);
                 if (ammoComponent == null) {
                     continue;
                 }

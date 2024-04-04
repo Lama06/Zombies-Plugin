@@ -1,9 +1,8 @@
 package io.lama06.zombies.system.weapon.delay;
 
 import io.lama06.zombies.data.Component;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponDelayChangeEvent;
 import org.bukkit.event.EventHandler;
@@ -31,7 +30,7 @@ public final class RenderDelaySystem implements Listener {
             player.getBukkit().setExp(0);
             return;
         }
-        final Component delayComponent = weapon.getComponent(WeaponComponents.DELAY);
+        final Component delayComponent = weapon.getComponent(Weapon.DELAY);
         if (delayComponent == null) {
             player.getBukkit().setExp(0);
             return;

@@ -4,7 +4,6 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponDelayChangeEvent;
 import org.bukkit.Bukkit;
@@ -15,7 +14,7 @@ public final class TickDelaySystem implements Listener {
     @EventHandler
     private void onServerTick(final ServerTickEndEvent event) {
         for (final Weapon weapon : ZombiesPlugin.INSTANCE.getWeapons()) {
-            final Component delayComponent = weapon.getComponent(WeaponComponents.DELAY);
+            final Component delayComponent = weapon.getComponent(Weapon.DELAY);
             if (delayComponent == null) {
                 continue;
             }

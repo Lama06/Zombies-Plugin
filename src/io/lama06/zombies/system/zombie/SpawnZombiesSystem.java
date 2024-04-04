@@ -2,7 +2,7 @@ package io.lama06.zombies.system.zombie;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.*;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.zombie.ZombieType;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

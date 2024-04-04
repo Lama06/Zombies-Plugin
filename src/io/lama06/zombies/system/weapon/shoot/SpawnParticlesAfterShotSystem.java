@@ -1,7 +1,7 @@
 package io.lama06.zombies.system.weapon.shoot;
 
 import io.lama06.zombies.event.weapon.WeaponShootEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.ShootParticleData;
 import io.lama06.zombies.weapon.Weapon;
 import org.bukkit.Location;

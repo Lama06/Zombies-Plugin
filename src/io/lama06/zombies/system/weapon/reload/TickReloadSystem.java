@@ -4,7 +4,6 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.weapon.Weapon;
-import io.lama06.zombies.weapon.WeaponComponents;
 import io.lama06.zombies.weapon.ReloadData;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
 import org.bukkit.Bukkit;
@@ -15,7 +14,7 @@ public final class TickReloadSystem implements Listener {
     @EventHandler
     private void tickReload(final ServerTickEndEvent event) {
         for (final Weapon weapon : ZombiesPlugin.INSTANCE.getWeapons()) {
-            final Component reloadComponent = weapon.getComponent(WeaponComponents.RELOAD);
+            final Component reloadComponent = weapon.getComponent(Weapon.RELOAD);
             if (reloadComponent == null) {
                 continue;
             }

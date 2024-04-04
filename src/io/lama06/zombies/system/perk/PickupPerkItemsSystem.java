@@ -4,7 +4,7 @@ import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.GlobalPerk;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.event.perk.PlayerPickupPerkItemEvent;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ItemDisplay;

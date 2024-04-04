@@ -2,6 +2,7 @@ package io.lama06.zombies;
 
 import io.lama06.zombies.menu.*;
 import io.lama06.zombies.util.PositionUtil;
+import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ public final class WorldConfig {
     public final List<ArmorShop> armorShops = new ArrayList<>();
     public final List<LuckyChest> luckyChests = new ArrayList<>();
     public boolean preventBuilding;
+    public BlockPosition teamMachine;
 
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(startArea, "start area");
@@ -148,6 +150,24 @@ public final class WorldConfig {
                         Material.BARRIER,
                         () -> {
                             preventBuilding = !preventBuilding;
+                            reopen.run();
+                        }
+                ),
+                new SelectionEntry(
+                        Component.text("Team Machine: " + PositionUtil.format(teamMachine)),
+                        Material.IRON_BLOCK,
+                        () -> BlockPositionSelection.open(
+                                player,
+                                Component.text("Team Machine Position"),
+                                reopen,
+                                teamMachine -> {
+                                    this.teamMachine = teamMachine;
+                                    reopen.run();
+                                }
+                        ),
+                        Component.text("Remove").color(NamedTextColor.RED),
+                        () -> {
+                            teamMachine = null;
                             reopen.run();
                         }
                 )

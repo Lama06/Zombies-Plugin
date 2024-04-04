@@ -1,6 +1,6 @@
 package io.lama06.zombies.event.player;
 
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.util.HandlerListGetter;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

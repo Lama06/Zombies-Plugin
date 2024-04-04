@@ -41,6 +41,7 @@ public final class Systems {
             new PreventEventsSystem(),
             new RepairWindowSystem(),
             new StartNextRoundSystem(),
+            new TeamMachineSystem(),
 
             // Lucky Chest
             new InteractWithLuckyChestSystem(),

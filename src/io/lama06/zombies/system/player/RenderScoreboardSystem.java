@@ -7,8 +7,7 @@ import io.lama06.zombies.event.StartRoundEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.event.player.PlayerKillZombieEvent;
 import io.lama06.zombies.event.player.PlayerKillsIncrementEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.papermc.paper.scoreboard.numbers.NumberFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -42,7 +41,7 @@ public final class RenderScoreboardSystem implements Listener {
 
         content.add(Component.text("Gold:").color(NamedTextColor.GOLD));
         for (final ZombiesPlayer otherPlayer : world.getPlayers()) {
-            final int coins = otherPlayer.get(PlayerAttributes.GOLD);
+            final int coins = otherPlayer.get(ZombiesPlayer.GOLD);
             final TextComponent.Builder coinsComponent = Component.text();
             coinsComponent.append(Component.text(otherPlayer.getBukkit().getName()));
             coinsComponent.append(Component.text(": "));
@@ -52,7 +51,7 @@ public final class RenderScoreboardSystem implements Listener {
 
         content.add(Component.empty());
 
-        final int kills = player.get(PlayerAttributes.KILLS);
+        final int kills = player.get(ZombiesPlayer.KILLS);
         content.add(Component.text("Zombie Kills: ").append(Component.text(kills).color(NamedTextColor.GREEN)));
 
         return content;
@@ -84,7 +83,7 @@ public final class RenderScoreboardSystem implements Listener {
 
         final ZombiesWorld world = player.getWorld();
         for (final ZombiesPlayer otherPlayer : world.getPlayers()) {
-            final int kills = otherPlayer.get(PlayerAttributes.KILLS);
+            final int kills = otherPlayer.get(ZombiesPlayer.KILLS);
             final Score score = tabListObjective.getScore(player.getBukkit());
             score.setScore(kills);
         }

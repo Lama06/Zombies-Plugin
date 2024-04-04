@@ -5,8 +5,7 @@ import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -38,7 +37,7 @@ public final class InteractWithWeaponShopSystem implements Listener {
             return;
         }
         final Weapon heldWeapon = player.getHeldWeapon();
-        if (heldWeapon == null || !heldWeapon.get(WeaponAttributes.TYPE).equals(weaponShop.weaponType)) {
+        if (heldWeapon == null || !heldWeapon.get(Weapon.TYPE).equals(weaponShop.weaponType)) {
             buyWeapon(player, weaponShop);
         } else {
             refillWeapon(player, weaponShop, heldWeapon);
@@ -46,7 +45,7 @@ public final class InteractWithWeaponShopSystem implements Listener {
     }
 
     private void buyWeapon(final ZombiesPlayer player, final WeaponShop shop) {
-        final int gold = player.get(PlayerAttributes.GOLD);
+        final int gold = player.get(ZombiesPlayer.GOLD);
         if (gold < shop.purchasePrice) {
             player.sendMessage(Component.text("You cannot afford this weapon").color(NamedTextColor.RED));
             return;
@@ -57,18 +56,18 @@ public final class InteractWithWeaponShopSystem implements Listener {
             return;
         }
         player.giveWeapon(slot, shop.weaponType);
-        player.set(PlayerAttributes.GOLD, gold - shop.purchasePrice);
+        player.set(ZombiesPlayer.GOLD, gold - shop.purchasePrice);
         Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, gold - shop.purchasePrice));
         player.sendMessage(Component.text("Successfully bought the weapon").color(NamedTextColor.GREEN));
     }
 
     private void refillWeapon(final ZombiesPlayer player, final WeaponShop shop, final Weapon weapon) {
-        final int gold = player.get(PlayerAttributes.GOLD);
+        final int gold = player.get(ZombiesPlayer.GOLD);
         if (gold < shop.refillPrice) {
             player.sendMessage(Component.text("You cannot afford refilling this weapon").color(NamedTextColor.RED));
             return;
         }
-        final io.lama06.zombies.data.Component ammComponent = weapon.getComponent(WeaponComponents.AMMO);
+        final io.lama06.zombies.data.Component ammComponent = weapon.getComponent(Weapon.AMMO);
         if (ammComponent == null) {
             player.sendMessage(Component.text("This weapon cannot be refilled").color(NamedTextColor.RED));
             return;
@@ -87,7 +86,7 @@ public final class InteractWithWeaponShopSystem implements Listener {
         Bukkit.getPluginManager().callEvent(new WeaponAmmoChangeEvent(weapon, ammo, maxAmmo));
         Bukkit.getPluginManager().callEvent(new WeaponClipChangeEvent(weapon, clip, maxClip));
 
-        player.set(PlayerAttributes.GOLD, gold - shop.refillPrice);
+        player.set(ZombiesPlayer.GOLD, gold - shop.refillPrice);
         Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, gold - shop.refillPrice));
 
         player.sendMessage(Component.text("Successfully refilled the weapon").color(NamedTextColor.GREEN));

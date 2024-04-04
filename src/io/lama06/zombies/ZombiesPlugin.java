@@ -1,6 +1,5 @@
 package io.lama06.zombies;
 
-import io.lama06.zombies.player.ZombiesPlayer;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.Bukkit;
@@ -82,6 +81,10 @@ public final class ZombiesPlugin extends JavaPlugin implements Listener {
             configManager.saveConfig(config);
         } catch (final IOException e) {
             getSLF4JLogger().error("failed to save the config file", e);
+        }
+
+        for (final ZombiesWorld gameWorld : getGameWorlds()) {
+            gameWorld.endGame();
         }
     }
 }

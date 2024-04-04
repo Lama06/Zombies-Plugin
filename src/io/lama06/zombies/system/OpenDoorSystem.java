@@ -2,8 +2,7 @@ package io.lama06.zombies.system;
 
 import io.lama06.zombies.*;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
-import io.lama06.zombies.player.PlayerAttributes;
-import io.lama06.zombies.player.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -30,7 +29,7 @@ public final class OpenDoorSystem implements Listener {
         if (config == null) {
             return;
         }
-        final int gold = player.get(PlayerAttributes.GOLD);
+        final int gold = player.get(ZombiesPlayer.GOLD);
         final List<String> reachableAreas = world.get(ZombiesWorld.REACHABLE_AREAS);
         final List<Integer> doorIndizes = world.get(ZombiesWorld.OPEN_DOORS);
         for (int i = 0; i < config.doors.size(); i++) {
@@ -47,7 +46,7 @@ public final class OpenDoorSystem implements Listener {
             }
             world.showTitle(Title.title(Component.text(player.getBukkit().getName() + " opened a door"), Component.empty()));
             door.setOpen(world, true);
-            player.set(PlayerAttributes.GOLD, gold - door.gold);
+            player.set(ZombiesPlayer.GOLD, gold - door.gold);
             Bukkit.getPluginManager().callEvent(new PlayerGoldChangeEvent(player, gold, gold - door.gold));
 
             final String newArea = reachableAreas.contains(door.area1) ? door.area2 : door.area1;
