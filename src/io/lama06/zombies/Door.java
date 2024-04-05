@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public final class Door implements CheckableConfig {
     public String area1 = "";
     public String area2 = "";
-    public int gold;
+    public int gold = 750;
     public BlockArea position;
     public BlockArea templateOpen;
     public BlockArea templateClosed;
@@ -102,7 +102,7 @@ public final class Door implements CheckableConfig {
                         ),
                         Component.text("Reset"),
                         () -> {
-                            templateClosed = null;
+                            templateOpen = null;
                             openMenu(player, callback);
                         }
                 ),

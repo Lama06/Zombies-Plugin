@@ -134,7 +134,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
             return null;
         }
         return windows.stream().min(Comparator.comparingDouble(window -> {
-            final Vector windowVector = window.spawnLocation.coordinates().toVector();
+            final Vector windowVector = window.spawnLocation.toBukkit(player.getBukkit().getWorld()).toVector();
             final Vector playerVector = player.getBukkit().getLocation().toVector();
             return windowVector.distance(playerVector);
         })).orElseThrow();

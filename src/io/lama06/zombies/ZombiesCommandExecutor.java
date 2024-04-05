@@ -15,6 +15,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public final class ZombiesCommandExecutor implements TabExecutor {
 
         switch (args[0]) {
             case "config" -> config(sender);
+            case "saveConfig" -> saveConfig(sender);
+            case "checkConfig" -> checkConfig(sender);
             case "start" -> start(sender);
             case "stop" -> stop(sender);
             case "giveGold" -> giveGold(sender, Arrays.copyOfRange(args, 1, args.length));
@@ -50,7 +53,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
         if (args.length != 1 && args.length != 0) {
             return List.of();
         }
-        return List.of("config", "start", "stop", "giveGold", "giveWeapon", "spawnZombie");
+        return List.of("config", "saveConfig", "checkConfig", "start", "stop", "giveGold", "giveWeapon", "spawnZombie");
     }
 
     private void root(final CommandSender sender) {
@@ -79,7 +82,41 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         final ZombiesWorld world = new ZombiesWorld(player.getWorld());
-        world.getConfig().openMenu(player, () -> {});
+        WorldConfig config = world.getConfig();
+        if (config == null) {
+            final ZombiesConfig globalConfig = ZombiesPlugin.INSTANCE.getGlobalConfig();
+            config = new WorldConfig();
+            globalConfig.worlds.put(world.getBukkit().getName(), config);
+        }
+        config.openMenu(player, () -> {});
+    }
+
+    private void saveConfig(final CommandSender sender) {
+        try {
+            ZombiesPlugin.INSTANCE.saveZombiesConfig();
+        } catch (final IOException e) {
+            sender.sendMessage(Component.text("error: " + e.getMessage()));
+            ZombiesPlugin.INSTANCE.getSLF4JLogger().error("failed to save config", e);
+        }
+        sender.sendMessage(Component.text("Saved").color(NamedTextColor.GREEN));
+    }
+
+    private void checkConfig(final CommandSender sender) {
+        if (!(sender instanceof final Player player)) {
+            return;
+        }
+        final WorldConfig config = ZombiesPlugin.INSTANCE.getWorldConfig(new ZombiesWorld(player.getWorld()));
+        if (config == null) {
+            sender.sendMessage(Component.text("This world isn't configured"));
+            return;
+        }
+        try {
+            config.check();
+        } catch (final InvalidConfigException e) {
+            sender.sendMessage(Component.text(e.getMessage()).color(NamedTextColor.RED));
+            return;
+        }
+        sender.sendMessage(Component.text("No issues found").color(NamedTextColor.GREEN));
     }
 
     private void start(final CommandSender sender) {

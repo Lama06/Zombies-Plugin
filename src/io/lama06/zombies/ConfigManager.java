@@ -2,6 +2,7 @@ package io.lama06.zombies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
 import io.papermc.paper.math.BlockPosition;
@@ -85,7 +86,11 @@ public final class ConfigManager {
         }
         final String configText = Files.readString(configFilePath);
         final Gson gson = createGson();
-        return gson.fromJson(configText, ZombiesConfig.class);
+        try {
+            return gson.fromJson(configText, ZombiesConfig.class);
+        } catch (final JsonSyntaxException e) {
+            throw new IOException("invalid json", e);
+        }
     }
 
     public void saveConfig(final ZombiesConfig config) throws IOException {

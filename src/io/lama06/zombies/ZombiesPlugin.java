@@ -25,6 +25,10 @@ public final class ZombiesPlugin extends JavaPlugin implements Listener {
         return config;
     }
 
+    public void saveZombiesConfig() throws IOException {
+        configManager.saveConfig(config);
+    }
+
     public boolean isZombiesWorld(final ZombiesWorld world) {
         return getWorldConfig(world) != null;
     }

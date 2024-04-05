@@ -29,6 +29,7 @@ public final class BlockPositionTypeAdapter extends TypeAdapter<BlockPosition> {
     @Override
     public BlockPosition read(final JsonReader in) throws IOException {
         if (in.peek() == JsonToken.NULL) {
+            in.nextNull();
             return null;
         }
         in.beginObject();

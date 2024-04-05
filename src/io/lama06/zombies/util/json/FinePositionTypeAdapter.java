@@ -29,6 +29,7 @@ public final class FinePositionTypeAdapter extends TypeAdapter<FinePosition> {
     @Override
     public FinePosition read(final JsonReader in) throws IOException {
         if (in.peek() == JsonToken.NULL) {
+            in.nextNull();
             return null;
         }
         in.beginObject();

@@ -1,0 +1,1229 @@
+{
+  "startArea": "Alley",
+  "doors": [
+    {
+      "area1": "Alley",
+      "area2": "Hotel",
+      "gold": 750,
+      "position": {
+        "position1": {
+          "x": 11,
+          "y": 68,
+          "z": 22
+        },
+        "position2": {
+          "x": 11,
+          "y": 71,
+          "z": 20
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 81,
+          "z": -24
+        },
+        "position2": {
+          "x": 57,
+          "y": 84,
+          "z": -22
+        }
+      }
+    },
+    {
+      "area1": "Alley",
+      "area2": "Office",
+      "gold": 500,
+      "position": {
+        "position1": {
+          "x": 26,
+          "y": 68,
+          "z": 42
+        },
+        "position2": {
+          "x": 26,
+          "y": 71,
+          "z": 44
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 81,
+          "z": -24
+        },
+        "position2": {
+          "x": 57,
+          "y": 84,
+          "z": -22
+        }
+      }
+    },
+    {
+      "area1": "Hotel",
+      "area2": "Garden",
+      "gold": 500,
+      "position": {
+        "position1": {
+          "x": 16,
+          "y": 68,
+          "z": -8
+        },
+        "position2": {
+          "x": 18,
+          "y": 71,
+          "z": -8
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 81,
+          "z": -17
+        },
+        "position2": {
+          "x": 59,
+          "y": 84,
+          "z": -17
+        }
+      }
+    },
+    {
+      "area1": "Hotel",
+      "area2": "Apartment",
+      "gold": 750,
+      "position": {
+        "position1": {
+          "x": 8,
+          "y": 75,
+          "z": 3
+        },
+        "position2": {
+          "x": 6,
+          "y": 78,
+          "z": 3
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 84,
+          "z": -17
+        },
+        "position2": {
+          "x": 59,
+          "y": 81,
+          "z": -17
+        }
+      }
+    },
+    {
+      "area1": "Apartment",
+      "area2": "Power Station",
+      "gold": 1000,
+      "position": {
+        "position1": {
+          "x": -9,
+          "y": 76,
+          "z": 30
+        },
+        "position2": {
+          "x": -7,
+          "y": 79,
+          "z": 30
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 81,
+          "z": -17
+        },
+        "position2": {
+          "x": 59,
+          "y": 84,
+          "z": -17
+        }
+      }
+    },
+    {
+      "area1": "Power Station",
+      "area2": "Gallery",
+      "gold": 750,
+      "position": {
+        "position1": {
+          "x": 14,
+          "y": 75,
+          "z": 53
+        },
+        "position2": {
+          "x": 14,
+          "y": 79,
+          "z": 55
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 81,
+          "z": -14
+        },
+        "position2": {
+          "x": 57,
+          "y": 85,
+          "z": -12
+        }
+      }
+    },
+    {
+      "area1": "Office",
+      "area2": "Gallery",
+      "gold": 750,
+      "position": {
+        "position1": {
+          "x": 37,
+          "y": 75,
+          "z": 57
+        },
+        "position2": {
+          "x": 35,
+          "y": 78,
+          "z": 57
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 59,
+          "y": 81,
+          "z": -17
+        },
+        "position2": {
+          "x": 57,
+          "y": 84,
+          "z": -17
+        }
+      }
+    },
+    {
+      "area1": "Power Station",
+      "area2": "Roof Top",
+      "gold": 750,
+      "position": {
+        "position1": {
+          "x": -14,
+          "y": 85,
+          "z": 53
+        },
+        "position2": {
+          "x": -14,
+          "y": 82,
+          "z": 55
+        }
+      },
+      "templateOpen": null,
+      "templateClosed": {
+        "position1": {
+          "x": 57,
+          "y": 81,
+          "z": -9
+        },
+        "position2": {
+          "x": 57,
+          "y": 84,
+          "z": -7
+        }
+      }
+    }
+  ],
+  "windows": [
+    {
+      "area": "Alley",
+      "spawnLocation": {
+        "x": 36.56341594412264,
+        "y": 70.0,
+        "z": 12.027679467182912,
+        "yaw": 1.0504159,
+        "pitch": -0.74991184
+      },
+      "blocks": {
+        "position1": {
+          "x": 37,
+          "y": 71,
+          "z": 14
+        },
+        "position2": {
+          "x": 35,
+          "y": 72,
+          "z": 14
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 35,
+          "y": 69,
+          "z": 15
+        },
+        "position2": {
+          "x": 37,
+          "y": 69,
+          "z": 15
+        }
+      }
+    },
+    {
+      "area": "Alley",
+      "spawnLocation": {
+        "x": 39.66385802336725,
+        "y": 70.0,
+        "z": 25.448539756925594,
+        "yaw": 91.05019,
+        "pitch": 0.90004617
+      },
+      "blocks": {
+        "position1": {
+          "x": 37,
+          "y": 71,
+          "z": 26
+        },
+        "position2": {
+          "x": 37,
+          "y": 72,
+          "z": 24
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 36,
+          "y": 69,
+          "z": 24
+        },
+        "position2": {
+          "x": 36,
+          "y": 69,
+          "z": 26
+        }
+      }
+    },
+    {
+      "area": "Alley",
+      "spawnLocation": {
+        "x": 9.206332036660736,
+        "y": 69.0,
+        "z": 27.732706819178674,
+        "yaw": -89.70044,
+        "pitch": -4.650009
+      },
+      "blocks": {
+        "position1": {
+          "x": 10,
+          "y": 70,
+          "z": 28
+        },
+        "position2": {
+          "x": 10,
+          "y": 71,
+          "z": 26
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 11,
+          "y": 68,
+          "z": 28
+        },
+        "position2": {
+          "x": 11,
+          "y": 68,
+          "z": 26
+        }
+      }
+    },
+    {
+      "area": "Alley",
+      "spawnLocation": {
+        "x": 8.751404992642449,
+        "y": 69.0,
+        "z": 39.48636717844619,
+        "yaw": -88.65094,
+        "pitch": -1.5000257
+      },
+      "blocks": {
+        "position1": {
+          "x": 10,
+          "y": 70,
+          "z": 40
+        },
+        "position2": {
+          "x": 10,
+          "y": 71,
+          "z": 38
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 11,
+          "y": 68,
+          "z": 40
+        },
+        "position2": {
+          "x": 11,
+          "y": 68,
+          "z": 38
+        }
+      }
+    },
+    {
+      "area": "Hotel",
+      "spawnLocation": {
+        "x": -6.495543162738223,
+        "y": 68.0,
+        "z": 16.501261726393135,
+        "yaw": 2.2459106,
+        "pitch": 7.799862
+      },
+      "blocks": {
+        "position1": {
+          "x": -8,
+          "y": 69,
+          "z": 18
+        },
+        "position2": {
+          "x": -6,
+          "y": 70,
+          "z": 18
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -8,
+          "y": 67,
+          "z": 19
+        },
+        "position2": {
+          "x": -6,
+          "y": 67,
+          "z": 19
+        }
+      }
+    },
+    {
+      "area": "Hotel",
+      "spawnLocation": {
+        "x": -3.761472132188415,
+        "y": 68.0,
+        "z": 39.54546424775271,
+        "yaw": -175.5028,
+        "pitch": 9.149931
+      },
+      "blocks": {
+        "position1": {
+          "x": -3,
+          "y": 69,
+          "z": 37
+        },
+        "position2": {
+          "x": -5,
+          "y": 70,
+          "z": 37
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -3,
+          "y": 67,
+          "z": 36
+        },
+        "position2": {
+          "x": -5,
+          "y": 67,
+          "z": 36
+        }
+      }
+    },
+    {
+      "area": "Hotel",
+      "spawnLocation": {
+        "x": 27.56943374820408,
+        "y": 69.0,
+        "z": 10.38922529511006,
+        "yaw": 90.747925,
+        "pitch": -2.4000418
+      },
+      "blocks": {
+        "position1": {
+          "x": 25,
+          "y": 70,
+          "z": 9
+        },
+        "position2": {
+          "x": 25,
+          "y": 71,
+          "z": 11
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 24,
+          "y": 68,
+          "z": 9
+        },
+        "position2": {
+          "x": 24,
+          "y": 68,
+          "z": 11
+        }
+      }
+    },
+    {
+      "area": "Hotel",
+      "spawnLocation": {
+        "x": 24.11686133451531,
+        "y": 69.0,
+        "z": -0.578274530866324,
+        "yaw": 90.75043,
+        "pitch": -1.2000964
+      },
+      "blocks": {
+        "position1": {
+          "x": 22,
+          "y": 70,
+          "z": -2
+        },
+        "position2": {
+          "x": 22,
+          "y": 71,
+          "z": 0
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 21,
+          "y": 68,
+          "z": -2
+        },
+        "position2": {
+          "x": 21,
+          "y": 68,
+          "z": 0
+        }
+      }
+    },
+    {
+      "area": "Garden",
+      "spawnLocation": {
+        "x": 2.306211116750171,
+        "y": 68.0,
+        "z": -12.318655900542149,
+        "yaw": -90.45184,
+        "pitch": 3.4499667
+      },
+      "blocks": {
+        "position1": {
+          "x": 4,
+          "y": 69,
+          "z": -12
+        },
+        "position2": {
+          "x": 4,
+          "y": 70,
+          "z": -14
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 5,
+          "y": 67,
+          "z": -12
+        },
+        "position2": {
+          "x": 5,
+          "y": 67,
+          "z": -14
+        }
+      }
+    },
+    {
+      "area": "Garden",
+      "spawnLocation": {
+        "x": 26.99049207523287,
+        "y": 68.0,
+        "z": -30.26770556584075,
+        "yaw": -8.255005,
+        "pitch": 15.899977
+      },
+      "blocks": {
+        "position1": {
+          "x": 26,
+          "y": 69,
+          "z": -29
+        },
+        "position2": {
+          "x": 28,
+          "y": 70,
+          "z": -29
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 26,
+          "y": 67,
+          "z": -28
+        },
+        "position2": {
+          "x": 28,
+          "y": 67,
+          "z": -28
+        }
+      }
+    },
+    {
+      "area": "Garden",
+      "spawnLocation": {
+        "x": 32.20844161892142,
+        "y": 68.0,
+        "z": -12.53990290057853,
+        "yaw": 90.59192,
+        "pitch": 0.15002038
+      },
+      "blocks": {
+        "position1": {
+          "x": 30,
+          "y": 69,
+          "z": -14
+        },
+        "position2": {
+          "x": 30,
+          "y": 70,
+          "z": -12
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 29,
+          "y": 67,
+          "z": -14
+        },
+        "position2": {
+          "x": 29,
+          "y": 67,
+          "z": -12
+        }
+      }
+    },
+    {
+      "area": "Hotel",
+      "spawnLocation": {
+        "x": 0.46334456754133085,
+        "y": 76.0,
+        "z": -17.613325499418185,
+        "yaw": 2.3914795,
+        "pitch": 2.699949
+      },
+      "blocks": {
+        "position1": {
+          "x": 1,
+          "y": 77,
+          "z": -16
+        },
+        "position2": {
+          "x": -1,
+          "y": 78,
+          "z": -16
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -1,
+          "y": 75,
+          "z": -15
+        },
+        "position2": {
+          "x": 1,
+          "y": 75,
+          "z": -15
+        }
+      }
+    },
+    {
+      "area": "Hotel",
+      "spawnLocation": {
+        "x": 21.690353109985853,
+        "y": 76.0,
+        "z": -0.4922634239793459,
+        "yaw": 90.44104,
+        "pitch": -4.500019
+      },
+      "blocks": {
+        "position1": {
+          "x": 20,
+          "y": 77,
+          "z": -2
+        },
+        "position2": {
+          "x": 20,
+          "y": 78,
+          "z": 0
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 19,
+          "y": 75,
+          "z": -2
+        },
+        "position2": {
+          "x": 19,
+          "y": 75,
+          "z": 0
+        }
+      }
+    },
+    {
+      "area": "Apartment",
+      "spawnLocation": {
+        "x": 15.89608049498856,
+        "y": 76.0,
+        "z": 6.390055983714558,
+        "yaw": 90.748535,
+        "pitch": 3.7500052
+      },
+      "blocks": {
+        "position1": {
+          "x": 14,
+          "y": 77,
+          "z": 5
+        },
+        "position2": {
+          "x": 14,
+          "y": 78,
+          "z": 7
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 13,
+          "y": 75,
+          "z": 5
+        },
+        "position2": {
+          "x": 13,
+          "y": 75,
+          "z": 7
+        }
+      }
+    },
+    {
+      "area": "Apartment",
+      "spawnLocation": {
+        "x": -12.301014722132534,
+        "y": 76.0,
+        "z": 21.370804720920866,
+        "yaw": -89.40234,
+        "pitch": -1.3500451
+      },
+      "blocks": {
+        "position1": {
+          "x": -12,
+          "y": 77,
+          "z": 22
+        },
+        "position2": {
+          "x": -12,
+          "y": 78,
+          "z": 20
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -11,
+          "y": 75,
+          "z": 22
+        },
+        "position2": {
+          "x": -11,
+          "y": 75,
+          "z": 20
+        }
+      }
+    },
+    {
+      "area": "Apartment",
+      "spawnLocation": {
+        "x": -11.157142408762027,
+        "y": 76.0,
+        "z": 45.61342908249947,
+        "yaw": -90.45535,
+        "pitch": -1.6499578
+      },
+      "blocks": {
+        "position1": {
+          "x": -10,
+          "y": 77,
+          "z": 46
+        },
+        "position2": {
+          "x": -10,
+          "y": 78,
+          "z": 44
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -9,
+          "y": 75,
+          "z": 46
+        },
+        "position2": {
+          "x": -9,
+          "y": 75,
+          "z": 44
+        }
+      }
+    },
+    {
+      "area": "Apartment",
+      "spawnLocation": {
+        "x": 2.460039594805263,
+        "y": 76.0,
+        "z": 61.00360722522206,
+        "yaw": -178.65576,
+        "pitch": 2.550055
+      },
+      "blocks": {
+        "position1": {
+          "x": 3,
+          "y": 77,
+          "z": 59
+        },
+        "position2": {
+          "x": 1,
+          "y": 78,
+          "z": 59
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 3,
+          "y": 75,
+          "z": 58
+        },
+        "position2": {
+          "x": 1,
+          "y": 75,
+          "z": 58
+        }
+      }
+    },
+    {
+      "area": "Gallery",
+      "spawnLocation": {
+        "x": 29.1433706261529,
+        "y": 76.0,
+        "z": 50.43707139023412,
+        "yaw": 91.6452,
+        "pitch": 11.399728
+      },
+      "blocks": {
+        "position1": {
+          "x": 27,
+          "y": 77,
+          "z": 49
+        },
+        "position2": {
+          "x": 27,
+          "y": 78,
+          "z": 51
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 26,
+          "y": 75,
+          "z": 49
+        },
+        "position2": {
+          "x": 26,
+          "y": 75,
+          "z": 51
+        }
+      }
+    },
+    {
+      "area": "Gallery",
+      "spawnLocation": {
+        "x": 20.656434841317676,
+        "y": 76.0,
+        "z": 65.10597872502609,
+        "yaw": 178.49544,
+        "pitch": 3.8998365
+      },
+      "blocks": {
+        "position1": {
+          "x": 21,
+          "y": 77,
+          "z": 63
+        },
+        "position2": {
+          "x": 19,
+          "y": 78,
+          "z": 63
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 21,
+          "y": 75,
+          "z": 62
+        },
+        "position2": {
+          "x": 19,
+          "y": 75,
+          "z": 62
+        }
+      }
+    },
+    {
+      "area": "Gallery",
+      "spawnLocation": {
+        "x": 23.848247598830625,
+        "y": 76.0,
+        "z": 71.66637936684155,
+        "yaw": -89.55502,
+        "pitch": -1.6501523
+      },
+      "blocks": {
+        "position1": {
+          "x": 25,
+          "y": 77,
+          "z": 72
+        },
+        "position2": {
+          "x": 25,
+          "y": 78,
+          "z": 70
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 26,
+          "y": 75,
+          "z": 72
+        },
+        "position2": {
+          "x": 26,
+          "y": 75,
+          "z": 70
+        }
+      }
+    },
+    {
+      "area": "Office",
+      "spawnLocation": {
+        "x": 52.34315517596858,
+        "y": 76.0,
+        "z": 60.1687374277507,
+        "yaw": -179.1095,
+        "pitch": 5.099752
+      },
+      "blocks": {
+        "position1": {
+          "x": 53,
+          "y": 77,
+          "z": 58
+        },
+        "position2": {
+          "x": 51,
+          "y": 78,
+          "z": 58
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 53,
+          "y": 75,
+          "z": 57
+        },
+        "position2": {
+          "x": 51,
+          "y": 75,
+          "z": 57
+        }
+      }
+    },
+    {
+      "area": "Office",
+      "spawnLocation": {
+        "x": 47.663625557791065,
+        "y": 76.0,
+        "z": 33.038521180274834,
+        "yaw": 0.14038086,
+        "pitch": -1.6502324
+      },
+      "blocks": {
+        "position1": {
+          "x": 46,
+          "y": 77,
+          "z": 34
+        },
+        "position2": {
+          "x": 48,
+          "y": 78,
+          "z": 34
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 46,
+          "y": 75,
+          "z": 35
+        },
+        "position2": {
+          "x": 48,
+          "y": 75,
+          "z": 35
+        }
+      }
+    },
+    {
+      "area": "Office",
+      "spawnLocation": {
+        "x": 40.56368953754411,
+        "y": 76.0,
+        "z": 33.429611175753955,
+        "yaw": 0.28967285,
+        "pitch": -2.7002587
+      },
+      "blocks": {
+        "position1": {
+          "x": 39,
+          "y": 77,
+          "z": 34
+        },
+        "position2": {
+          "x": 41,
+          "y": 78,
+          "z": 34
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 39,
+          "y": 75,
+          "z": 35
+        },
+        "position2": {
+          "x": 41,
+          "y": 75,
+          "z": 35
+        }
+      }
+    },
+    {
+      "area": "Roof Top",
+      "spawnLocation": {
+        "x": -18.095990449627216,
+        "y": 83.0,
+        "z": 33.266696557227064,
+        "yaw": -1.063324,
+        "pitch": 6.7497334
+      },
+      "blocks": {
+        "position1": {
+          "x": -19,
+          "y": 84,
+          "z": 34
+        },
+        "position2": {
+          "x": -18,
+          "y": 85,
+          "z": 34
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -19,
+          "y": 82,
+          "z": 35
+        },
+        "position2": {
+          "x": -18,
+          "y": 82,
+          "z": 35
+        }
+      }
+    },
+    {
+      "area": "Roof Top",
+      "spawnLocation": {
+        "x": -19.57891211339746,
+        "y": 83.0,
+        "z": 59.70097468335238,
+        "yaw": -178.51215,
+        "pitch": 0.44971025
+      },
+      "blocks": {
+        "position1": {
+          "x": -19,
+          "y": 84,
+          "z": 58
+        },
+        "position2": {
+          "x": -21,
+          "y": 85,
+          "z": 58
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -19,
+          "y": 82,
+          "z": 57
+        },
+        "position2": {
+          "x": -21,
+          "y": 82,
+          "z": 57
+        }
+      }
+    },
+    {
+      "area": "Roof Top",
+      "spawnLocation": {
+        "x": -31.99197354368411,
+        "y": 83.0,
+        "z": 28.27738892967046,
+        "yaw": -1.0627441,
+        "pitch": -3.0002859
+      },
+      "blocks": {
+        "position1": {
+          "x": -33,
+          "y": 84,
+          "z": 29
+        },
+        "position2": {
+          "x": -32,
+          "y": 85,
+          "z": 29
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -33,
+          "y": 82,
+          "z": 30
+        },
+        "position2": {
+          "x": -32,
+          "y": 82,
+          "z": 30
+        }
+      }
+    },
+    {
+      "area": "Roof Top",
+      "spawnLocation": {
+        "x": -46.72671635827858,
+        "y": 83.0,
+        "z": 32.96125659484583,
+        "yaw": -88.6629,
+        "pitch": -2.1002443
+      },
+      "blocks": {
+        "position1": {
+          "x": -46,
+          "y": 84,
+          "z": 33
+        },
+        "position2": {
+          "x": -46,
+          "y": 85,
+          "z": 32
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -45,
+          "y": 82,
+          "z": 33
+        },
+        "position2": {
+          "x": -45,
+          "y": 82,
+          "z": 32
+        }
+      }
+    }
+  ],
+  "weaponShops": [],
+  "armorShops": [],
+  "luckyChests": [],
+  "perkMachines": [
+    {
+      "position": {
+        "x": 16,
+        "y": 76,
+        "z": -12
+      },
+      "perk": "FROZEN_BULLETS",
+      "gold": 500
+    },
+    {
+      "position": {
+        "x": 15,
+        "y": 76,
+        "z": 48
+      },
+      "perk": "SPEED",
+      "gold": 500
+    },
+    {
+      "position": {
+        "x": -16,
+        "y": 83,
+        "z": 45
+      },
+      "perk": "EXTRA_HEALTH",
+      "gold": 750
+    },
+    {
+      "position": {
+        "x": 9,
+        "y": 69,
+        "z": 5
+      },
+      "perk": "FLAME_BULLETS",
+      "gold": 500
+    },
+    {
+      "position": {
+        "x": 41,
+        "y": 76,
+        "z": 45
+      },
+      "perk": "EXTRA_WEAPON",
+      "gold": 500
+    }
+  ],
+  "powerSwitch": {
+    "gold": 1000,
+    "position": {
+      "x": 6,
+      "y": 83,
+      "z": 43
+    }
+  },
+  "teamMachine": {
+    "x": -40,
+    "y": 83,
+    "z": 51
+  },
+  "preventBuilding": false
+}

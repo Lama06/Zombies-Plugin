@@ -18,7 +18,7 @@ public final class PositionUtil {
         if (position == null) {
             return "null";
         }
-        return "%s %s %s".formatted(position.x(), position.y(), position.z());
+        return "%.1f %.1f %.1f".formatted(position.x(), position.y(), position.z());
     }
 
     public static FinePosition getMidpoint(final FinePosition p1, final FinePosition p2) {

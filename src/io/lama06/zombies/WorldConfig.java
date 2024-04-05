@@ -20,7 +20,7 @@ public final class WorldConfig implements CheckableConfig {
     public final List<ArmorShop> armorShops = new ArrayList<>();
     public final List<LuckyChest> luckyChests = new ArrayList<>();
     public final List<PerkMachine> perkMachines = new ArrayList<>();
-    public PowerSwitch powerSwitch = new PowerSwitch();
+    public PowerSwitch powerSwitch;
     public BlockPosition teamMachine;
     public boolean preventBuilding;
 

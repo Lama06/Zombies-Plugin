@@ -16,7 +16,7 @@ import java.util.random.RandomGenerator;
 
 public final class SpawnPerkItemsOnZombieDeathSystem implements Listener {
     private static final int PERK_ITEM_TIME = 10 * 20;
-    private static final double PERK_PROBABILITY = 1;
+    private static final double PERK_PROBABILITY = 0.05;
 
     @EventHandler
     private void onEntityDeath(final EntityDeathEvent event) {
