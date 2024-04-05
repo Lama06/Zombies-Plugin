@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 
 public final class WeaponShop implements CheckableConfig {
     public BlockPosition position;
-    public WeaponType weaponType;
-    public int purchasePrice;
-    public int refillPrice;
+    public WeaponType weaponType = WeaponType.RIFLE;
+    public int purchasePrice = 500;
+    public int refillPrice = 250;
 
     @Override
     public void check() throws InvalidConfigException {
@@ -40,8 +40,8 @@ public final class WeaponShop implements CheckableConfig {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Weapon: ").append(weaponType != null ? weaponType.getDisplayName() : Component.text("null")),
-                        Material.STONE_SWORD,
+                        Component.text("Weapon: ").append(weaponType.getDisplayName()),
+                        weaponType.getDisplayMaterial(),
                         () -> EnumSelectionMenu.open(
                                 WeaponType.class,
                                 player,

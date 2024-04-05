@@ -14,7 +14,7 @@ import java.util.Set;
 
 public final class ArmorShop implements CheckableConfig {
     public BlockPosition position;
-    public int price;
+    public int price = 100;
     public Part part = Part.UPPER_BODY;
     public Quality quality = Quality.LEATHER;
 
@@ -106,7 +106,7 @@ public final class ArmorShop implements CheckableConfig {
         public Material getDisplayMaterial() {
             return switch (this) {
                 case LOWER_BODY -> Material.CHAINMAIL_LEGGINGS;
-                case UPPER_BODY -> Material.CHAINMAIL_BOOTS;
+                case UPPER_BODY -> Material.CHAINMAIL_CHESTPLATE;
             };
         }
 

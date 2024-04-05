@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public final class LuckyChest implements CheckableConfig {
     public BlockPosition position;
-    public int gold;
+    public int gold = 1000;
 
     @Override
     public void check() throws InvalidConfigException {

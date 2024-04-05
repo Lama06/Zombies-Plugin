@@ -95,7 +95,7 @@ public final class WorldConfig implements CheckableConfig {
                                 Component.text("Weapon Shops"),
                                 weaponShops,
                                 Material.WOODEN_HOE,
-                                shop -> Component.text("Weapon Shop at " + PositionUtil.format(shop.position)),
+                                shop -> Component.text("Weapon Shop: ").append(shop.weaponType.getDisplayName()),
                                 WeaponShop::new,
                                 shop -> shop.openMenu(player, reopen),
                                 reopen
@@ -109,7 +109,8 @@ public final class WorldConfig implements CheckableConfig {
                                 Component.text("Armor Shops"),
                                 armorShops,
                                 Material.IRON_CHESTPLATE,
-                                shop -> Component.text("Armor Shop at " + PositionUtil.format(shop.position)),
+                                shop -> Component.text("Armor Shop: ").append(shop.quality.getDisplayName())
+                                        .appendSpace().append(shop.part.getDisplayName()),
                                 ArmorShop::new,
                                 shop -> shop.openMenu(player, reopen),
                                 reopen
@@ -137,7 +138,7 @@ public final class WorldConfig implements CheckableConfig {
                                 Component.text("Perk Machines"),
                                 perkMachines,
                                 Material.COMMAND_BLOCK,
-                                machine -> Component.text("Perk Machine at " + PositionUtil.format(machine.position)),
+                                machine -> Component.text("Perk Machine: ").append(machine.perk.getDisplayName()),
                                 PerkMachine::new,
                                 machine -> machine.openMenu(player, reopen),
                                 reopen
