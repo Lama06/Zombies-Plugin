@@ -10,9 +10,14 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Switch;
 import org.bukkit.entity.Player;
 
-public final class PowerSwitch {
+public final class PowerSwitch implements CheckableConfig {
     public int gold;
     public BlockPosition position;
+
+    @Override
+    public void check() throws InvalidConfigException {
+        InvalidConfigException.mustBeSet(position, "position");
+    }
 
     public void setActive(final ZombiesWorld world, final boolean active) {
         final Block block = position.toLocation(world.getBukkit()).getBlock();
@@ -45,7 +50,7 @@ public final class PowerSwitch {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Position :" + PositionUtil.format(position)),
+                        Component.text("Position: " + PositionUtil.format(position)),
                         Material.LEVER,
                         () -> BlockPositionSelection.open(
                                 player,

@@ -40,12 +40,17 @@ public final class InteractWithLuckyChestSystem implements Listener {
             return;
         }
         final LuckyChest clickedLuckyChest = world.getConfig().luckyChests.stream()
-                .filter(luckyChest -> luckyChest.position.equals(clickedBlockPos))
+                .filter(luckyChest -> {
+                    final boolean first = luckyChest.position.equals(clickedBlockPos);
+                    final Block secondBlock = luckyChest.getSecondChestBlock(world.getBukkit());
+                    final boolean second = secondBlock != null && secondBlock.equals(clickedBlock);
+                    return first || second;
+                })
                 .findAny().orElse(null);
         if (clickedLuckyChest == null) {
             return;
         }
-        event.setCancelled(true);
+        player.getBukkit().closeInventory();
         final ItemDisplay shuffleItem = getShuffleItem(clickedLuckyChest, world.getBukkit());
         if (shuffleItem == null) {
             openLuckyChest(player, world, clickedLuckyChest);

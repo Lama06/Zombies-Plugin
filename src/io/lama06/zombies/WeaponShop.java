@@ -8,11 +8,17 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public final class WeaponShop {
+public final class WeaponShop implements CheckableConfig {
     public BlockPosition position;
     public WeaponType weaponType;
     public int purchasePrice;
     public int refillPrice;
+
+    @Override
+    public void check() throws InvalidConfigException {
+        InvalidConfigException.mustBeSet(position, "position");
+        InvalidConfigException.mustBeSet(weaponType, "weapon type");
+    }
 
     public void openMenu(final Player player, final Runnable callback) {
         final Runnable reopen = () -> openMenu(player, callback);

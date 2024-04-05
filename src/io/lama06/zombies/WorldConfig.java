@@ -12,36 +12,28 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class WorldConfig {
+public final class WorldConfig implements CheckableConfig {
     public String startArea = "";
     public final List<Door> doors = new ArrayList<>();
-    public PowerSwitch powerSwitch = new PowerSwitch();
     public final List<Window> windows = new ArrayList<>();
     public final List<WeaponShop> weaponShops = new ArrayList<>();
     public final List<ArmorShop> armorShops = new ArrayList<>();
     public final List<LuckyChest> luckyChests = new ArrayList<>();
-    public boolean preventBuilding;
-    public BlockPosition teamMachine;
     public final List<PerkMachine> perkMachines = new ArrayList<>();
+    public PowerSwitch powerSwitch = new PowerSwitch();
+    public BlockPosition teamMachine;
+    public boolean preventBuilding;
 
+    @Override
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(startArea, "start area");
-        for (final Door door : doors) {
-            try {
-                door.check();
-            } catch (final InvalidConfigException e) {
-                throw new InvalidConfigException("door invalid", e);
-            }
-        }
-        if (windows.isEmpty()) {
-            throw new InvalidConfigException("no windows");
-        }
-        for (final Window window : windows) {
-            try {
-                window.check();
-            } catch (final InvalidConfigException e) {
-                throw new InvalidConfigException("window invalid", e);
-            }
+        InvalidConfigException.checkList(doors, true, "doors");
+        InvalidConfigException.checkList(windows, false, "windows");
+        InvalidConfigException.checkList(weaponShops, true, "weapon shops");
+        InvalidConfigException.checkList(luckyChests, true, "lucky chests");
+        InvalidConfigException.checkList(perkMachines, true, "perk machines");
+        if (powerSwitch != null) {
+            powerSwitch.check();
         }
     }
 
@@ -96,16 +88,6 @@ public final class WorldConfig {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Power Switch" + (powerSwitch == null ? ": null" : "")),
-                        Material.LEVER,
-                        () -> (powerSwitch != null ? powerSwitch : (powerSwitch = new PowerSwitch())).openMenu(player, reopen),
-                        Component.text("Remove").color(NamedTextColor.RED),
-                        () -> {
-                            powerSwitch = null;
-                            reopen.run();
-                        }
-                ),
-                new SelectionEntry(
                         Component.text("Weapon Shops"),
                         Material.WOODEN_HOE,
                         () -> ListConfigMenu.open(
@@ -148,10 +130,26 @@ public final class WorldConfig {
                         )
                 ),
                 new SelectionEntry(
-                        Component.text("Prevent Building by Operators: " + preventBuilding),
-                        Material.BARRIER,
+                        Component.text("Perk Machines"),
+                        Material.COMMAND_BLOCK,
+                        () -> ListConfigMenu.open(
+                                player,
+                                Component.text("Perk Machines"),
+                                perkMachines,
+                                Material.COMMAND_BLOCK,
+                                machine -> Component.text("Perk Machine at " + PositionUtil.format(machine.position)),
+                                PerkMachine::new,
+                                machine -> machine.openMenu(player, reopen),
+                                reopen
+                        )
+                ),
+                new SelectionEntry(
+                        Component.text("Power Switch" + (powerSwitch == null ? ": null" : "")),
+                        Material.LEVER,
+                        () -> (powerSwitch != null ? powerSwitch : (powerSwitch = new PowerSwitch())).openMenu(player, reopen),
+                        Component.text("Remove").color(NamedTextColor.RED),
                         () -> {
-                            preventBuilding = !preventBuilding;
+                            powerSwitch = null;
                             reopen.run();
                         }
                 ),
@@ -174,18 +172,12 @@ public final class WorldConfig {
                         }
                 ),
                 new SelectionEntry(
-                        Component.text("Perk Machines"),
-                        Material.COMMAND_BLOCK,
-                        () -> ListConfigMenu.open(
-                                player,
-                                Component.text("Perk Machines"),
-                                perkMachines,
-                                Material.COMMAND_BLOCK,
-                                machine -> Component.text("Perk Machine at " + PositionUtil.format(machine.position)),
-                                PerkMachine::new,
-                                machine -> machine.openMenu(player, reopen),
-                                reopen
-                        )
+                        Component.text("Prevent Building by Operators: " + preventBuilding),
+                        Material.BARRIER,
+                        () -> {
+                            preventBuilding = !preventBuilding;
+                            reopen.run();
+                        }
                 )
         );
     }

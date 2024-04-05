@@ -13,11 +13,16 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Chest;
 import org.bukkit.entity.Player;
 
-public final class LuckyChest {
+public final class LuckyChest implements CheckableConfig {
     public BlockPosition position;
     public int gold;
 
-    private Block getSecondChestBlock(final World world) {
+    @Override
+    public void check() throws InvalidConfigException {
+        InvalidConfigException.mustBeSet(position, "position");
+    }
+
+    public Block getSecondChestBlock(final World world) {
         final Block block = position.toLocation(world).getBlock();
         final BlockData blockData = block.getBlockData();
         if (!(blockData instanceof final Chest chest)) {

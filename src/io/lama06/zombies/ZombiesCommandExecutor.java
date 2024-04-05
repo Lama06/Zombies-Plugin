@@ -90,7 +90,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
         try {
             world.getConfig().check();
         } catch (final InvalidConfigException e) {
-            player.sendMessage(Component.text(e.getLocalizedMessage()));
+            player.sendMessage(Component.text(e.getMessage()));
             return;
         }
         world.startGame();

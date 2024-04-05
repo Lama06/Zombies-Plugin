@@ -1,8 +1,8 @@
 package io.lama06.zombies.system;
 
 import io.lama06.zombies.WorldConfig;
-import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.ZombiesPlayer;
+import io.lama06.zombies.ZombiesWorld;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -34,15 +34,14 @@ public final class EnablePowerSwitchSystem implements Listener {
             return;
         }
         final boolean powerSwitchOn = world.get(ZombiesWorld.POWER_SWITCH);
-        final int gold = player.get(ZombiesPlayer.GOLD);
         if (powerSwitchOn) {
+            player.sendMessage(Component.text("The power switch is already activated").color(NamedTextColor.RED));
             return;
         }
-        if (gold < config.powerSwitch.gold) {
-            player.sendMessage(Component.text("You don't have enough gold to open this door").color(NamedTextColor.RED));
+        if (!player.requireGold(config.powerSwitch.gold)) {
             return;
         }
-        player.set(ZombiesPlayer.GOLD, gold - config.powerSwitch.gold);
+        player.pay(config.powerSwitch.gold);
         world.showTitle(Title.title(Component.text(player.getBukkit().getName() + " activated the power switch"), Component.empty()));
         world.set(ZombiesWorld.POWER_SWITCH, true);
     }

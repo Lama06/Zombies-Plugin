@@ -12,11 +12,18 @@ import org.bukkit.inventory.EquipmentSlot;
 import java.util.Map;
 import java.util.Set;
 
-public final class ArmorShop {
+public final class ArmorShop implements CheckableConfig {
     public BlockPosition position;
     public int price;
     public Part part = Part.UPPER_BODY;
     public Quality quality = Quality.LEATHER;
+
+    @Override
+    public void check() throws InvalidConfigException {
+        InvalidConfigException.mustBeSet(position, "position");
+        InvalidConfigException.mustBeSet(part, "part");
+        InvalidConfigException.mustBeSet(quality, "quality");
+    }
 
     public void openMenu(final Player player, final Runnable callback) {
         final Runnable reopen = () -> openMenu(player, callback);

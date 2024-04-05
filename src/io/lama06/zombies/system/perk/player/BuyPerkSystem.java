@@ -31,6 +31,10 @@ public final class BuyPerkSystem implements Listener {
         if (perkMachine == null) {
             return;
         }
+        if (!world.get(ZombiesWorld.POWER_SWITCH)) {
+            player.sendMessage(Component.text("The power switch isn't enabled"));
+            return;
+        }
         if (player.hasPerk(perkMachine.perk)) {
             player.sendMessage(Component.text("You already own this perk").color(NamedTextColor.RED));
             return;

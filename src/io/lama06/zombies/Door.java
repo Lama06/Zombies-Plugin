@@ -7,7 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public final class Door {
+public final class Door implements CheckableConfig {
     public String area1 = "";
     public String area2 = "";
     public int gold;
@@ -23,6 +23,7 @@ public final class Door {
         (open ? templateOpen : templateClosed).clone(world.getBukkit(), position);
     }
 
+    @Override
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(area1, "first area");
         InvalidConfigException.mustBeSet(area2, "second area");

@@ -1,5 +1,7 @@
 package io.lama06.zombies.perk;
 
+import io.lama06.zombies.CheckableConfig;
+import io.lama06.zombies.InvalidConfigException;
 import io.lama06.zombies.menu.*;
 import io.lama06.zombies.util.PositionUtil;
 import io.papermc.paper.math.BlockPosition;
@@ -8,10 +10,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public final class PerkMachine {
+public final class PerkMachine implements CheckableConfig {
     public BlockPosition position;
     public PlayerPerk perk = PlayerPerk.EXTRA_HEALTH;
     public int gold = 500;
+
+    @Override
+    public void check() throws InvalidConfigException {
+        InvalidConfigException.mustBeSet(position, "position");
+        InvalidConfigException.mustBeSet(perk, "perk");
+    }
 
     public void openMenu(final Player player, final Runnable callback) {
         final Runnable reopen = () -> openMenu(player, callback);

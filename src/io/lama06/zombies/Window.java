@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public final class Window {
+public final class Window implements CheckableConfig {
     public String area = "";
     public EntityPosition spawnLocation;
     public BlockArea blocks;
@@ -22,6 +22,7 @@ public final class Window {
         blocks.fill(world.getBukkit(), Bukkit.createBlockData(Material.OAK_SLAB));
     }
 
+    @Override
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(area, "area");
         InvalidConfigException.mustBeSet(spawnLocation, "spawn location");
