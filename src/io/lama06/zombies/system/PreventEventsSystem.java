@@ -1,7 +1,9 @@
 package io.lama06.zombies.system;
 
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.ZombiesWorld;
 import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -11,6 +13,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 public final class PreventEventsSystem implements Listener {
@@ -97,6 +100,18 @@ public final class PreventEventsSystem implements Listener {
     private void onEntityExplode(final EntityExplodeEvent event) {
         final ZombiesWorld world = new ZombiesWorld(event.getEntity().getWorld());
         if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onInventoryClick(final InventoryClickEvent event) {
+        final ZombiesPlayer player = new ZombiesPlayer((Player) event.getWhoClicked());
+        if (!player.getWorld().isGameRunning()) {
+            return;
+        }
+        if (event.getClickedInventory() == null || !event.getClickedInventory().equals(player.getBukkit().getInventory())) {
             return;
         }
         event.setCancelled(true);

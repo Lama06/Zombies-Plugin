@@ -1,6 +1,6 @@
 package io.lama06.zombies.event.perk;
 
-import io.lama06.zombies.GlobalPerk;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.event.ZombiesEvent;
 import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.util.HandlerListGetter;

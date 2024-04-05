@@ -1,6 +1,6 @@
-package io.lama06.zombies.system.perk;
+package io.lama06.zombies.system.perk.global;
 
-import io.lama06.zombies.GlobalPerk;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.World;
 import org.bukkit.entity.ItemDisplay;

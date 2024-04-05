@@ -36,6 +36,7 @@ public final class CleanupAfterGameSystem implements Listener {
         for (final ZombiesPlayer player : world.getPlayers()) {
             player.remove(ZombiesPlayer.GOLD);
             player.remove(ZombiesPlayer.KILLS);
+            player.clearPerks();
             final Player playerBukkit = player.getBukkit();
             playerBukkit.teleport(world.getBukkit().getSpawnLocation());
             playerBukkit.getInventory().clear();

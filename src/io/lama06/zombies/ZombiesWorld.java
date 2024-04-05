@@ -4,6 +4,7 @@ import io.lama06.zombies.data.*;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieType;
 import net.kyori.adventure.audience.Audience;

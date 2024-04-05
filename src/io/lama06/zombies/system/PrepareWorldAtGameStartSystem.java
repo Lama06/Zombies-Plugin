@@ -4,6 +4,7 @@ import io.lama06.zombies.*;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.GameStartEvent;
 import io.lama06.zombies.ZombiesPlayer;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.weapon.WeaponType;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;

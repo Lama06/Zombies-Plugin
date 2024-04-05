@@ -19,6 +19,7 @@ public final class PlayerAttackZombieEvent extends PlayerEvent {
     private final Zombie zombie;
     private boolean fire;
     private boolean kill;
+    private boolean freeze;
     private double baseDamage;
     private double damageModifier = 1;
 
@@ -52,7 +53,7 @@ public final class PlayerAttackZombieEvent extends PlayerEvent {
         return baseDamage * damageModifier;
     }
 
-    public boolean getFire() {
+    public boolean isFire() {
         return fire;
     }
 
@@ -66,6 +67,14 @@ public final class PlayerAttackZombieEvent extends PlayerEvent {
 
     public void setKill(final boolean kill) {
         this.kill = kill;
+    }
+
+    public boolean isFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(final boolean freeze) {
+        this.freeze = freeze;
     }
 
     @Override

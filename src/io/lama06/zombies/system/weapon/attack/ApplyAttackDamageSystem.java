@@ -15,6 +15,8 @@ public final class ApplyAttackDamageSystem implements Listener {
             return;
         }
         event.setBaseDamage(attackData.damage());
-        event.setFire(attackData.fire());
+        if (attackData.fire()) {
+            event.setFire(true);
+        }
     }
 }

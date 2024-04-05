@@ -51,7 +51,7 @@ public final class InteractWithWeaponShopSystem implements Listener {
             return;
         }
         final int slot = player.getBukkit().getInventory().getHeldItemSlot();
-        if (slot >= 3) {
+        if (slot == 0 || slot > player.getLastWeaponSlot()) {
             player.sendMessage(Component.text("Switch to a weapon slot").color(NamedTextColor.RED));
             return;
         }

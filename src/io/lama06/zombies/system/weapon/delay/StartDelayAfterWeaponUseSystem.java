@@ -1,6 +1,7 @@
 package io.lama06.zombies.system.weapon.delay;
 
 import io.lama06.zombies.data.Component;
+import io.lama06.zombies.perk.PlayerPerk;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.weapon.DelayData;
 import io.lama06.zombies.event.weapon.WeaponDelayChangeEvent;
@@ -20,7 +21,9 @@ public final class StartDelayAfterWeaponUseSystem implements Listener {
         }
         final int delay = weapon.getData().delay.delay();
         final int remainingDelay = delayComponent.get(DelayData.REMAINING_DELAY);
-        delayComponent.set(DelayData.REMAINING_DELAY, delay);
-        Bukkit.getPluginManager().callEvent(new WeaponDelayChangeEvent(event.getWeapon(), remainingDelay, delay));
+        final double delayFactor = event.getPlayer().hasPerk(PlayerPerk.QUICK_FIRE) ? 0.75 : 1;
+        final int newDelay = (int) (delay * delayFactor);
+        delayComponent.set(DelayData.REMAINING_DELAY, newDelay);
+        Bukkit.getPluginManager().callEvent(new WeaponDelayChangeEvent(event.getWeapon(), remainingDelay, newDelay));
     }
 }

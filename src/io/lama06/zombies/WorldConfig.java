@@ -1,6 +1,7 @@
 package io.lama06.zombies;
 
 import io.lama06.zombies.menu.*;
+import io.lama06.zombies.perk.PerkMachine;
 import io.lama06.zombies.util.PositionUtil;
 import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,7 @@ public final class WorldConfig {
     public final List<LuckyChest> luckyChests = new ArrayList<>();
     public boolean preventBuilding;
     public BlockPosition teamMachine;
+    public final List<PerkMachine> perkMachines = new ArrayList<>();
 
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(startArea, "start area");
@@ -170,6 +172,20 @@ public final class WorldConfig {
                             teamMachine = null;
                             reopen.run();
                         }
+                ),
+                new SelectionEntry(
+                        Component.text("Perk Machines"),
+                        Material.COMMAND_BLOCK,
+                        () -> ListConfigMenu.open(
+                                player,
+                                Component.text("Perk Machines"),
+                                perkMachines,
+                                Material.COMMAND_BLOCK,
+                                machine -> Component.text("Perk Machine at " + PositionUtil.format(machine.position)),
+                                PerkMachine::new,
+                                machine -> machine.openMenu(player, reopen),
+                                reopen
+                        )
                 )
         );
     }

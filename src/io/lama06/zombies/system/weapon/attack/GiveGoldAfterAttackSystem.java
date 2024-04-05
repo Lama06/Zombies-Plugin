@@ -1,6 +1,6 @@
 package io.lama06.zombies.system.weapon.attack;
 
-import io.lama06.zombies.GlobalPerk;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.player.PlayerAttackZombieEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;

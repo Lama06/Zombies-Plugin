@@ -1,4 +1,4 @@
-package io.lama06.zombies.system.perk;
+package io.lama06.zombies.system.perk.global;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;

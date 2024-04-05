@@ -4,7 +4,11 @@ import io.lama06.zombies.system.*;
 import io.lama06.zombies.system.lucky_chest.InteractWithLuckyChestSystem;
 import io.lama06.zombies.system.lucky_chest.RemoveLuckyChestItemsSystem;
 import io.lama06.zombies.system.lucky_chest.ShuffleLuckyChestItemSystem;
-import io.lama06.zombies.system.perk.*;
+import io.lama06.zombies.system.perk.global.*;
+import io.lama06.zombies.system.perk.player.BuyPerkSystem;
+import io.lama06.zombies.system.perk.player.RemovePerksOnDeathSystem;
+import io.lama06.zombies.system.perk.player.RunFlameBulletsPerkSystem;
+import io.lama06.zombies.system.perk.player.RunFrozenBulletsPerkSystem;
 import io.lama06.zombies.system.player.DetectPlayerKillsZombieSystem;
 import io.lama06.zombies.system.player.IncrementPlayerKillsSystem;
 import io.lama06.zombies.system.player.RenderScoreboardSystem;
@@ -49,6 +53,8 @@ public final class Systems {
             new ShuffleLuckyChestItemSystem(),
 
             // Perk
+
+            // Global
             new EnableTemporaryPerksSystem(),
             new PerformInstantKillPerkSystem(),
             new PerformMaxAmmoPerkSystem(),
@@ -57,6 +63,12 @@ public final class Systems {
             new SpawnPerkItemsOnZombieDeathSystem(),
             new RemovePerkItemsSystem(),
             new TickTemporaryPerksSystem(),
+
+            // Player
+            new BuyPerkSystem(),
+            new RemovePerksOnDeathSystem(),
+            new RunFlameBulletsPerkSystem(),
+            new RunFrozenBulletsPerkSystem(),
 
             // Player
             new DetectPlayerKillsZombieSystem(),

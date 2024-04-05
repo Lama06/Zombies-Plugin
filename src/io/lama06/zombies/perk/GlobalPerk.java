@@ -1,4 +1,4 @@
-package io.lama06.zombies;
+package io.lama06.zombies.perk;
 
 import io.lama06.zombies.data.AttributeId;
 import net.kyori.adventure.text.Component;

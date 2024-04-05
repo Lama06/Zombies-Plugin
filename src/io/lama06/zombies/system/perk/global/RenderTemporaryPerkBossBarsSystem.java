@@ -1,6 +1,6 @@
-package io.lama06.zombies.system.perk;
+package io.lama06.zombies.system.perk.global;
 
-import io.lama06.zombies.GlobalPerk;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.perk.PerkTickEvent;

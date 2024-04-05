@@ -81,7 +81,7 @@ public final class InteractWithLuckyChestSystem implements Listener {
         }
         final PlayerInventory inventory = player.getBukkit().getInventory();
         final int slot = inventory.getHeldItemSlot();
-        if (slot >= 3) {
+        if (slot == 0 || slot > player.getLastWeaponSlot()) {
             player.sendMessage(Component.text("Select a weapon slot").color(NamedTextColor.RED));
             return;
         }
