@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.random.RandomGenerator;
 
 public final class ZombiesWorld extends Storage implements ForwardingAudience {
-    public static final AttributeId<Boolean> GAME_RUNNING = new AttributeId<>("is_game", PersistentDataType.BOOLEAN);
+    public static final AttributeId<Boolean> GAME_RUNNING = new AttributeId<>("game_running", PersistentDataType.BOOLEAN);
 
     public static final AttributeId<Integer> ROUND = new AttributeId<>("round", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> REMAINING_ZOMBIES = new AttributeId<>("remaining_zombies", PersistentDataType.INTEGER);
@@ -54,7 +54,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     }
 
     public WorldConfig getConfig() {
-        return ZombiesPlugin.INSTANCE.getConfig(this);
+        return ZombiesPlugin.INSTANCE.getWorldConfig(this);
     }
 
     public void startGame() {

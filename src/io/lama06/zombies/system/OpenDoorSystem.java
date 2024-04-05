@@ -37,7 +37,7 @@ public final class OpenDoorSystem implements Listener {
             if (doorIndizes.contains(i)) {
                 continue;
             }
-            if (!door.activationBlock.equals(event.getClickedBlock().getLocation().toBlock())) {
+            if (!door.position.getBlocks().contains(event.getClickedBlock().getLocation().toBlock())) {
                 continue;
             }
             if (gold < door.gold) {

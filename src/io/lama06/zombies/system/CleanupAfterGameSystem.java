@@ -31,6 +31,7 @@ public final class CleanupAfterGameSystem implements Listener {
         world.remove(ZombiesWorld.OPEN_DOORS);
         world.remove(ZombiesWorld.POWER_SWITCH);
         world.remove(ZombiesWorld.DRAGONS_WRATH_USED);
+        world.remove(ZombiesWorld.BOSS_SPAWNED);
         world.removeComponent(ZombiesWorld.PERKS_COMPONENT);
 
         for (final ZombiesPlayer player : world.getPlayers()) {

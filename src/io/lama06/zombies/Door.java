@@ -2,8 +2,6 @@ package io.lama06.zombies;
 
 import io.lama06.zombies.menu.*;
 import io.lama06.zombies.util.BlockArea;
-import io.lama06.zombies.util.PositionUtil;
-import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -12,7 +10,6 @@ import org.bukkit.entity.Player;
 public final class Door {
     public String area1 = "";
     public String area2 = "";
-    public BlockPosition activationBlock;
     public int gold;
     public BlockArea position;
     public BlockArea templateOpen;
@@ -29,7 +26,6 @@ public final class Door {
     public void check() throws InvalidConfigException {
         InvalidConfigException.mustBeSet(area1, "first area");
         InvalidConfigException.mustBeSet(area2, "second area");
-        InvalidConfigException.mustBeSet(activationBlock, "activation block");
         InvalidConfigException.mustBeSet(position, "position");
         InvalidConfigException.mustBeSet(templateClosed, "template closed");
 
@@ -70,15 +66,6 @@ public final class Door {
                             openMenu(player, callback);
                         },
                         () -> openMenu(player, callback)
-                )),
-                new SelectionEntry(Component.text("Activation Block: " + PositionUtil.format(activationBlock)), Material.LEVER, () -> BlockPositionSelection.open(
-                        player,
-                        Component.text("Activation Block"),
-                        callback,
-                        activationBlock -> {
-                            this.activationBlock = activationBlock;
-                            openMenu(player, callback);
-                        }
                 )),
                 new SelectionEntry(Component.text("Gold: " + gold), Material.GOLD_NUGGET, () -> InputMenu.open(
                         player,

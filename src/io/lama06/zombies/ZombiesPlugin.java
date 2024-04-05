@@ -17,12 +17,16 @@ public final class ZombiesPlugin extends JavaPlugin implements Listener {
     private ConfigManager configManager;
     private ZombiesConfig config;
 
-    public WorldConfig getConfig(final ZombiesWorld world) {
+    public WorldConfig getWorldConfig(final ZombiesWorld world) {
         return config.worlds.get(world.getBukkit().getName());
     }
 
+    public ZombiesConfig getGlobalConfig() {
+        return config;
+    }
+
     public boolean isZombiesWorld(final ZombiesWorld world) {
-        return getConfig(world) != null;
+        return getWorldConfig(world) != null;
     }
 
     public List<ZombiesWorld> getWorlds() {
