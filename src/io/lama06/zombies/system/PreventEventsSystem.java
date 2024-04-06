@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 public final class PreventEventsSystem implements Listener {
     @EventHandler
@@ -112,6 +113,15 @@ public final class PreventEventsSystem implements Listener {
             return;
         }
         if (event.getClickedInventory() == null || !event.getClickedInventory().equals(player.getBukkit().getInventory())) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onPlayerItemConsume(final PlayerItemConsumeEvent event) {
+        final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
+        if (!player.getWorld().isGameRunning()) {
             return;
         }
         event.setCancelled(true);

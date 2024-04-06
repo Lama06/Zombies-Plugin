@@ -17,19 +17,19 @@ public final class ConfigManager {
     private static final String CONFIG_FILE_NAME = "data.json";
     private static final String BACKUP_DIRECTORY_NAME = "backups";
 
-    private final ZombiesPlugin plugin;
-
-    public ConfigManager(final ZombiesPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    private Gson createGson() {
+    public static Gson createGson() {
         return new GsonBuilder()
                 .serializeNulls()
                 .setPrettyPrinting()
                 .registerTypeAdapter(BlockPosition.class, new BlockPositionTypeAdapter())
                 .registerTypeAdapter(FinePosition.class, new FinePositionTypeAdapter())
                 .create();
+    }
+
+    private final ZombiesPlugin plugin;
+
+    public ConfigManager(final ZombiesPlugin plugin) {
+        this.plugin = plugin;
     }
 
     private Path getDataDirectoryPath() throws IOException {

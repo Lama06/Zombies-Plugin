@@ -1,5 +1,6 @@
 package io.lama06.zombies;
 
+import com.google.gson.JsonParseException;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.weapon.WeaponType;
 import io.lama06.zombies.zombie.ZombieType;
@@ -16,10 +17,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
 public final class ZombiesCommandExecutor implements TabExecutor {
+    private static final String DEAD_END_TEMPLATE = "templates/dead_end.json";
+
     @Override
     public boolean onCommand(
             @NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label,
@@ -34,6 +39,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             case "config" -> config(sender);
             case "saveConfig" -> saveConfig(sender);
             case "checkConfig" -> checkConfig(sender);
+            case "loadTemplate" -> loadTemplate(sender);
             case "start" -> start(sender);
             case "stop" -> stop(sender);
             case "giveGold" -> giveGold(sender, Arrays.copyOfRange(args, 1, args.length));
@@ -53,7 +59,17 @@ public final class ZombiesCommandExecutor implements TabExecutor {
         if (args.length != 1 && args.length != 0) {
             return List.of();
         }
-        return List.of("config", "saveConfig", "checkConfig", "start", "stop", "giveGold", "giveWeapon", "spawnZombie");
+        return List.of(
+                "config",
+                "saveConfig",
+                "checkConfig",
+                "loadTemplate",
+                "start",
+                "stop",
+                "giveGold",
+                "giveWeapon",
+                "spawnZombie"
+        );
     }
 
     private void root(final CommandSender sender) {
@@ -117,6 +133,29 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         sender.sendMessage(Component.text("No issues found").color(NamedTextColor.GREEN));
+    }
+
+    private void loadTemplate(final CommandSender sender) {
+        if (!(sender instanceof final Player player)) {
+            return;
+        }
+        final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        final ZombiesConfig globalConfig = ZombiesPlugin.INSTANCE.getGlobalConfig();
+        final InputStream resource = ZombiesPlugin.INSTANCE.getResource(DEAD_END_TEMPLATE);
+        if (resource == null) {
+            sender.sendMessage(Component.text("Template unavailable. Please contact the plugins's author.").color(NamedTextColor.RED));
+            return;
+        }
+        final WorldConfig config;
+        try {
+            config = ConfigManager.createGson().fromJson(new InputStreamReader(resource), WorldConfig.class);
+        } catch (final JsonParseException e) {
+            sender.sendMessage(Component.text("Template malformed. Please contact the plugins's author."));
+            return;
+        }
+        globalConfig.worlds.put(world.getBukkit().getName(), config);
+        sender.sendMessage(Component.text("Template loaded. Start the game: Click me!").color(NamedTextColor.GREEN)
+                                   .clickEvent(ClickEvent.suggestCommand("/zombies start")));
     }
 
     private void start(final CommandSender sender) {

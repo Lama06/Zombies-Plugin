@@ -23,6 +23,7 @@ public final class SpawnFireballsSystem implements Listener {
             if (event.getTickNumber() % fireBallAttackData.delay() != 0) {
                 continue;
             }
+
             if (!(zombie.getEntity() instanceof final Mob mob)) {
                 continue;
             }
@@ -30,7 +31,12 @@ public final class SpawnFireballsSystem implements Listener {
             if (target == null) {
                 continue;
             }
-            final Vector direction = target.getLocation().clone().subtract(zombie.getEntity().getLocation()).toVector().normalize();
+            final Vector directionPreNormalization = target.getLocation().clone().subtract(zombie.getEntity().getLocation()).toVector();
+            if (directionPreNormalization.isZero()) {
+                // Otherwise, we'd try to normalize the zero vector, which gives (NaN, NaN, NaN)
+                continue;
+            }
+            final Vector direction = directionPreNormalization.normalize();
             final World bukkitWorld = zombie.getWorld().getBukkit();
             final Fireball fireball = bukkitWorld.spawn(zombie.getEntity().getLocation().clone().add(direction), Fireball.class);
             fireball.setDirection(direction);

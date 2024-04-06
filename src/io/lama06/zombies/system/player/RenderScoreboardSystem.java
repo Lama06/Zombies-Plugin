@@ -1,5 +1,7 @@
 package io.lama06.zombies.system.player;
 
+import io.lama06.zombies.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.event.GameStartEvent;
@@ -7,7 +9,6 @@ import io.lama06.zombies.event.StartRoundEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.event.player.PlayerKillZombieEvent;
 import io.lama06.zombies.event.player.PlayerKillsIncrementEvent;
-import io.lama06.zombies.ZombiesPlayer;
 import io.papermc.paper.scoreboard.numbers.NumberFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -18,6 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.*;
 
@@ -75,27 +79,33 @@ public final class RenderScoreboardSystem implements Listener {
         }
     }
 
-    private static void updateTabList(final ZombiesPlayer player, final Scoreboard scoreboard) {
-        final String TAB_LIST_OBJECTIVE_NAME = "tab_list";
+    private static void updateKills(final ZombiesPlayer player, final Scoreboard scoreboard) {
+        final String KILLS_OBJECTIVE_NAME = "kills";
 
-        final Objective tabListObjective = scoreboard.registerNewObjective(TAB_LIST_OBJECTIVE_NAME, Criteria.DUMMY, Component.empty());
-        tabListObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        final Objective killsObjective = scoreboard.registerNewObjective(KILLS_OBJECTIVE_NAME, Criteria.DUMMY, Component.text("Kills"));
+        killsObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
 
         final ZombiesWorld world = player.getWorld();
         for (final ZombiesPlayer otherPlayer : world.getPlayers()) {
             final int kills = otherPlayer.get(ZombiesPlayer.KILLS);
-            final Score score = tabListObjective.getScore(player.getBukkit());
+            final Score score = killsObjective.getScore(otherPlayer.getBukkit());
             score.setScore(kills);
         }
     }
 
-    private static void updateBelowName(final Scoreboard scoreboard) {
-        final String BELOW_NAME_OBJECTIVE_NAME = "below_name";
+    private static void updateHealth(final ZombiesPlayer player, final Scoreboard scoreboard) {
+        final String HEALTH_OBJECTIVE_NAME = "health";
 
-        final Objective belowNameObjective = scoreboard.registerNewObjective(BELOW_NAME_OBJECTIVE_NAME, Criteria.HEALTH, Component.empty());
-        belowNameObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        belowNameObjective.setRenderType(RenderType.HEARTS);
-        belowNameObjective.setAutoUpdateDisplay(true);
+        final Objective healthObjective = scoreboard.registerNewObjective(HEALTH_OBJECTIVE_NAME, Criteria.DUMMY, Component.text("Health"));
+        healthObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        healthObjective.setRenderType(RenderType.HEARTS);
+        healthObjective.setAutoUpdateDisplay(true);
+        final ZombiesWorld world = player.getWorld();
+        for (final ZombiesPlayer otherPlayer : world.getPlayers()) {
+            final double health = otherPlayer.getBukkit().getHealth();
+            final Score score = healthObjective.getScore(otherPlayer.getBukkit());
+            score.setScore((int) health);
+        }
     }
 
     public static void updateScoreboard(final ZombiesPlayer player) {
@@ -107,8 +117,8 @@ public final class RenderScoreboardSystem implements Listener {
         final Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
         bukkit.setScoreboard(scoreboard);
         updateSidebar(player, scoreboard);
-        updateTabList(player, scoreboard);
-        updateBelowName(scoreboard);
+        updateKills(player, scoreboard);
+        updateHealth(player, scoreboard);
     }
 
     private static void updateScoreboard(final ZombiesWorld world) {
@@ -145,6 +155,28 @@ public final class RenderScoreboardSystem implements Listener {
     @EventHandler
     private void onRoundStart(final StartRoundEvent event) {
         updateScoreboard(event.getWorld());
+    }
+
+    private void onHealthChange(final EntityEvent event) {
+        if (!(event.getEntity() instanceof final Player player)) {
+            return;
+        }
+        final ZombiesPlayer zombiesPlayer = new ZombiesPlayer(player);
+        final ZombiesWorld world = zombiesPlayer.getWorld();
+        if (!world.isGameRunning()) {
+            return;
+        }
+        Bukkit.getScheduler().runTask(ZombiesPlugin.INSTANCE, () -> updateScoreboard(world));
+    }
+
+    @EventHandler
+    private void onEntityDamage(final EntityDamageEvent event) {
+        onHealthChange(event);
+    }
+
+    @EventHandler
+    private void onEntityRegainHealth(final EntityRegainHealthEvent event) {
+        onHealthChange(event);
     }
 
     @EventHandler

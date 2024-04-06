@@ -30,6 +30,9 @@ public final class LaserAttackDamageSystem implements Listener {
             return;
         }
         final Entity zombieEntity = damager.getWorld().getEntity(zombieUuid);
+        if (zombieEntity == null) {
+            return;
+        }
         final Zombie zombie = new Zombie(zombieEntity);
         if (!zombie.isZombie()) {
             return;
