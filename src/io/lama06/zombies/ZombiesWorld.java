@@ -28,6 +28,7 @@ import java.util.random.RandomGenerator;
 public final class ZombiesWorld extends Storage implements ForwardingAudience {
     public static final AttributeId<Boolean> GAME_RUNNING = new AttributeId<>("game_running", PersistentDataType.BOOLEAN);
 
+    public static final AttributeId<Integer> START_TIMER = new AttributeId<>("start_timer", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> ROUND = new AttributeId<>("round", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> REMAINING_ZOMBIES = new AttributeId<>("remaining_zombies", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> NEXT_ZOMBIE_TIME = new AttributeId<>("next_zombie", PersistentDataType.INTEGER);

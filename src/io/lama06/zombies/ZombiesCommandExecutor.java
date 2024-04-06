@@ -163,6 +163,10 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        if (world.isGameRunning()) {
+            sender.sendMessage(Component.text("The game is already running").color(NamedTextColor.RED));
+            return;
+        }
         try {
             world.getConfig().check();
         } catch (final InvalidConfigException e) {
@@ -177,6 +181,10 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        if (!world.isZombiesWorld() || !world.isGameRunning()) {
+            sender.sendMessage(Component.text("The game isn't running").color(NamedTextColor.RED));
+            return;
+        }
         world.endGame();
     }
 

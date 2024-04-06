@@ -9,9 +9,7 @@ import io.lama06.zombies.system.perk.player.BuyPerkSystem;
 import io.lama06.zombies.system.perk.player.RemovePerksOnDeathSystem;
 import io.lama06.zombies.system.perk.player.RunFlameBulletsPerkSystem;
 import io.lama06.zombies.system.perk.player.RunFrozenBulletsPerkSystem;
-import io.lama06.zombies.system.player.DetectPlayerKillsZombieSystem;
-import io.lama06.zombies.system.player.IncrementPlayerKillsSystem;
-import io.lama06.zombies.system.player.RenderScoreboardSystem;
+import io.lama06.zombies.system.player.*;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
 import io.lama06.zombies.system.weapon.ammo.*;
 import io.lama06.zombies.system.weapon.attack.ApplyAttackDamageSystem;
@@ -37,13 +35,17 @@ import org.bukkit.event.Listener;
 
 public final class Systems {
     public static Listener[] SYSTEMS = new Listener[] {
+            new BuyArmorAtShopSystem(),
             new CleanupAfterGameSystem(),
             new EnablePowerSwitchSystem(),
+            new EndGameSystem(),
+            new HandleNewPlayersSystem(),
             new InteractWithWeaponShopSystem(),
             new OpenDoorSystem(),
             new PrepareWorldAtGameStartSystem(),
             new PreventEventsSystem(),
             new RepairWindowSystem(),
+            new StartGameSystem(),
             new StartNextRoundSystem(),
             new TeamMachineSystem(),
 
@@ -73,7 +75,9 @@ public final class Systems {
             // Player
             new DetectPlayerKillsZombieSystem(),
             new IncrementPlayerKillsSystem(),
+            new MakeDeadPlayersSpectatorsSystem(),
             new RenderScoreboardSystem(),
+            new RespawnDeadPlayersAfterRoundSystem(),
 
             // Weapon
             new RenderWeaponLoreSystem(),
@@ -120,7 +124,6 @@ public final class Systems {
 
             // Zombie
             new AngerZombiesSystem(),
-            new BuyArmorAtShopSystem(),
             new DamageZombieAfterAttackSystem(),
             new InitZombieEquipmentSystem(),
             new InitZombieHealthSystem(),
