@@ -18,7 +18,7 @@ public final class CancelWindowBreakingOnBlockDisappearanceSystem implements Lis
         final Zombie zombie = event.getZombie();
         final Component breakWindowComponent = zombie.getComponent(Zombie.BREAK_WINDOW);
         Objects.requireNonNull(breakWindowComponent);
-        final BlockPosition blockPos = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
+        final BlockPosition blockPos = breakWindowComponent.get(BreakWindowData.BLOCK);
         if (blockPos == null) {
             return;
         }

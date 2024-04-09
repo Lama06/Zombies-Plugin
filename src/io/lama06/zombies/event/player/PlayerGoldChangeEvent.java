@@ -3,7 +3,6 @@ package io.lama06.zombies.event.player;
 import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.util.HandlerListGetter;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 public final class PlayerGoldChangeEvent extends PlayerEvent {
     public static final HandlerList HANDLERS = new HandlerList();
@@ -31,7 +30,7 @@ public final class PlayerGoldChangeEvent extends PlayerEvent {
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return HANDLERS;
     }
 }

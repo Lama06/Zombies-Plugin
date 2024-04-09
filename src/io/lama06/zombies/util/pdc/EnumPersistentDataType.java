@@ -2,7 +2,6 @@ package io.lama06.zombies.util.pdc;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 
 public final class EnumPersistentDataType<T extends Enum<T>> implements PersistentDataType<String, T> {
     private final Class<T> type;
@@ -12,24 +11,22 @@ public final class EnumPersistentDataType<T extends Enum<T>> implements Persiste
     }
 
     @Override
-    public @NotNull Class<String> getPrimitiveType() {
+    public Class<String> getPrimitiveType() {
         return String.class;
     }
 
     @Override
-    public @NotNull Class<T> getComplexType() {
+    public Class<T> getComplexType() {
         return type;
     }
 
     @Override
-    public @NotNull String toPrimitive(@NotNull final T complex, @NotNull final PersistentDataAdapterContext context) {
+    public String toPrimitive(final T complex, final PersistentDataAdapterContext context) {
         return complex.name();
     }
 
     @Override
-    public @NotNull T fromPrimitive(
-            @NotNull final String primitive, @NotNull final PersistentDataAdapterContext context
-    ) {
+    public T fromPrimitive(final String primitive, final PersistentDataAdapterContext context) {
         return Enum.valueOf(type, primitive);
     }
 }

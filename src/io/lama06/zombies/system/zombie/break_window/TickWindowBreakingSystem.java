@@ -24,8 +24,8 @@ public final class TickWindowBreakingSystem implements Listener {
         if (breakWindowComponent == null) {
             return;
         }
-        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowData.REMAINING_TIME, null);
-        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
+        final Integer remainingTime = breakWindowComponent.get(BreakWindowData.REMAINING_TIME);
+        final BlockPosition block = breakWindowComponent.get(BreakWindowData.BLOCK);
         if (remainingTime == null || block == null) {
             return;
         }

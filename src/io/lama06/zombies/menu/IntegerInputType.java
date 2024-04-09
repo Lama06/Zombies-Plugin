@@ -1,7 +1,5 @@
 package io.lama06.zombies.menu;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class IntegerInputType implements InputType<Integer> {
     private final int from;
     private final int to;
@@ -16,7 +14,7 @@ public final class IntegerInputType implements InputType<Integer> {
     }
 
     @Override
-    public Integer parseInput(final @NotNull String input) throws InvalidInputException {
+    public Integer parseInput(final String input) throws InvalidInputException {
         final int inputInteger;
         try {
             inputInteger = Integer.parseInt(input.trim());

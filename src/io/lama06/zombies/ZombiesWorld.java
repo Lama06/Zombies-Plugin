@@ -17,10 +17,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.random.RandomGenerator;
@@ -47,7 +47,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     }
 
     public boolean isGameRunning() {
-        return getOrDefault(GAME_RUNNING, false);
+        return Objects.requireNonNullElse(get(GAME_RUNNING), false);
     }
 
     public boolean isZombiesWorld() {
@@ -147,7 +147,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     }
 
     @Override
-    public @NotNull Iterable<? extends Audience> audiences() {
+    public Iterable<? extends Audience> audiences() {
         return Set.of(world);
     }
 

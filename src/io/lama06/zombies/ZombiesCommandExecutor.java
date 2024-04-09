@@ -1,6 +1,7 @@
 package io.lama06.zombies;
 
 import com.google.gson.JsonParseException;
+import io.lama06.zombies.event.player.PlayerCancelCommandEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.weapon.WeaponType;
 import io.lama06.zombies.zombie.ZombieType;
@@ -14,7 +15,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +27,10 @@ public final class ZombiesCommandExecutor implements TabExecutor {
 
     @Override
     public boolean onCommand(
-            @NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label,
-            final @NotNull String[] args
+            final CommandSender sender,
+            final Command command,
+            final String label,
+            final String[] args
     ) {
         if (args.length == 0) {
             root(sender);
@@ -45,6 +47,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             case "giveGold" -> giveGold(sender, Arrays.copyOfRange(args, 1, args.length));
             case "giveWeapon" -> giveWeapon(sender, Arrays.copyOfRange(args, 1, args.length));
             case "spawnZombie" -> spawnZombie(sender, Arrays.copyOfRange(args, 1, args.length));
+            case "cancel" -> cancel(sender);
             default -> sender.sendMessage(Component.text("unknown command").color(NamedTextColor.RED));
         }
 
@@ -52,9 +55,11 @@ public final class ZombiesCommandExecutor implements TabExecutor {
     }
 
     @Override
-    public @NotNull List<String> onTabComplete(
-            @NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label,
-            final @NotNull String[] args
+    public List<String> onTabComplete(
+            final CommandSender sender,
+            final Command command,
+            final String label,
+            final String[] args
     ) {
         if (args.length != 1 && args.length != 0) {
             return List.of();
@@ -243,5 +248,12 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         world.spawnZombie(player.getLocation(), zombieType);
+    }
+
+    public void cancel(final CommandSender sender) {
+        if (!(sender instanceof final Player player)) {
+            return;
+        }
+        Bukkit.getPluginManager().callEvent(new PlayerCancelCommandEvent(player));
     }
 }

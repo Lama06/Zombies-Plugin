@@ -12,6 +12,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Objects;
+
 public final class Weapon extends Storage {
     public static final AttributeId<Boolean> IS_WEAPON = new AttributeId<>("is_weapon", PersistentDataType.BOOLEAN);
     public static final AttributeId<WeaponType> TYPE = new AttributeId<>("type", new EnumPersistentDataType<>(WeaponType.class));
@@ -49,10 +51,7 @@ public final class Weapon extends Storage {
         if (item == null) {
             return false;
         }
-        if (item.getItemMeta() == null) {
-            return false;
-        }
-        return getOrDefault(IS_WEAPON, false);
+        return Objects.requireNonNullElse(get(IS_WEAPON), false);
     }
 
     public WeaponType getType() {

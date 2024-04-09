@@ -46,9 +46,9 @@
       <root url="jar://$PROJECT_DIR$/lib/adventure-text-serializer-plain-4.16.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/adventure-text-logger-slf4j-4.16.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/checker-qual-3.33.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-9.5.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.5.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-9.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.7.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/lib/paper-api-1.20.4-R0.1-SNAPSHOT-javadoc.jar!/" />
@@ -93,9 +93,9 @@
       <root url="jar://$PROJECT_DIR$/lib/adventure-text-serializer-plain-4.16.0-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/adventure-text-logger-slf4j-4.16.0-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/checker-qual-3.33.0-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-9.5-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.5-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.5-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-9.7-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.7-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.7-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/lib/paper-api-1.20.4-R0.1-SNAPSHOT-sources.jar!/" />
@@ -141,9 +141,9 @@
       <root url="jar://$PROJECT_DIR$/lib/adventure-text-serializer-plain-4.16.0-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/adventure-text-logger-slf4j-4.16.0-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/checker-qual-3.33.0-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-9.5-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.5-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.5-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-9.7-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.7-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.7-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

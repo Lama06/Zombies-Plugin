@@ -16,7 +16,6 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -78,7 +77,7 @@ public final class InputMenu<T> implements Listener {
     }
 
     @EventHandler
-    private void onInventoryClick(final @NotNull InventoryClickEvent event) {
+    private void onInventoryClick(final InventoryClickEvent event) {
         if (!event.getWhoClicked().equals(player) || !event.getInventory().equals(inventory)) {
             return;
         }
@@ -101,7 +100,7 @@ public final class InputMenu<T> implements Listener {
     }
 
     @EventHandler
-    private void onInventoryClose(final @NotNull InventoryCloseEvent event) {
+    private void onInventoryClose(final InventoryCloseEvent event) {
         if (!event.getPlayer().equals(player)) {
             return;
         }
@@ -110,7 +109,7 @@ public final class InputMenu<T> implements Listener {
     }
 
     @EventHandler
-    private void onPlayerQuit(final @NotNull PlayerQuitEvent event) {
+    private void onPlayerQuit(final PlayerQuitEvent event) {
         if (!event.getPlayer().equals(player)) {
             return;
         }

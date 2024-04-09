@@ -5,7 +5,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 
 public final class RegistryPersistentDataType<T extends Keyed> implements PersistentDataType<String, T> {
     private final Class<T> complexType;
@@ -17,24 +16,22 @@ public final class RegistryPersistentDataType<T extends Keyed> implements Persis
     }
 
     @Override
-    public @NotNull Class<String> getPrimitiveType() {
+    public Class<String> getPrimitiveType() {
         return String.class;
     }
 
     @Override
-    public @NotNull Class<T> getComplexType() {
+    public Class<T> getComplexType() {
         return complexType;
     }
 
     @Override
-    public @NotNull String toPrimitive(@NotNull final T complex, @NotNull final PersistentDataAdapterContext context) {
+    public String toPrimitive(final T complex, final PersistentDataAdapterContext context) {
         return complex.getKey().toString();
     }
 
     @Override
-    public @NotNull T fromPrimitive(
-            @NotNull final String primitive, @NotNull final PersistentDataAdapterContext context
-    ) {
+    public T fromPrimitive(final String primitive, final PersistentDataAdapterContext context) {
         final NamespacedKey key = NamespacedKey.fromString(primitive);
         if (key == null) {
             throw new IllegalStateException("invalid key");

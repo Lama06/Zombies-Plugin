@@ -20,7 +20,7 @@ public final class CancelMovementDuringWindowBreakingSystem implements Listener 
         if (breakWindowComponent == null) {
             return;
         }
-        final Integer remainingTime = breakWindowComponent.getOrDefault(BreakWindowData.REMAINING_TIME, null);
+        final Integer remainingTime = breakWindowComponent.get(BreakWindowData.REMAINING_TIME);
         if (remainingTime == null) {
             return;
         }

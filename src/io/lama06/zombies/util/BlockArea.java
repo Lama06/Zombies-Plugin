@@ -4,8 +4,6 @@ import io.papermc.paper.math.BlockPosition;
 import io.papermc.paper.math.Position;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,17 +39,15 @@ public record BlockArea(BlockPosition position1, BlockPosition position2) {
         return Math.min(position1.blockZ(), position2.blockZ());
     }
 
-    @Contract(" -> new")
-    public @NotNull BlockPosition getLowerCorner() {
+    public BlockPosition getLowerCorner() {
         return Position.block(getLowerX(), getLowerY(), getLowerZ());
     }
 
-    @Contract(" -> new")
-    public @NotNull BlockPosition getUpperCorner() {
+    public BlockPosition getUpperCorner() {
         return Position.block(getUpperX(), getUpperY(), getUpperZ());
     }
 
-    public @NotNull Set<BlockPosition> getBlocks() {
+    public Set<BlockPosition> getBlocks() {
         final Set<BlockPosition> blocks = new HashSet<>();
 
         final BlockPosition lowerCorner = getLowerCorner();
@@ -68,7 +64,7 @@ public record BlockArea(BlockPosition position1, BlockPosition position2) {
         return blocks;
     }
 
-    public boolean containsBlock(final @NotNull BlockPosition position) {
+    public boolean containsBlock(final BlockPosition position) {
         final BlockPosition lowerCorner = getLowerCorner();
         final BlockPosition upperCorner = getUpperCorner();
 
@@ -123,7 +119,7 @@ public record BlockArea(BlockPosition position1, BlockPosition position2) {
         return getUpperZ() - getLowerZ() + 1;
     }
 
-    public boolean hasSameDimensions(final @NotNull BlockArea other) {
+    public boolean hasSameDimensions(final BlockArea other) {
         return getHeight() == other.getHeight() && getWidthX() == other.getWidthX() && getWidthZ() == other.getWidthZ();
     }
 
@@ -132,7 +128,7 @@ public record BlockArea(BlockPosition position1, BlockPosition position2) {
     }
 
     @Override
-    public @NotNull String toString() {
+    public String toString() {
         return PositionUtil.format(position1) + " - " + PositionUtil.format(position2);
     }
 }

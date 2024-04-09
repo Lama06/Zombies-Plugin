@@ -4,7 +4,6 @@ import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 public final class BreakWindowTickEvent extends ZombieEvent implements Cancellable {
     public static final HandlerList HANDLERS = new HandlerList();
@@ -37,7 +36,7 @@ public final class BreakWindowTickEvent extends ZombieEvent implements Cancellab
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return HANDLERS;
     }
 }

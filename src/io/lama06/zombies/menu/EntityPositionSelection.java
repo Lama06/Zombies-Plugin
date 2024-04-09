@@ -1,6 +1,8 @@
 package io.lama06.zombies.menu;
 
+import io.lama06.zombies.PlayerCancellation;
 import io.lama06.zombies.ZombiesPlugin;
+import io.lama06.zombies.event.player.PlayerCancelCommandEvent;
 import io.lama06.zombies.util.EntityPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -47,7 +49,12 @@ public final class EntityPositionSelection implements Listener {
 
     private void start() {
         player.showTitle(Title.title(title, Component.text("Move to a new position and press ").append(Component.keybind("key.swapOffhand"))));
+        player.sendMessage(PlayerCancellation.CANCEL_MESSAGE);
         Bukkit.getPluginManager().registerEvents(this, ZombiesPlugin.INSTANCE);
+    }
+
+    private void cleanup() {
+        HandlerList.unregisterAll(this);
     }
 
     @EventHandler
@@ -56,7 +63,16 @@ public final class EntityPositionSelection implements Listener {
             return;
         }
         callback.accept(EntityPosition.ofEntity(event.getPlayer()));
-        HandlerList.unregisterAll(this);
+        cleanup();
+    }
+
+    @EventHandler
+    private void onPlayerCancel(final PlayerCancelCommandEvent event) {
+        if (!event.getPlayer().equals(player)) {
+            return;
+        }
+        cancelCallback.run();
+        cleanup();
     }
 
     @EventHandler
@@ -65,6 +81,6 @@ public final class EntityPositionSelection implements Listener {
             return;
         }
         cancelCallback.run();
-        HandlerList.unregisterAll(this);
+        cleanup();
     }
 }

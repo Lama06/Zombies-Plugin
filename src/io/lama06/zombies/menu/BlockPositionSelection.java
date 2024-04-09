@@ -1,6 +1,8 @@
 package io.lama06.zombies.menu;
 
+import io.lama06.zombies.PlayerCancellation;
 import io.lama06.zombies.ZombiesPlugin;
+import io.lama06.zombies.event.player.PlayerCancelCommandEvent;
 import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -48,7 +50,12 @@ public final class BlockPositionSelection implements Listener {
 
     private void start() {
         player.showTitle(Title.title(title, Component.text("Click on a block")));
+        player.sendMessage(PlayerCancellation.CANCEL_MESSAGE);
         Bukkit.getPluginManager().registerEvents(this, ZombiesPlugin.INSTANCE);
+    }
+
+    private void cleanup() {
+        HandlerList.unregisterAll(this);
     }
 
     @EventHandler
@@ -62,7 +69,16 @@ public final class BlockPositionSelection implements Listener {
             return;
         }
         callback.accept(clicked.getLocation().toBlock());
-        HandlerList.unregisterAll(this);
+        cleanup();
+    }
+
+    @EventHandler
+    private void onPlayerCancel(final PlayerCancelCommandEvent event) {
+        if (!event.getPlayer().equals(player)) {
+            return;
+        }
+        cancelCallback.run();
+        cleanup();
     }
 
     @EventHandler
@@ -71,6 +87,6 @@ public final class BlockPositionSelection implements Listener {
             return;
         }
         cancelCallback.run();
-        HandlerList.unregisterAll(this);
+        cleanup();
     }
 }

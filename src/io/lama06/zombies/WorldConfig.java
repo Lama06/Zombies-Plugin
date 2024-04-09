@@ -22,6 +22,7 @@ public final class WorldConfig implements CheckableConfig {
     public final List<PerkMachine> perkMachines = new ArrayList<>();
     public PowerSwitch powerSwitch;
     public BlockPosition teamMachine;
+    public boolean autoStart;
     public boolean preventBuilding;
 
     @Override
@@ -169,6 +170,14 @@ public final class WorldConfig implements CheckableConfig {
                         Component.text("Remove").color(NamedTextColor.RED),
                         () -> {
                             teamMachine = null;
+                            reopen.run();
+                        }
+                ),
+                new SelectionEntry(
+                        Component.text("Auto Start: " + autoStart),
+                        Material.CLOCK,
+                        () -> {
+                            autoStart = !autoStart;
                             reopen.run();
                         }
                 ),

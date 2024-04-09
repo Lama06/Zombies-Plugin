@@ -1,23 +1,19 @@
 package io.lama06.zombies;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public final class InvalidConfigException extends Exception {
-    @Contract(value = "null, _ -> fail", pure = true)
-    public static void mustBeSet(final @Nullable Object o, final @NotNull String name) throws InvalidConfigException {
+    public static void mustBeSet(final Object o, final String name) throws InvalidConfigException {
         if (o == null || (o instanceof final String s && s.isEmpty())) {
             throw new InvalidConfigException(name + " not defined");
         }
     }
 
     public static void checkList(
-            final @Nullable List<? extends CheckableConfig> list,
+            final List<? extends CheckableConfig> list,
             final boolean allowEmpty,
-            final @NotNull String name
+            final String name
     ) throws InvalidConfigException {
         mustBeSet(list, name);
         if (!allowEmpty && list.isEmpty()) {

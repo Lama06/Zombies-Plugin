@@ -4,7 +4,6 @@ import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.zombie.Zombie;
 import io.lama06.zombies.zombie.ZombieData;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 public final class ZombieSpawnEvent extends ZombieEvent {
     public static final HandlerList HANDLERS = new HandlerList();
@@ -26,7 +25,7 @@ public final class ZombieSpawnEvent extends ZombieEvent {
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return HANDLERS;
     }
 }

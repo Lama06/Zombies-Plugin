@@ -20,8 +20,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,7 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
         this.player = player;
     }
 
-    public @Nullable Weapon getWeapon(final int slot) {
+    public Weapon getWeapon(final int slot) {
         final Weapon weapon = new Weapon(this, slot);
         if (!weapon.isWeapon()) {
             return null;
@@ -47,11 +45,11 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
         return new Weapon(this, slot);
     }
 
-    public @Nullable Weapon getHeldWeapon() {
+    public Weapon getHeldWeapon() {
         return getWeapon(player.getInventory().getHeldItemSlot());
     }
 
-    public @NotNull List<Weapon> getWeapons() {
+    public List<Weapon> getWeapons() {
         final List<Weapon> weapons = new ArrayList<>();
         for (int slot = 0; slot < 4; slot++) {
             final Weapon weapon = getWeapon(slot);
@@ -159,7 +157,7 @@ public final class ZombiesPlayer extends Storage implements ForwardingAudience {
     }
 
     @Override
-    public @NotNull Iterable<? extends Audience> audiences() {
+    public Iterable<? extends Audience> audiences() {
         return Set.of(player);
     }
 

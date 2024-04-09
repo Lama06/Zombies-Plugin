@@ -16,6 +16,12 @@ public final class StartGameSystem implements Listener {
     @EventHandler
     private void onTick(final ServerTickEndEvent event) {
         for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getWorlds()) {
+            if (!world.isZombiesWorld()) {
+                continue;
+            }
+            if (!world.getConfig().autoStart) {
+                continue;
+            }
             if (world.isGameRunning()) {
                 world.remove(ZombiesWorld.START_TIMER);
                 continue;
@@ -24,7 +30,7 @@ public final class StartGameSystem implements Listener {
                 world.remove(ZombiesWorld.START_TIMER);
                 continue;
             }
-            final Integer startTimer = world.getOrDefault(ZombiesWorld.START_TIMER, null);
+            final Integer startTimer = world.get(ZombiesWorld.START_TIMER);
             if (startTimer == null) {
                 world.set(ZombiesWorld.START_TIMER, START_TIME);
                 continue;

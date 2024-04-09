@@ -17,8 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.intellij.lang.annotations.MagicConstant;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -167,7 +165,7 @@ public final class SelectionMenu implements Listener {
         }
     }
 
-    private @NotNull Inventory createPage(final int pageIndex) {
+    private Inventory createPage(final int pageIndex) {
         final int numberOfPages = getNumberOfPages();
         final boolean singlePage = numberOfPages == 1;
         final Component pageTitle = singlePage
@@ -188,7 +186,7 @@ public final class SelectionMenu implements Listener {
         return pages;
     }
 
-    private void switchPage(final @MagicConstant(intValues = {-1, 1}) int direction) {
+    private void switchPage(final int direction) {
         if (direction == -1 && currentPage == 0) {
             return;
         }
@@ -207,7 +205,7 @@ public final class SelectionMenu implements Listener {
     }
 
     @EventHandler
-    private void onInventoryClick(final @NotNull InventoryClickEvent event) {
+    private void onInventoryClick(final InventoryClickEvent event) {
         if (!event.getWhoClicked().equals(player)) {
             return;
         }
@@ -248,7 +246,7 @@ public final class SelectionMenu implements Listener {
     }
 
     @EventHandler
-    private void onInventoryClose(final @NotNull InventoryCloseEvent event) {
+    private void onInventoryClose(final InventoryCloseEvent event) {
         if (!event.getPlayer().equals(player)) {
             return;
         }
@@ -263,7 +261,7 @@ public final class SelectionMenu implements Listener {
     }
 
     @EventHandler
-    private void onPlayerQuit(final @NotNull PlayerQuitEvent event) {
+    private void onPlayerQuit(final PlayerQuitEvent event) {
         if (!event.getPlayer().equals(player)) {
             return;
         }

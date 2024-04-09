@@ -3,7 +3,6 @@ package io.lama06.zombies.event.weapon;
 import io.lama06.zombies.weapon.Weapon;
 import org.bukkit.event.Cancellable;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +15,7 @@ public final class WeaponShootEvent extends WeaponUseEvent implements Cancellabl
         this.bullets = bullets;
     }
 
-    public @UnmodifiableView List<Bullet> getBullets() {
+    public List<Bullet> getBullets() {
         return Collections.unmodifiableList(bullets);
     }
 

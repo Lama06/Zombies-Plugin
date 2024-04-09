@@ -4,7 +4,6 @@ import io.lama06.zombies.util.HandlerListGetter;
 import io.lama06.zombies.weapon.Weapon;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class WeaponUseEvent extends WeaponEvent implements Cancellable {
     public static final HandlerList HANDLERS = new HandlerList();
@@ -31,7 +30,7 @@ public abstract class WeaponUseEvent extends WeaponEvent implements Cancellable 
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return HANDLERS;
     }
 }

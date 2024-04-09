@@ -1,11 +1,10 @@
 package io.lama06.zombies.event.perk;
 
-import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.ZombiesEvent;
+import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.util.HandlerListGetter;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 public final class PerkTickEvent extends ZombiesEvent {
     public static final HandlerList HANDLERS = new HandlerList();
@@ -33,7 +32,7 @@ public final class PerkTickEvent extends ZombiesEvent {
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return HANDLERS;
     }
 }

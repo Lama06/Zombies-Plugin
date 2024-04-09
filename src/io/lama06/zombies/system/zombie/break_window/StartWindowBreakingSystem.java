@@ -14,7 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.jetbrains.annotations.Nullable;
 
 public final class StartWindowBreakingSystem implements Listener {
     @EventHandler
@@ -32,7 +31,7 @@ public final class StartWindowBreakingSystem implements Listener {
         final BreakWindowData breakWindowData = zombie.getData().breakWindow;
         final int time = breakWindowData.time();
         final double maxDistance = breakWindowData.maxDistance();
-        final BlockPosition block = breakWindowComponent.getOrDefault(BreakWindowData.BLOCK, null);
+        final BlockPosition block = breakWindowComponent.get(BreakWindowData.BLOCK);
         if (block != null) {
             return;
         }
@@ -46,7 +45,7 @@ public final class StartWindowBreakingSystem implements Listener {
 
     private record NearestWindowBlockResult(BlockPosition position, double distance) { }
 
-    private @Nullable NearestWindowBlockResult getNearestWindowBlock(final Zombie zombie) {
+    private NearestWindowBlockResult getNearestWindowBlock(final Zombie zombie) {
         final ZombiesWorld world = zombie.getWorld();
         BlockPosition nearestWindowBlock = null;
         double smallestDistance = Double.POSITIVE_INFINITY;
