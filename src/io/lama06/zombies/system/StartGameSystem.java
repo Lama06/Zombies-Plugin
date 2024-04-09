@@ -1,6 +1,7 @@
 package io.lama06.zombies.system;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
+import io.lama06.zombies.InvalidConfigException;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import net.kyori.adventure.text.Component;
@@ -20,6 +21,11 @@ public final class StartGameSystem implements Listener {
                 continue;
             }
             if (!world.getConfig().autoStart) {
+                continue;
+            }
+            try {
+                world.getConfig().check();
+            } catch (final InvalidConfigException e) {
                 continue;
             }
             if (world.isGameRunning()) {

@@ -32,9 +32,6 @@ public enum PlayerPerk implements MenuDisplayableEnum {
         @Override
         public void enable(final ZombiesPlayer player) {
             final AttributeInstance maxHealth = player.getBukkit().getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            if (maxHealth == null) {
-                return;
-            }
             maxHealth.setBaseValue(30);
             player.getBukkit().setHealth(30);
         }
@@ -42,9 +39,6 @@ public enum PlayerPerk implements MenuDisplayableEnum {
         @Override
         public void disable(final ZombiesPlayer player) {
             final AttributeInstance maxHealth = player.getBukkit().getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            if (maxHealth == null) {
-                return;
-            }
             maxHealth.setBaseValue(20);
         }
     },

@@ -1,13 +1,13 @@
 package io.lama06.zombies.system;
 
 import io.lama06.zombies.WorldConfig;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponAmmoChangeEvent;
 import io.lama06.zombies.event.weapon.WeaponClipChangeEvent;
 import io.lama06.zombies.menu.SelectionEntry;
 import io.lama06.zombies.menu.SelectionMenu;
-import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.weapon.AmmoData;
 import io.lama06.zombies.weapon.Weapon;
 import io.lama06.zombies.zombie.Zombie;
