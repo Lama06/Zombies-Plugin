@@ -103,6 +103,11 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        if (world.isGameRunning()) {
+            final String warning = "It isn't supported to edit a running game's config. " +
+                    "Only continue if you know what you're doing.";
+            sender.sendMessage(Component.text(warning).color(NamedTextColor.RED));
+        }
         WorldConfig config = world.getConfig();
         if (config == null) {
             final ZombiesConfig globalConfig = ZombiesPlugin.INSTANCE.getGlobalConfig();
@@ -250,7 +255,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
         world.spawnZombie(player.getLocation(), zombieType);
     }
 
-    public void cancel(final CommandSender sender) {
+    private void cancel(final CommandSender sender) {
         if (!(sender instanceof final Player player)) {
             return;
         }

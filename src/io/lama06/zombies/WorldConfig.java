@@ -22,7 +22,7 @@ public final class WorldConfig implements CheckableConfig {
     public final List<PerkMachine> perkMachines = new ArrayList<>();
     public PowerSwitch powerSwitch;
     public BlockPosition teamMachine;
-    public boolean autoStart;
+    public boolean autoStartStop;
     public boolean preventBuilding;
 
     @Override
@@ -174,10 +174,10 @@ public final class WorldConfig implements CheckableConfig {
                         }
                 ),
                 new SelectionEntry(
-                        Component.text("Auto Start: " + autoStart),
+                        Component.text("Auto Start / Stop: " + autoStartStop),
                         Material.CLOCK,
                         () -> {
-                            autoStart = !autoStart;
+                            autoStartStop = !autoStartStop;
                             reopen.run();
                         }
                 ),

@@ -3,7 +3,6 @@ package io.lama06.zombies.system;
 import io.lama06.zombies.*;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.GameStartEvent;
-import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.perk.GlobalPerk;
 import io.lama06.zombies.weapon.WeaponType;
 import org.bukkit.GameMode;
@@ -21,38 +20,43 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
     private void onGameStart(final GameStartEvent event) {
         final ZombiesWorld world = event.getWorld();
         final WorldConfig config = world.getConfig();
+        final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.get(0);
+        final Integer lastGameId = world.get(ZombiesWorld.GAME_ID);
+        final int gameId = lastGameId == null ? 1 : lastGameId + 1;
 
         world.getBukkit().setGameRule(GameRule.DO_FIRE_TICK, false);
+        world.getBukkit().setGameRule(GameRule.MOB_GRIEFING, false);
+        world.getBukkit().setGameRule(GameRule.DISABLE_RAIDS, true);
 
-        for (final Door door : config.doors) {
-            door.setOpen(world, false);
-        }
+        world.set(ZombiesWorld.GAME_ID, gameId);
+        world.set(ZombiesWorld.ROUND, 1);
         world.set(ZombiesWorld.OPEN_DOORS, List.of());
         world.set(ZombiesWorld.REACHABLE_AREAS, List.of(config.startArea));
-
-        for (final Window window : config.windows) {
-            window.close(event.getWorld());
-        }
-
-        if (config.powerSwitch != null) {
-            config.powerSwitch.setActive(world, false);
-        }
         world.set(ZombiesWorld.POWER_SWITCH, false);
-
-        final SpawnRate firstRoundSpawnRate = SpawnRate.SPAWN_RATES.get(0);
         world.set(ZombiesWorld.NEXT_ZOMBIE_TIME, firstRoundSpawnRate.spawnDelay());
         world.set(ZombiesWorld.REMAINING_ZOMBIES, firstRoundSpawnRate.getNumberOfZombies());
         world.set(ZombiesWorld.BOSS_SPAWNED, false);
-        event.getWorld().set(ZombiesWorld.ROUND, 1);
+        world.set(ZombiesWorld.DRAGONS_WRATH_USED, 0);
 
         final Component perksComponent = world.addComponent(ZombiesWorld.PERKS_COMPONENT);
         for (final GlobalPerk perk : GlobalPerk.values()) {
             perksComponent.set(perk.getRemainingTimeAttribute(), 0);
         }
 
-        world.set(ZombiesWorld.DRAGONS_WRATH_USED, 0);
+        for (final Window window : config.windows) {
+            window.close(event.getWorld());
+        }
+        for (final Door door : config.doors) {
+            door.setOpen(world, false);
+        }
+        if (config.powerSwitch != null) {
+            config.powerSwitch.setActive(world, false);
+        }
 
         for (final ZombiesPlayer player : world.getPlayers()) {
+            player.set(ZombiesPlayer.GAME_ID, gameId);
+            player.set(ZombiesPlayer.KILLS, 0);
+            player.set(ZombiesPlayer.GOLD, 0);
             final Player bukkit = player.getBukkit();
             bukkit.getInventory().clear();
             bukkit.teleport(world.getBukkit().getSpawnLocation());
@@ -65,8 +69,6 @@ public final class PrepareWorldAtGameStartSystem implements Listener {
             bukkit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 5));
             player.giveWeapon(0, WeaponType.KNIFE);
             player.giveWeapon(1, WeaponType.PISTOL);
-            player.set(ZombiesPlayer.KILLS, 0);
-            player.set(ZombiesPlayer.GOLD, 0);
         }
     }
 }

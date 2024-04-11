@@ -8,10 +8,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public final class EndGameSystem implements Listener {
+public final class EndGameWhenPlayersDeadSystem implements Listener {
     @EventHandler
     private void onServerTick(final ServerTickEndEvent event) {
         for (final ZombiesWorld world : ZombiesPlugin.INSTANCE.getWorlds()) {
+            if (!world.isZombiesWorld()) {
+                return;
+            }
+            if (!world.getConfig().autoStartStop) {
+                return;
+            }
             if (!world.isGameRunning()) {
                 continue;
             }

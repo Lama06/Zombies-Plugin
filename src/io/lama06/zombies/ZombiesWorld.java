@@ -29,6 +29,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     public static final AttributeId<Boolean> GAME_RUNNING = new AttributeId<>("game_running", PersistentDataType.BOOLEAN);
 
     public static final AttributeId<Integer> START_TIMER = new AttributeId<>("start_timer", PersistentDataType.INTEGER);
+    public static final AttributeId<Integer> GAME_ID = new AttributeId<>("game_id", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> ROUND = new AttributeId<>("round", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> REMAINING_ZOMBIES = new AttributeId<>("remaining_zombies", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> NEXT_ZOMBIE_TIME = new AttributeId<>("next_zombie", PersistentDataType.INTEGER);
@@ -131,7 +132,7 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
 
     private Window getNearestWindowToPlayer(final ZombiesPlayer player) {
         final List<Window> windows = getAvailableWindows();
-        if (windows == null || windows.isEmpty()) {
+        if (windows.isEmpty()) {
             return null;
         }
         return windows.stream().min(Comparator.comparingDouble(window -> {

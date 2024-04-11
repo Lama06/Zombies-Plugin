@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 public final class ZombiesPlayer extends Storage implements ForwardingAudience {
+    public static final AttributeId<Integer> GAME_ID = new AttributeId<>("game_id", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> GOLD = new AttributeId<>("gold", PersistentDataType.INTEGER);
     public static final AttributeId<Integer> KILLS = new AttributeId<>("kills", PersistentDataType.INTEGER);
 

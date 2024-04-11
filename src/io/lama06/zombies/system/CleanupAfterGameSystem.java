@@ -15,6 +15,7 @@ public final class CleanupAfterGameSystem implements Listener {
     private void onGameEnd(final GameEndEvent event) {
         final ZombiesWorld world = event.getWorld();
         final WorldConfig config = world.getConfig();
+
         for (final Door door : config.doors) {
             door.setOpen(world, false);
         }
@@ -24,6 +25,7 @@ public final class CleanupAfterGameSystem implements Listener {
         for (final Window window : config.windows) {
             window.close(world);
         }
+
         world.remove(ZombiesWorld.ROUND);
         world.remove(ZombiesWorld.REMAINING_ZOMBIES);
         world.remove(ZombiesWorld.NEXT_ZOMBIE_TIME);
@@ -35,6 +37,7 @@ public final class CleanupAfterGameSystem implements Listener {
         world.removeComponent(ZombiesWorld.PERKS_COMPONENT);
 
         for (final ZombiesPlayer player : world.getPlayers()) {
+            player.remove(ZombiesPlayer.GAME_ID);
             player.remove(ZombiesPlayer.GOLD);
             player.remove(ZombiesPlayer.KILLS);
             player.clearPerks();

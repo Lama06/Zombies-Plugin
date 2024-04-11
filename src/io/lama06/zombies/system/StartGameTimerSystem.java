@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 
 import java.time.Duration;
 
-public final class StartGameSystem implements Listener {
+public final class StartGameTimerSystem implements Listener {
     private static final int START_TIME = 10 * 20;
 
     @EventHandler
@@ -20,7 +20,7 @@ public final class StartGameSystem implements Listener {
             if (!world.isZombiesWorld()) {
                 continue;
             }
-            if (!world.getConfig().autoStart) {
+            if (!world.getConfig().autoStartStop) {
                 continue;
             }
             try {
