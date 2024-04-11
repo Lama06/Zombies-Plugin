@@ -173,6 +173,19 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        if (!world.isZombiesWorld()) {
+            final Component msg = Component.text("You muse first configure this world.").color(NamedTextColor.RED)
+                    .appendNewline()
+                    .append(Component.text("> Configure manually <")
+                                    .clickEvent(ClickEvent.runCommand("/zombies config"))
+                                    .color(NamedTextColor.BLUE))
+                    .appendNewline()
+                    .append(Component.text("> Load Dead End config (recommended) <")
+                                    .clickEvent(ClickEvent.runCommand("/zombies loadTemplate"))
+                                    .color(NamedTextColor.GREEN));
+            sender.sendMessage(msg);
+            return;
+        }
         if (world.isGameRunning()) {
             sender.sendMessage(Component.text("The game is already running").color(NamedTextColor.RED));
             return;
@@ -180,7 +193,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
         try {
             world.getConfig().check();
         } catch (final InvalidConfigException e) {
-            player.sendMessage(Component.text(e.getMessage()));
+            player.sendMessage(Component.text("The config is invalid: " + e.getMessage()).color(NamedTextColor.RED));
             return;
         }
         world.startGame();
