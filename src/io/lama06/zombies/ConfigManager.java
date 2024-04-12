@@ -7,15 +7,18 @@ import io.lama06.zombies.util.json.BlockPositionTypeAdapter;
 import io.lama06.zombies.util.json.FinePositionTypeAdapter;
 import io.papermc.paper.math.BlockPosition;
 import io.papermc.paper.math.FinePosition;
+import org.bukkit.Bukkit;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public final class ConfigManager {
     private static final String CONFIG_FILE_NAME = "data.json";
     private static final String BACKUP_DIRECTORY_NAME = "backups";
+    private static final Duration CONFIG_AUTO_SAVE_DELAY = Duration.ofMinutes(20);
 
     public static Gson createGson() {
         return new GsonBuilder()
@@ -27,9 +30,11 @@ public final class ConfigManager {
     }
 
     private final ZombiesPlugin plugin;
+    private ZombiesConfig config;
 
     public ConfigManager(final ZombiesPlugin plugin) {
         this.plugin = plugin;
+        startAutoSaveConfigTask();
     }
 
     private Path getDataDirectoryPath() throws IOException {
@@ -78,29 +83,44 @@ public final class ConfigManager {
         Files.writeString(backupFilePath, configText);
     }
 
-    public ZombiesConfig loadConfig() throws IOException {
+    public void loadConfig() throws IOException {
         final Path dataDirectory = getDataDirectoryPath();
         final Path configFilePath = dataDirectory.resolve(CONFIG_FILE_NAME);
         if (!Files.exists(configFilePath)) {
-            return new ZombiesConfig();
+            config = new ZombiesConfig();
         }
         final String configText = Files.readString(configFilePath);
         final Gson gson = createGson();
         try {
-            return gson.fromJson(configText, ZombiesConfig.class);
+            config = gson.fromJson(configText, ZombiesConfig.class);
         } catch (final JsonSyntaxException e) {
             throw new IOException("invalid json", e);
         }
     }
 
-    public void saveConfig(final ZombiesConfig config) throws IOException {
+    public void saveConfig() throws IOException {
         final Path dataDirectory = getDataDirectoryPath();
         final Path configFilePath = dataDirectory.resolve(CONFIG_FILE_NAME);
         if (!Files.exists(configFilePath)) {
             Files.createFile(configFilePath);
         }
         final Gson gson = createGson();
-        final String configText = gson.toJson(config);
+        final String configText = gson.toJson(plugin.getGlobalConfig());
         Files.writeString(configFilePath, configText);
+    }
+
+    private void startAutoSaveConfigTask() {
+        final long delayTicks = CONFIG_AUTO_SAVE_DELAY.getSeconds() * 20;
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            try {
+                saveConfig();
+            } catch (final IOException e) {
+                plugin.getSLF4JLogger().error("Failed to automatically save the config. Please create a backup yourself to avoid data loss.", e);
+            }
+        }, delayTicks, delayTicks);
+    }
+
+    public ZombiesConfig getConfig() {
+        return config;
     }
 }

@@ -135,7 +135,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
 
     private void saveConfig(final CommandSender sender) {
         try {
-            ZombiesPlugin.INSTANCE.saveZombiesConfig();
+            ZombiesPlugin.INSTANCE.getConfigManager().saveConfig();
         } catch (final IOException e) {
             sender.sendMessage(Component.text("error: " + e.getMessage()));
             ZombiesPlugin.INSTANCE.getSLF4JLogger().error("failed to save config", e);
