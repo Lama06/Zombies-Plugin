@@ -133,6 +133,7 @@ public final class Systems {
             new DamageZombieAfterAttackSystem(),
             new InitZombieEquipmentSystem(),
             new InitZombieHealthSystem(),
+            new MakeZombiesGlowSystem(),
             new PerformFireAttackSystem(),
             new PreventFireWhenImmuneSystem(),
             new SpawnBossSystem(),

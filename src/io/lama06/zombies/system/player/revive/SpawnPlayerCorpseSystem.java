@@ -24,7 +24,7 @@ public final class SpawnPlayerCorpseSystem implements Listener {
         if (!world.isGameRunning()) {
             return;
         }
-        world.sendMessage(Component.text((PlayerCorpse.TIME / 20) + " seconds left to revive")
+        world.sendMessage(Component.text((PlayerCorpse.TIME / 20) + " seconds left to revive ")
                                   .append(player.getBukkit().displayName())
                                   .color(NamedTextColor.RED));
         final ArmorStand corpse = world.getBukkit().spawn(player.getBukkit().getLocation(), ArmorStand.class);

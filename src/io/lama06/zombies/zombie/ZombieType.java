@@ -11,7 +11,7 @@ public enum ZombieType {
     NORMAL_EASY(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
-                    .setBreakWindow(new BreakWindowData(3*20))
+                    .setBreakWindow(new BreakWindowData(40))
                     .setHealth(10)
     ),
     NORMAL_MEDIUM(
@@ -19,7 +19,7 @@ public enum ZombieType {
                     .setEntity(EntityType.ZOMBIE)
                     .addEquipment(EquipmentSlot.CHEST, new ItemStack(Material.LEATHER_CHESTPLATE))
                     .addEquipment(EquipmentSlot.FEET, new ItemStack(Material.LEATHER_BOOTS))
-                    .setBreakWindow(new BreakWindowData(2*20 + 10))
+                    .setBreakWindow(new BreakWindowData(30))
                     .setHealth(12)
     ),
     NORMAL_HARD(
@@ -28,14 +28,14 @@ public enum ZombieType {
                     .addEquipment(EquipmentSlot.CHEST, new ItemStack(Material.IRON_CHESTPLATE))
                     .addEquipment(EquipmentSlot.LEGS, new ItemStack(Material.IRON_LEGGINGS))
                     .addEquipment(EquipmentSlot.HAND, new ItemStack(Material.DIAMOND_AXE))
-                    .setBreakWindow(new BreakWindowData(2*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setHealth(15)
     ),
     PIG_ZOMBIE(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIFIED_PIGLIN)
                     .setHealth(10)
-                    .setBreakWindow(new BreakWindowData(3*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setFireImmune(true)
     ),
     MAGMA_CUBE(
@@ -47,7 +47,7 @@ public enum ZombieType {
     MAGMA_ZOMBIE(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
-                    .setBreakWindow(new BreakWindowData(3*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setHealth(7)
                     .setFireImmune(true)
                     .setDescendants(new DescendantsData(ZombieType.MAGMA_CUBE, 3))
@@ -60,7 +60,7 @@ public enum ZombieType {
     LITTLE_BOMBIE(
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
-                    .setBreakWindow(new BreakWindowData(2*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setHealth(10)
                     .setExplosionAttack(ExplosionAttackData.explodeOnDeath(4))
                     .addEquipment(EquipmentSlot.HEAD, new ItemStack(Material.TNT))
@@ -70,7 +70,7 @@ public enum ZombieType {
             new ZombieData()
                     .setEntity(EntityType.ZOMBIE)
                     .setHealth(10)
-                    .setBreakWindow(new BreakWindowData(2*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setFireImmune(true)
                     .setFireAttack(new FireAttackData(3*20))
                     .addEquipment(EquipmentSlot.HAND, new ItemStack(Material.BLAZE_ROD))
@@ -79,7 +79,7 @@ public enum ZombieType {
             new ZombieData()
                     .setEntity(EntityType.WOLF)
                     .setHealth(10)
-                    .setBreakWindow(new BreakWindowData(2*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setInitializer(entity -> ((Wolf) entity).setAngry(true))
     ),
     GUARDIAN_ZOMBIE(
@@ -96,7 +96,7 @@ public enum ZombieType {
                     .setHealth(100)
                     .addEquipment(EquipmentSlot.HAND, new ItemStack(Material.BLAZE_ROD))
                     .setFireTrail(true)
-                    .setBreakWindow(new BreakWindowData(2*20))
+                    .setBreakWindow(new BreakWindowData(20))
                     .setFireImmune(true)
                     .setFireBallAttack(new FireBallAttackData(4, 40))
                     .setFireAttack(new FireAttackData(40))
