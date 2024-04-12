@@ -3,14 +3,26 @@ package io.lama06.zombies;
 import com.google.gson.JsonParseException;
 import io.lama06.zombies.event.player.PlayerCancelCommandEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
+import io.lama06.zombies.perk.PerkMachine;
+import io.lama06.zombies.util.PositionUtil;
 import io.lama06.zombies.weapon.WeaponType;
 import io.lama06.zombies.zombie.ZombieType;
+import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.Switch;
+import org.bukkit.block.data.type.WallSign;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -19,8 +31,10 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public final class ZombiesCommandExecutor implements TabExecutor {
     private static final String DEAD_END_TEMPLATE = "templates/dead_end.json";
@@ -37,6 +51,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return true;
         }
 
+        final String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0]) {
             case "config" -> config(sender);
             case "saveConfig" -> saveConfig(sender);
@@ -44,10 +59,11 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             case "loadTemplate" -> loadTemplate(sender);
             case "start" -> start(sender);
             case "stop" -> stop(sender);
-            case "giveGold" -> giveGold(sender, Arrays.copyOfRange(args, 1, args.length));
-            case "giveWeapon" -> giveWeapon(sender, Arrays.copyOfRange(args, 1, args.length));
-            case "spawnZombie" -> spawnZombie(sender, Arrays.copyOfRange(args, 1, args.length));
+            case "giveGold" -> giveGold(sender, remainingArgs);
+            case "giveWeapon" -> giveWeapon(sender, remainingArgs);
+            case "spawnZombie" -> spawnZombie(sender, remainingArgs);
             case "cancel" -> cancel(sender);
+            case "placeSigns" -> placeSigns(sender, remainingArgs);
             default -> sender.sendMessage(Component.text("unknown command").color(NamedTextColor.RED));
         }
 
@@ -273,5 +289,146 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             return;
         }
         Bukkit.getPluginManager().callEvent(new PlayerCancelCommandEvent(player));
+    }
+
+    private record SignPosition(Block block, BlockFace direction) { }
+
+    @FunctionalInterface
+    private interface SignPositionFetcher {
+        Optional<SignPosition> getSignPosition(final World world, final BlockPosition position);
+    }
+
+    private Optional<SignPosition> getShopSignPosition(final World world, final BlockPosition position) {
+        final Block signBlock = position.toLocation(world).getBlock();
+        Block neighbour = null;
+        int modX, modZ = 0;
+        searchNeighbour:
+        for (modX = -1; modX <= 1; modX++) {
+            for (modZ = -1 ; modZ <= 1; modZ++) {
+                if ((modX == 0) == (modZ == 0)) {
+                    continue;
+                }
+                final Block neighbourCandidate = signBlock.getRelative(modX, 0, modZ);
+                if (neighbourCandidate.getType().isEmpty()) {
+                    continue;
+                }
+                neighbour = neighbourCandidate;
+                break searchNeighbour;
+            }
+        }
+        if (neighbour == null) {
+            return Optional.empty();
+        }
+        final int finalModX = modX;
+        final int finalModZ = modZ;
+        final BlockFace directionToNeighbour = Arrays.stream(BlockFace.values())
+                .filter(face -> face.getModX() == finalModX && face.getModZ() == finalModZ)
+                .findAny().orElseThrow();
+        final BlockFace signDirection = directionToNeighbour.getOppositeFace();
+        return Optional.of(new SignPosition(signBlock, signDirection));
+    }
+
+    private Optional<SignPosition> getPerkSignPosition(final World world, final BlockPosition position) {
+        final Block buttonBlock = position.toLocation(world).getBlock();
+        if (!(buttonBlock.getBlockData() instanceof final Switch buttonData)) {
+            return Optional.empty();
+        }
+        final BlockFace signDirection = buttonData.getFacing();
+        final Block signBlock = buttonBlock.getRelative(BlockFace.UP);
+        return Optional.of(new SignPosition(signBlock, signDirection));
+    }
+
+    private boolean placeSign(
+            final SignPositionFetcher fetcher,
+            final World world,
+            final BlockPosition position,
+            final List<? extends Component> lines
+    ) {
+        final Optional<SignPosition> signPosition = fetcher.getSignPosition(world, position);
+        if (signPosition.isEmpty()) {
+            return false;
+        }
+        final Block signBlock = signPosition.get().block();
+        signBlock.setType(Material.OAK_WALL_SIGN);
+        final WallSign signData = (WallSign) signBlock.getBlockData();
+        signData.setFacing(signPosition.get().direction());
+        signBlock.setBlockData(signData);
+        final Sign signState = (Sign) signBlock.getState();
+        final SignSide signFront = signState.getSide(Side.FRONT);
+        signFront.setGlowingText(true);
+        for (int i = 0; i < lines.size(); i++) {
+            final Component line = lines.get(i);
+            signFront.line(i, line);
+        }
+        signState.update();
+        return true;
+    }
+
+    private void placeSigns(final CommandSender sender, final String[] args) {
+        if (!(sender instanceof final Player player)) {
+            return;
+        }
+
+        if (args.length == 0 || !args[0].equalsIgnoreCase("ok")) {
+            final TextComponent.Builder builder = Component.text();
+            builder.append(Component.text("Executing this command will place signs at every armor and weapon shop."));
+            builder.appendNewline();
+            builder.append(Component.text("Existing blocks will be removed. This cannot be reverted").color(NamedTextColor.RED));
+            builder.appendNewline();
+            builder.append(Component.text("> Click here to confirm <")
+                                   .clickEvent(ClickEvent.runCommand("/zombies placeSigns ok"))
+                                   .color(NamedTextColor.BLUE));
+            sender.sendMessage(builder);
+            return;
+        }
+
+        final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        final WorldConfig config = world.getConfig();
+        final List<BlockPosition> errors = new ArrayList<>();
+        for (final ArmorShop armorShop : config.armorShops) {
+            if (armorShop.position == null || armorShop.quality == null || armorShop.part == null) {
+                continue;
+            }
+            final boolean ok = placeSign(this::getShopSignPosition, world.getBukkit(), armorShop.position, List.of(
+                    armorShop.quality.getDisplayName().append(Component.text(" Armor")),
+                    armorShop.part.getDisplayName(),
+                    Component.text(armorShop.price + " Gold").color(NamedTextColor.GOLD)
+            ));
+            if (!ok) {
+                errors.add(armorShop.position);
+            }
+        }
+        for (final WeaponShop weaponShop : config.weaponShops) {
+            if (weaponShop.position == null || weaponShop.weaponType == null) {
+                continue;
+            }
+            final boolean ok = placeSign(this::getShopSignPosition, world.getBukkit(), weaponShop.position, List.of(
+                    weaponShop.weaponType.getDisplayName(),
+                    Component.text(weaponShop.purchasePrice + " Gold").color(NamedTextColor.GOLD),
+                    Component.text("Refill: ").append(Component.text(weaponShop.refillPrice + " Gold").color(NamedTextColor.GOLD))
+            ));
+            if (!ok) {
+                errors.add(weaponShop.position);
+            }
+        }
+        for (final PerkMachine perkMachine : config.perkMachines) {
+            if (perkMachine.position == null || perkMachine.perk == null) {
+                continue;
+            }
+            final boolean ok = placeSign(this::getPerkSignPosition, world.getBukkit(), perkMachine.position, List.of(
+                    perkMachine.perk.getDisplayName(),
+                    Component.text(perkMachine.gold + " Gold").color(NamedTextColor.GOLD)
+            ));
+            if (!ok) {
+                errors.add(perkMachine.position);
+            }
+        }
+        for (final BlockPosition error : errors) {
+            sender.sendMessage(Component.text("Failed to place sign at " + PositionUtil.format(error)).color(NamedTextColor.RED));
+        }
+        sender.sendMessage(Component.text("Done").color(NamedTextColor.GREEN));
     }
 }
