@@ -10,6 +10,8 @@ import io.lama06.zombies.system.perk.player.RemovePerksOnDeathSystem;
 import io.lama06.zombies.system.perk.player.RunFlameBulletsPerkSystem;
 import io.lama06.zombies.system.perk.player.RunFrozenBulletsPerkSystem;
 import io.lama06.zombies.system.player.*;
+import io.lama06.zombies.system.player.revive.SpawnPlayerCorpseSystem;
+import io.lama06.zombies.system.player.revive.TickPlayerCorpseSystem;
 import io.lama06.zombies.system.weapon.RenderWeaponLoreSystem;
 import io.lama06.zombies.system.weapon.ammo.*;
 import io.lama06.zombies.system.weapon.attack.ApplyAttackDamageSystem;
@@ -66,7 +68,7 @@ public final class Systems {
             new RemovePerkItemsSystem(),
             new TickTemporaryPerksSystem(),
 
-            // Player
+            // Player Perks
             new BuyPerkSystem(),
             new RemovePerksOnDeathSystem(),
             new RunFlameBulletsPerkSystem(),
@@ -78,6 +80,10 @@ public final class Systems {
             new MakeDeadPlayersSpectatorsSystem(),
             new RenderScoreboardSystem(),
             new RespawnDeadPlayersAfterRoundSystem(),
+
+            // Revive
+            new SpawnPlayerCorpseSystem(),
+            new TickPlayerCorpseSystem(),
 
             // Weapon
             new RenderWeaponLoreSystem(),

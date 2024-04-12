@@ -1,7 +1,7 @@
 package io.lama06.zombies.system.zombie.laser_attack;
 
 import io.lama06.zombies.ZombiesPlugin;
-import io.lama06.zombies.util.json.UUIDTypeAdapter;
+import io.lama06.zombies.util.pdc.UuidDataType;
 import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.NamespacedKey;
@@ -24,7 +24,7 @@ public final class LaserAttackDamageSystem implements Listener {
         final PersistentDataContainer pdc = guardian.getPersistentDataContainer();
         final UUID zombieUuid = pdc.get(
                 new NamespacedKey(ZombiesPlugin.INSTANCE, LaserAttack.GUARDIAN_ZOMBIE_KEY),
-                UUIDTypeAdapter.INSTANCE
+                UuidDataType.INSTANCE
         );
         if (zombieUuid == null) {
             return;

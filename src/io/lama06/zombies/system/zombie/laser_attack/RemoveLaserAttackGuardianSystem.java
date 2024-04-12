@@ -3,7 +3,7 @@ package io.lama06.zombies.system.zombie.laser_attack;
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
-import io.lama06.zombies.util.json.UUIDTypeAdapter;
+import io.lama06.zombies.util.pdc.UuidDataType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Guardian;
@@ -22,7 +22,7 @@ public final class RemoveLaserAttackGuardianSystem implements Listener {
                 final PersistentDataContainer pdc = guardian.getPersistentDataContainer();
                 final UUID zombieUuid = pdc.get(
                         new NamespacedKey(ZombiesPlugin.INSTANCE, LaserAttack.GUARDIAN_ZOMBIE_KEY),
-                        UUIDTypeAdapter.INSTANCE
+                        UuidDataType.INSTANCE
                 );
                 if (zombieUuid == null) {
                     continue;

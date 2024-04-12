@@ -4,7 +4,7 @@ import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
-import io.lama06.zombies.util.json.UUIDTypeAdapter;
+import io.lama06.zombies.util.pdc.UuidDataType;
 import io.lama06.zombies.zombie.LaserAttackData;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.NamespacedKey;
@@ -30,7 +30,7 @@ public final class InitLaserAttackSystem implements Listener {
         final PersistentDataContainer pdc = guardian.getPersistentDataContainer();
         pdc.set(
                 new NamespacedKey(ZombiesPlugin.INSTANCE, LaserAttack.GUARDIAN_ZOMBIE_KEY),
-                UUIDTypeAdapter.INSTANCE,
+                UuidDataType.INSTANCE,
                 zombie.getEntity().getUniqueId()
         );
         laserAttackComponent.set(LaserAttackData.GUARDIAN, guardian.getUniqueId());

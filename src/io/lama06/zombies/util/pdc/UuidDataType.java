@@ -1,4 +1,4 @@
-package io.lama06.zombies.util.json;
+package io.lama06.zombies.util.pdc;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
@@ -6,8 +6,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-public final class UUIDTypeAdapter implements PersistentDataType<byte[], UUID> {
-    public static final UUIDTypeAdapter INSTANCE = new UUIDTypeAdapter();
+public final class UuidDataType implements PersistentDataType<byte[], UUID> {
+    public static final UuidDataType INSTANCE = new UuidDataType();
 
     @Override
     public Class<byte[]> getPrimitiveType() {
