@@ -6,6 +6,7 @@ import io.lama06.zombies.util.PositionUtil;
 import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -43,7 +44,7 @@ public final class WorldConfig implements CheckableConfig {
 
         SelectionMenu.open(
                 player,
-                Component.text("Zombies World Configuration"),
+                Component.text("Zombies Configuration").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD),
                 callback,
                 new SelectionEntry(
                         Component.text("Start Area: " + (startArea.isEmpty() ? "_" : startArea)),

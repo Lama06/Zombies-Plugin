@@ -2,6 +2,7 @@ package io.lama06.zombies.menu;
 
 import io.lama06.zombies.ZombiesPlugin;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,6 +21,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 public final class SelectionMenu implements Listener {
     public static void open(
@@ -91,34 +94,37 @@ public final class SelectionMenu implements Listener {
     }
 
     private ItemStack createMarginItem() {
+        final RandomGenerator rnd = ThreadLocalRandom.current();
         final ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         final ItemMeta meta = glass.getItemMeta();
-        meta.displayName(Component.empty());
+        if (rnd.nextInt(30) == 0) {
+            meta.displayName(Component.text("I'm just a margin! Nothing to see here!").color(NamedTextColor.GRAY));
+        } else {
+            meta.displayName(Component.empty());
+        }
         glass.setItemMeta(meta);
         return glass;
     }
 
     private void setupMargin(final Inventory inventory) {
-        final ItemStack item = createMarginItem();
-
         // Top
         for (int x = 0; x < TOTAL_WIDTH; x++) {
-            inventory.setItem(inventoryCoordinatesToSlot(x, MARGIN_TOP_ROW), item);
+            inventory.setItem(inventoryCoordinatesToSlot(x, MARGIN_TOP_ROW), createMarginItem());
         }
 
         // Bottom
         for (int x = 0; x < TOTAL_WIDTH; x++) {
-            inventory.setItem(inventoryCoordinatesToSlot(x, MARGIN_BOTTOM_ROW), item);
+            inventory.setItem(inventoryCoordinatesToSlot(x, MARGIN_BOTTOM_ROW), createMarginItem());
         }
 
         // Left
         for (int y = 0; y < TOTAL_HEIGHT; y++) {
-            inventory.setItem(inventoryCoordinatesToSlot(MARGIN_LEFT_COLUMN, y), item);
+            inventory.setItem(inventoryCoordinatesToSlot(MARGIN_LEFT_COLUMN, y), createMarginItem());
         }
 
         // Right
         for (int y = 0; y < TOTAL_HEIGHT; y++) {
-            inventory.setItem(inventoryCoordinatesToSlot(MARGIN_RIGHT_COLUMN, y), item);
+            inventory.setItem(inventoryCoordinatesToSlot(MARGIN_RIGHT_COLUMN, y), createMarginItem());
         }
     }
 
