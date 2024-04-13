@@ -1318,6 +1318,15 @@
       },
       "perk": "QUICK_FIRE",
       "gold": 500
+    },
+    {
+      "position": {
+        "x": 11,
+        "y": 68,
+        "z": 33
+      },
+      "perk": "FAST_REVIVE",
+      "gold": 500
     }
   ],
   "powerSwitch": {
@@ -1333,5 +1342,6 @@
     "y": 83,
     "z": 51
   },
+  "autoStartStop": false,
   "preventBuilding": false
 }
