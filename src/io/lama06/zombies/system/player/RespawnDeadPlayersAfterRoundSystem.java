@@ -17,6 +17,7 @@ public final class RespawnDeadPlayersAfterRoundSystem implements Listener {
             if (bukkit.getGameMode() != GameMode.SPECTATOR) {
                 continue;
             }
+            player.clearPerks();
             bukkit.setGameMode(GameMode.ADVENTURE);
             bukkit.teleport(world.getBukkit().getSpawnLocation());
             bukkit.setHealth(20);

@@ -1,8 +1,10 @@
 package io.lama06.zombies.system.player.revive;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
+import io.lama06.zombies.perk.PlayerPerk;
 import io.lama06.zombies.util.pdc.UuidDataType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -14,6 +16,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,8 +36,8 @@ public final class TickPlayerCorpseSystem implements Listener {
                 if (playerUuid == null) {
                     continue;
                 }
-                final Player player = Bukkit.getPlayer(playerUuid);
-                if (!world.isGameRunning() || player == null || !player.getWorld().equals(world.getBukkit())) {
+                final Player corpsePlayer = Bukkit.getPlayer(playerUuid);
+                if (!world.isGameRunning() || corpsePlayer == null || !corpsePlayer.getWorld().equals(world.getBukkit())) {
                     corpse.remove();
                     continue;
                 }
@@ -45,19 +49,24 @@ public final class TickPlayerCorpseSystem implements Listener {
                 }
                 if (reliveTime <= 0) {
                     corpse.remove();
-                    player.setGameMode(GameMode.ADVENTURE);
-                    player.teleport(corpse.getLocation());
-                    world.sendMessage(player.displayName().append(Component.text(" has been revived").color(NamedTextColor.GREEN)));
+                    corpsePlayer.setGameMode(GameMode.ADVENTURE);
+                    corpsePlayer.teleport(corpse.getLocation());
+                    corpsePlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 6 * 20, 2));
+                    world.sendMessage(corpsePlayer.displayName().append(Component.text(" has been revived").color(NamedTextColor.GREEN)));
                     continue;
                 }
                 final List<Player> nearbyPlayers = corpse.getNearbyEntities(REVIVE_RADIUS, REVIVE_RADIUS, REVIVE_RADIUS)
                         .stream().filter(e -> e instanceof Player).map(e -> (Player) e).toList();
+                boolean reviving = false;
                 for (final Player nearbyPlayer : nearbyPlayers) {
-                    nearbyPlayer.sendActionBar(Component.text("Sneak to revive").color(NamedTextColor.YELLOW));
+                    nearbyPlayer.sendActionBar(Component.text("Sneak to revive: %.1fs".formatted(reliveTime / 20f)).color(NamedTextColor.YELLOW));
+                    if (nearbyPlayer.isSneaking()) {
+                        reviving = true;
+                        final int reviveSpeed = new ZombiesPlayer(nearbyPlayer).hasPerk(PlayerPerk.FAST_REVIVE) ? 3 : 1;
+                        pdc.set(PlayerCorpse.getReliveTimeKey(), PersistentDataType.INTEGER, reliveTime - reviveSpeed);
+                    }
                 }
-                if (nearbyPlayers.stream().anyMatch(Player::isSneaking)) {
-                    pdc.set(PlayerCorpse.getReliveTimeKey(), PersistentDataType.INTEGER, reliveTime - 1);
-                } else {
+                if (!reviving) {
                     pdc.set(PlayerCorpse.getRemainingTimeKey(), PersistentDataType.INTEGER, remainingTime - 1);
                 }
             }

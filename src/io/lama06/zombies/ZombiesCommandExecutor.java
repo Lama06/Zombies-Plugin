@@ -1,5 +1,6 @@
 package io.lama06.zombies;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import io.lama06.zombies.event.player.PlayerCancelCommandEvent;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
@@ -64,6 +65,7 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             case "spawnZombie" -> spawnZombie(sender, remainingArgs);
             case "cancel" -> cancel(sender);
             case "placeSigns" -> placeSigns(sender, remainingArgs);
+            case "dumpWorldConfig" -> dumpWorldConfig(sender);
             default -> sender.sendMessage(Component.text("unknown command").color(NamedTextColor.RED));
         }
 
@@ -430,5 +432,19 @@ public final class ZombiesCommandExecutor implements TabExecutor {
             sender.sendMessage(Component.text("Failed to place sign at " + PositionUtil.format(error)).color(NamedTextColor.RED));
         }
         sender.sendMessage(Component.text("Done").color(NamedTextColor.GREEN));
+    }
+
+    private void dumpWorldConfig(final CommandSender sender) {
+        if (!(sender instanceof final Player player)) {
+            return;
+        }
+        final ZombiesWorld world = new ZombiesWorld(player.getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        final WorldConfig config = world.getConfig();
+        final Gson gson = ConfigManager.createGson();
+        final String json = gson.toJson(config);
+        sender.sendMessage(Component.text("> Copy <").clickEvent(ClickEvent.copyToClipboard(json)).color(NamedTextColor.GREEN));
     }
 }

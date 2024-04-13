@@ -161,7 +161,7 @@ public final class Systems {
             new InitLaserAttackSystem(),
             new LaserAttackDamageSystem(),
             new MoveLaserAttackGuardianSystem(),
-            new RemoveLaserAttackGuardianSystem()
+            new RemoveLaserAttackGuardianSystem(),
     };
 
     private Systems() { }

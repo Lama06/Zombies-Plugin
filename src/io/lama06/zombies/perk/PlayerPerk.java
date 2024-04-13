@@ -42,7 +42,8 @@ public enum PlayerPerk implements MenuDisplayableEnum {
             maxHealth.setBaseValue(20);
         }
     },
-    EXTRA_WEAPON(Material.CHEST, Component.text("Extra Weapon").color(NamedTextColor.GREEN));
+    EXTRA_WEAPON(Material.CHEST, Component.text("Extra Weapon").color(NamedTextColor.GREEN)),
+    FAST_REVIVE(Material.COOKIE, Component.text("Fast Revive").color(NamedTextColor.BLUE));
 
     public static final AttributeId<Boolean> IS_PLAYER_PERK = new AttributeId<>("is_player_perk", PersistentDataType.BOOLEAN);
     public static final AttributeId<PlayerPerk> TYPE = new AttributeId<>("type", new EnumPersistentDataType<>(PlayerPerk.class));

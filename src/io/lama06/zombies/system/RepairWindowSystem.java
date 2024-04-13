@@ -5,6 +5,7 @@ import io.lama06.zombies.*;
 import io.lama06.zombies.event.player.PlayerGoldChangeEvent;
 import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.perk.GlobalPerk;
+import io.lama06.zombies.zombie.Zombie;
 import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -35,6 +36,10 @@ public final class RepairWindowSystem implements Listener {
             for (final Window window : config.windows) {
                 if (!window.repairArea.containsBlock(playerLocation.toBlock())) {
                     continue;
+                }
+                if (player.getBukkit().getNearbyEntities(4, 4, 4).stream().map(Zombie::new).anyMatch(Zombie::isZombie)) {
+                    player.sendMessage(Component.text("Zombies are nearby. The window can't be repaired.").color(NamedTextColor.RED));
+                    break;
                 }
                 repairWindow(world, player, window);
                 break;

@@ -4,6 +4,7 @@ import io.lama06.zombies.*;
 import io.lama06.zombies.event.GameEndEvent;
 import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.zombie.Zombie;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,6 +43,7 @@ public final class CleanupAfterGameSystem implements Listener {
             player.remove(ZombiesPlayer.KILLS);
             player.clearPerks();
             final Player playerBukkit = player.getBukkit();
+            playerBukkit.setGameMode(GameMode.ADVENTURE);
             playerBukkit.teleport(world.getBukkit().getSpawnLocation());
             playerBukkit.getInventory().clear();
             playerBukkit.setLevel(0);
