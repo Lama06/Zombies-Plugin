@@ -88,6 +88,7 @@ public final class ConfigManager {
         final Path configFilePath = dataDirectory.resolve(CONFIG_FILE_NAME);
         if (!Files.exists(configFilePath)) {
             config = new ZombiesConfig();
+            return;
         }
         final String configText = Files.readString(configFilePath);
         final Gson gson = createGson();
