@@ -32,6 +32,7 @@ public final class WorldConfig implements CheckableConfig {
         InvalidConfigException.checkList(doors, true, "doors");
         InvalidConfigException.checkList(windows, false, "windows");
         InvalidConfigException.checkList(weaponShops, true, "weapon shops");
+        InvalidConfigException.checkList(armorShops, true, "armor shops");
         InvalidConfigException.checkList(luckyChests, true, "lucky chests");
         InvalidConfigException.checkList(perkMachines, true, "perk machines");
         if (powerSwitch != null) {
