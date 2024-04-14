@@ -35,9 +35,6 @@ public final class TeamMachineSystem implements Listener {
 
     @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
-        if (!event.getAction().isLeftClick()) {
-            return;
-        }
         final ZombiesPlayer player = new ZombiesPlayer(event.getPlayer());
         final ZombiesWorld world = player.getWorld();
         if (!world.isGameRunning()) {

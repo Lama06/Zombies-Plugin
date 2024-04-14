@@ -1160,6 +1160,108 @@
           "z": 32
         }
       }
+    },
+    {
+      "area": "Power Station",
+      "spawnLocation": {
+        "x": 2.8831389088115764,
+        "y": 83.0,
+        "z": 34.80517016971046,
+        "yaw": 1.65015,
+        "pitch": -5.6999154
+      },
+      "blocks": {
+        "position1": {
+          "x": 1,
+          "y": 84,
+          "z": 36
+        },
+        "position2": {
+          "x": 3,
+          "y": 85,
+          "z": 36
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": 1,
+          "y": 82,
+          "z": 37
+        },
+        "position2": {
+          "x": 3,
+          "y": 82,
+          "z": 37
+        }
+      }
+    },
+    {
+      "area": "Power Station",
+      "spawnLocation": {
+        "x": -1.558844461141,
+        "y": 83.0,
+        "z": 60.5101143321878,
+        "yaw": -176.3999,
+        "pitch": -2.9999862
+      },
+      "blocks": {
+        "position1": {
+          "x": -1,
+          "y": 84,
+          "z": 59
+        },
+        "position2": {
+          "x": -3,
+          "y": 85,
+          "z": 59
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -1,
+          "y": 82,
+          "z": 58
+        },
+        "position2": {
+          "x": -3,
+          "y": 82,
+          "z": 58
+        }
+      }
+    },
+    {
+      "area": "Power Station",
+      "spawnLocation": {
+        "x": -9.592773261650082,
+        "y": 83.0,
+        "z": 60.936950863527734,
+        "yaw": -178.34909,
+        "pitch": -0.89999074
+      },
+      "blocks": {
+        "position1": {
+          "x": -9,
+          "y": 84,
+          "z": 59
+        },
+        "position2": {
+          "x": -11,
+          "y": 85,
+          "z": 59
+        }
+      },
+      "repairArea": {
+        "position1": {
+          "x": -9,
+          "y": 82,
+          "z": 58
+        },
+        "position2": {
+          "x": -11,
+          "y": 82,
+          "z": 58
+        }
+      }
     }
   ],
   "weaponShops": [

@@ -25,7 +25,7 @@ public final class ReloadAmmoSystem implements Listener {
         final int maxClip = weapon.getData().ammo.clip();
         final int clip = ammoComponent.get(AmmoData.CLIP);
         final int missingFromClip = maxClip - clip;
-        final int addToClip = Math.min(missingFromClip, maxClip);
+        final int addToClip = Math.min(missingFromClip, ammo);
         final int newClip = clip + addToClip;
         final int newAmmo = ammo - addToClip;
         ammoComponent.set(AmmoData.CLIP, newClip);

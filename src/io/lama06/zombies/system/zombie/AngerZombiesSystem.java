@@ -4,6 +4,7 @@ import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.event.zombie.ZombieSpawnEvent;
 import io.lama06.zombies.zombie.Zombie;
 import org.bukkit.DyeColor;
+import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
@@ -23,6 +24,8 @@ public final class AngerZombiesSystem implements Listener {
             angerPigZombie(pigZombie, nearestPlayer);
         } else if (zombie.getEntity() instanceof final Wolf wolf) {
             angerWolf(wolf, nearestPlayer);
+        } else if (zombie.getEntity() instanceof final MagmaCube magmaCube) {
+            angerMagmaCube(magmaCube, nearestPlayer);
         }
     }
 
@@ -35,6 +38,10 @@ public final class AngerZombiesSystem implements Listener {
         wolf.setAngry(true);
         wolf.setTarget(nearestPlayer.getBukkit());
         wolf.setCollarColor(DyeColor.RED);
+    }
+
+    private void angerMagmaCube(final MagmaCube magmaCube, final ZombiesPlayer nearestPlayer) {
+        magmaCube.setTarget(nearestPlayer.getBukkit());
     }
 
     private ZombiesPlayer getNearestPlayer(final Zombie zombie) {

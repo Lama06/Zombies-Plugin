@@ -7,6 +7,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public final class RespawnDeadPlayersAfterRoundSystem implements Listener {
     @EventHandler
@@ -21,6 +23,7 @@ public final class RespawnDeadPlayersAfterRoundSystem implements Listener {
             bukkit.setGameMode(GameMode.ADVENTURE);
             bukkit.teleport(world.getBukkit().getSpawnLocation());
             bukkit.setHealth(20);
+            bukkit.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, PotionEffect.INFINITE_DURATION, 1));
         }
     }
 }

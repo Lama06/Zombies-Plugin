@@ -43,6 +43,7 @@ public enum ZombieType {
                     .setEntity(EntityType.MAGMA_CUBE)
                     .setHealth(3)
                     .setFireImmune(true)
+                    .setInitializer(entity -> ((MagmaCube) entity).setSize(2))
     ),
     MAGMA_ZOMBIE(
             new ZombieData()

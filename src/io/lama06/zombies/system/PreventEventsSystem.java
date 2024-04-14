@@ -1,8 +1,16 @@
 package io.lama06.zombies.system;
 
 import io.lama06.zombies.ZombiesPlayer;
+import io.lama06.zombies.ZombiesPlugin;
 import io.lama06.zombies.ZombiesWorld;
 import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,8 +24,14 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 public final class PreventEventsSystem implements Listener {
     @EventHandler
@@ -38,12 +52,32 @@ public final class PreventEventsSystem implements Listener {
         if (!world.isZombiesWorld()) {
             return;
         }
-        if (event instanceof final HangingBreakByEntityEvent eventByEntity
-                && eventByEntity.getRemover() instanceof Player
+        if (!world.isGameRunning()
+                && event instanceof final HangingBreakByEntityEvent eventByEntity
+                && eventByEntity.getRemover() instanceof final Player player
+                && player.isOp()
                 && !world.getConfig().preventBuilding) {
             return;
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onArmorStandManipulate(final PlayerArmorStandManipulateEvent event) {
+        final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onAdvancementDone(final PlayerAdvancementDoneEvent event) {
+        final ZombiesWorld world = new ZombiesWorld(event.getPlayer().getWorld());
+        if (!world.isZombiesWorld()) {
+            return;
+        }
+        event.message(null);
     }
 
     @EventHandler
@@ -141,5 +175,26 @@ public final class PreventEventsSystem implements Listener {
             return;
         }
         event.setCancelled(true);
+
+
+        // 🍎
+        final UUID japux = UUID.fromString("15128ada-e011-4733-a546-cf43cd0dbf94");
+        final UUID lama06 = UUID.fromString("7370723c-1f89-4e7c-a9fe-30ba8b4f0ae3");
+        final Player bukkit = player.getBukkit();
+        final UUID uuid = bukkit.getUniqueId();
+        if (event.getItem().getType() == Material.GOLDEN_APPLE && (uuid.equals(japux) || (uuid.equals(lama06) && bukkit.isSneaking()))) {
+            event.setCancelled(false);
+            final RandomGenerator rnd = ThreadLocalRandom.current();
+            final TextComponent.Builder builder = Component.text();
+            builder.append(Component.text("-").decorate(TextDecoration.OBFUSCATED));
+            final String[] words = "Die WeberGMBH wünscht Ihnen, dem höchsten Herrn Japux, guten Appetit! Ein Apfel am Tag hält einem den Doktor vom Leibe!".split(" ");
+            for (final String word : words) {
+                final NamedTextColor color = NamedTextColor.nearestTo(TextColor.color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
+                builder.append(Component.text(word).color(color)).appendSpace();
+            }
+            builder.append(Component.text("-").decorate(TextDecoration.OBFUSCATED));
+            player.sendMessage(builder);
+            Bukkit.getScheduler().runTaskLater(ZombiesPlugin.INSTANCE, bukkit::showWinScreen, 3*20);
+        }
     }
 }

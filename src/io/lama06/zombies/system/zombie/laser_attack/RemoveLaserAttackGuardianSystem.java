@@ -29,7 +29,7 @@ public final class RemoveLaserAttackGuardianSystem implements Listener {
                 }
                 final Entity zombie = world.getBukkit().getEntity(zombieUuid);
                 if (zombie != null) {
-                    return;
+                    continue;
                 }
                 guardian.remove();
             }

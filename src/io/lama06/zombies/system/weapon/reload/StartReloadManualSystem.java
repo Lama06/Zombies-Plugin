@@ -1,9 +1,11 @@
 package io.lama06.zombies.system.weapon.reload;
 
+import io.lama06.zombies.ZombiesPlayer;
 import io.lama06.zombies.data.Component;
 import io.lama06.zombies.event.weapon.WeaponReloadChangeEvent;
-import io.lama06.zombies.ZombiesPlayer;
-import io.lama06.zombies.weapon.*;
+import io.lama06.zombies.weapon.AmmoData;
+import io.lama06.zombies.weapon.ReloadData;
+import io.lama06.zombies.weapon.Weapon;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +34,8 @@ public final class StartReloadManualSystem implements Listener {
         final int remainingReload = reloadComponent.get(ReloadData.REMAINING_RELOAD);
         final int maxClip = weapon.getData().ammo.clip();
         final int clip = ammoComponent.get(AmmoData.CLIP);
-        if (remainingReload != 0 || clip == maxClip) {
+        final int ammo = ammoComponent.get(AmmoData.AMMO);
+        if (remainingReload != 0 || clip == maxClip || ammo == 0) {
             return;
         }
         reloadComponent.set(ReloadData.REMAINING_RELOAD, reload);

@@ -131,15 +131,14 @@ public final class ZombiesWorld extends Storage implements ForwardingAudience {
     }
 
     private Window getNearestWindowToPlayer(final ZombiesPlayer player) {
-        final List<Window> windows = getAvailableWindows();
-        if (windows.isEmpty()) {
-            return null;
-        }
-        return windows.stream().min(Comparator.comparingDouble(window -> {
+        return getAvailableWindows().stream().min(Comparator.comparingDouble(window -> {
             final Vector windowVector = window.spawnLocation.toBukkit(player.getBukkit().getWorld()).toVector();
             final Vector playerVector = player.getBukkit().getLocation().toVector();
-            return windowVector.distance(playerVector);
-        })).orElseThrow();
+            final double xDiff = windowVector.getX() - playerVector.getX();
+            final double zDiff = windowVector.getZ() - playerVector.getZ();
+            final double yDiff = (windowVector.getY() - playerVector.getY()) * 6; // avoid spawning zombies on different floor
+            return Math.sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
+        })).orElse(null);
     }
 
     @Override

@@ -31,7 +31,7 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setMaterial(Material.STONE_HOE)
                     .setShoot(new ShootData(1, 1))
                     .setShootParticle(new ShootParticleData(Particle.SMOKE_NORMAL))
-                    .setAttack(new AttackData(6, false, 7))
+                    .setAttack(new AttackData(5, false, 7))
                     .setAmmo(new AmmoData(288, 32))
                     .setDelay(new DelayData(4))
                     .setReload(new ReloadData(30))
