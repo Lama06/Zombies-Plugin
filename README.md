@@ -1,5 +1,10 @@
 # Zombies Plugin
 
+![Inferno](img/inferno.png)
+![Laser](img/laser.png)
+![Perk](img/perk.png)
+![Team Machine](img/team_machine.png)
+
 ## Getting started
 
 - Download the plugin's latest version from [GitHub](https://github.com/Lama06/Zombies-Plugin/releases/latest).
