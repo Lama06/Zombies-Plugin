@@ -2,6 +2,7 @@ package io.lama06.zombies.weapon;
 
 import io.lama06.zombies.menu.MenuDisplayableEnum;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 
@@ -69,6 +70,18 @@ public enum WeaponType implements MenuDisplayableEnum {
                     .setAmmo(new AmmoData(350, 50))
                     .setDelay(new DelayData(2))
                     .setReload(new ReloadData(30))
+                    .includeInLuckyChest()
+    ),
+    GOLD_DIGGER(
+            new WeaponData()
+                    .setDisplayName(Component.text("Gold Digger").color(NamedTextColor.GOLD))
+                    .setMaterial(Material.GOLDEN_PICKAXE)
+                    .setAttack(new AttackData(6, false, 13))
+                    .setShoot(new ShootData(1, 1))
+                    .setShootParticle(new ShootParticleData(Particle.FLAME))
+                    .setDelay(new DelayData(10))
+                    .setReload(new ReloadData(30))
+                    .setAmmo(new AmmoData(70, 7))
                     .includeInLuckyChest()
     );
 

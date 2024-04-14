@@ -102,6 +102,8 @@ public final class ZombiesCommandExecutor implements TabExecutor {
 
         builder.append(equalSigns).append(obfuscatedChar).appendSpace();
         builder.append(Component.text("Zombies-Plugin").color(NamedTextColor.LIGHT_PURPLE));
+        builder.appendSpace().append(Component.text("(Version %s)".formatted(ZombiesPlugin.INSTANCE.getPluginMeta().getVersion()))
+                                             .color(NamedTextColor.GREEN));
         builder.appendSpace().append(obfuscatedChar).append(equalSigns);
 
         builder.appendNewline();

@@ -21,11 +21,13 @@ public final class StartGameTimerSystem implements Listener {
                 continue;
             }
             if (!world.getConfig().autoStartStop) {
+                world.remove(ZombiesWorld.START_TIMER);
                 continue;
             }
             try {
                 world.getConfig().check();
             } catch (final InvalidConfigException e) {
+                world.remove(ZombiesWorld.START_TIMER);
                 continue;
             }
             if (world.isGameRunning()) {
