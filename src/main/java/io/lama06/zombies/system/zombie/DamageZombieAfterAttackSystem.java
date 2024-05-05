@@ -29,7 +29,7 @@ public final class DamageZombieAfterAttackSystem implements Listener {
         living.setNoDamageTicks(0);
         living.damage(event.getDamage(), event.getPlayer().getBukkit());
         if (event.isFreeze()) {
-            living.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 7 * 20, 2));
+            living.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 7 * 20, 2));
         }
     }
 }

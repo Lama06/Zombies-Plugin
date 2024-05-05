@@ -19,7 +19,7 @@ final class ZombieExplosion {
     static void explode(final Zombie zombie, final ExplosionAttackData explosionAttackData) {
         final ZombiesWorld world = zombie.getWorld();
         final World worldBukkit = world.getBukkit();
-        worldBukkit.spawnParticle(Particle.EXPLOSION_LARGE, zombie.getEntity().getLocation(), PARTICLE_COUNT);
+        worldBukkit.spawnParticle(Particle.EXPLOSION, zombie.getEntity().getLocation(), PARTICLE_COUNT);
         worldBukkit.playSound(
                 zombie.getEntity().getLocation(),
                 Sound.ENTITY_GENERIC_EXPLODE,

@@ -28,10 +28,6 @@ public final class PlayerAttackZombieEvent extends PlayerEvent {
         this.weapon = weapon;
     }
 
-    public ZombiesPlayer getPlayer() {
-        return weapon.getPlayer();
-    }
-
     public Zombie getZombie() {
         return zombie;
     }

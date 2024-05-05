@@ -1,7 +1,7 @@
 name: Zombies
 main: io.lama06.zombies.ZombiesPlugin
 api-version: 1.20
-version: 1.0.0
+version: ${project.version}
 author: Lama06
 website: https://github.com/Lama06/Zombies-Plugin/
 commands:
