@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <name>Zombies</name>
+    <groupId>io.github.lama06</groupId>
+    <artifactId>zombies</artifactId>
+    <version>1.0.0</version>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>sonatype-oss-snapshots1</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <defaultGoal>verify</defaultGoal>
+    </build>
+</project>

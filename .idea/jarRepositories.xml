@@ -3,6 +3,21 @@
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
       <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="a5118daf-17a0-4732-8388-09e916c66bd4" />
+      <option name="name" value="a5118daf-17a0-4732-8388-09e916c66bd4" />
+      <option name="url" value="https://repo.papermc.io/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sonatype-oss-snapshots1" />
+      <option name="name" value="sonatype-oss-snapshots1" />
+      <option name="url" value="https://s01.oss.sonatype.org/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
@@ -12,8 +27,8 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="a5118daf-17a0-4732-8388-09e916c66bd4" />
-      <option name="name" value="a5118daf-17a0-4732-8388-09e916c66bd4" />
+      <option name="id" value="papermc" />
+      <option name="name" value="papermc" />
       <option name="url" value="https://repo.papermc.io/repository/maven-public/" />
     </remote-repository>
   </component>
